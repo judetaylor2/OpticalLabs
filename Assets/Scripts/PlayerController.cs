@@ -12,6 +12,7 @@ public class PlayerController : MonoBehaviour
     public LayerMask groundMask;
     bool isGrounded;
     GameObject currentlyHeldObject;
+    RaycastHit objectHit;
     
     // Start is called before the first frame update
     void Start()
@@ -23,6 +24,7 @@ public class PlayerController : MonoBehaviour
     {
         Gizmos.DrawSphere(groundCheck.position, groundDistance);
         Gizmos.DrawLine(cameraPoint.position, cameraPoint.position + cameraPoint.forward * objectDistance);
+        Gizmos.DrawSphere(objectHit.point, 0.25f);
     }
 
     // Update is called once per frame
@@ -79,7 +81,6 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.GetButtonDown("Interact"))
         {
-            RaycastHit objectHit;
             Rigidbody r;
 
             if (currentlyHeldObject == null && Physics.Raycast(cameraPoint.position, cameraPoint.forward, out objectHit, objectDistance))
@@ -95,7 +96,7 @@ public class PlayerController : MonoBehaviour
                     if (currentlyHeldObject.TryGetComponent<Rigidbody>(out r))
                     {
                         r.useGravity = false;
-                        
+                        r.constraints = RigidbodyConstraints.FreezeRotation;
                     }
                     
                 }
@@ -107,11 +108,27 @@ public class PlayerController : MonoBehaviour
 
                 if (currentlyHeldObject.TryGetComponent<Rigidbody>(out r))
                 {
+                    r.constraints = RigidbodyConstraints.None;
                     r.useGravity = true;
                 }
                 
                 currentlyHeldObject = null;
             }
+
         }
+
+            if (currentlyHeldObject != null)
+            {
+                if (Physics.Raycast(cameraPoint.position, cameraPoint.forward, out objectHit, objectDistance, groundMask))
+                objectPickupPoint.position = objectHit.point - cameraPoint.forward * currentlyHeldObject.transform.localScale.y;
+                else
+                objectPickupPoint.position = cameraPoint.position + cameraPoint.forward * objectDistance;
+                
+                currentlyHeldObject.transform.position = objectPickupPoint.position;
+            }
+            else
+            {
+                objectPickupPoint.position = cameraPoint.position + cameraPoint.forward * objectDistance;
+            }
     }
 }
