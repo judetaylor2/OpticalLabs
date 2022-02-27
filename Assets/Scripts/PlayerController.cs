@@ -6,11 +6,12 @@ public class PlayerController : MonoBehaviour
 {
     Rigidbody rb;
     
-    public float moveSpeed, jumpHeight, groundDrag, gravity, groundDistance;
+    public float moveSpeed, jumpHeight, groundDrag, gravity, groundDistance, objectDistance;
     Vector3 velocity;
-    public Transform groundCheck;
+    public Transform groundCheck, objectPickupPoint, cameraPoint;
     public LayerMask groundMask;
     bool isGrounded;
+    GameObject currentlyHeldObject;
     
     // Start is called before the first frame update
     void Start()
@@ -21,10 +22,17 @@ public class PlayerController : MonoBehaviour
     void OnDrawGizmos()
     {
         Gizmos.DrawSphere(groundCheck.position, groundDistance);
+        Gizmos.DrawLine(cameraPoint.position, cameraPoint.position + cameraPoint.forward * objectDistance);
     }
 
     // Update is called once per frame
     void Update()
+    {
+        MovePlayer();
+        PickupObject();
+    }
+
+    void MovePlayer()
     {
         isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
 
@@ -64,5 +72,46 @@ public class PlayerController : MonoBehaviour
 
         velocity.y += gravity * Time.deltaTime * 2;
         rb.AddForce(velocity);
+        
+    }
+
+    void PickupObject()
+    {
+        if (Input.GetButtonDown("Interact"))
+        {
+            RaycastHit objectHit;
+            Rigidbody r;
+
+            if (currentlyHeldObject == null && Physics.Raycast(cameraPoint.position, cameraPoint.forward, out objectHit, objectDistance))
+            {
+                if (objectHit.transform.tag != "Player" && objectHit.transform.localScale.x < 5 && objectHit.transform.localScale.y < 5 && objectHit.transform.localScale.z < 5)
+                {
+                    currentlyHeldObject = objectHit.transform.gameObject;
+                    
+                    currentlyHeldObject.transform.position = objectPickupPoint.position;
+                    currentlyHeldObject.transform.rotation = objectPickupPoint.rotation;
+                    currentlyHeldObject.transform.parent = objectPickupPoint;
+
+                    if (currentlyHeldObject.TryGetComponent<Rigidbody>(out r))
+                    {
+                        r.useGravity = false;
+                        
+                    }
+                    
+                }
+                
+            }
+            else if (currentlyHeldObject != null)
+            {
+                currentlyHeldObject.transform.parent = null;
+
+                if (currentlyHeldObject.TryGetComponent<Rigidbody>(out r))
+                {
+                    r.useGravity = true;
+                }
+                
+                currentlyHeldObject = null;
+            }
+        }
     }
 }
