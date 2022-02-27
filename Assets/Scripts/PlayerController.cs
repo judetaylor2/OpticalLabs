@@ -85,7 +85,7 @@ public class PlayerController : MonoBehaviour
 
             if (currentlyHeldObject == null && Physics.Raycast(cameraPoint.position, cameraPoint.forward, out objectHit, objectDistance))
             {
-                if (objectHit.transform.tag != "Player" && objectHit.transform.localScale.x < 5 && objectHit.transform.localScale.y < 5 && objectHit.transform.localScale.z < 5)
+                if (objectHit.transform.tag != "Player" && objectHit.transform.gameObject.layer == 7 && objectHit.transform.localScale.x < 5 && objectHit.transform.localScale.y < 5 && objectHit.transform.localScale.z < 5)
                 {
                     currentlyHeldObject = objectHit.transform.gameObject;
                     
@@ -98,6 +98,8 @@ public class PlayerController : MonoBehaviour
                         r.useGravity = false;
                         r.constraints = RigidbodyConstraints.FreezeRotation;
                     }
+
+                    cameraPoint.GetComponent<CameraController>().isHoldingObject = true;
                     
                 }
                 
@@ -110,9 +112,12 @@ public class PlayerController : MonoBehaviour
                 {
                     r.constraints = RigidbodyConstraints.None;
                     r.useGravity = true;
+                    r.velocity = rb.velocity;
                 }
                 
                 currentlyHeldObject = null;
+
+                cameraPoint.GetComponent<CameraController>().isHoldingObject = false;
             }
 
         }

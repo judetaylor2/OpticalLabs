@@ -8,6 +8,8 @@ public class CameraController : MonoBehaviour
     public Transform playerBody;
 
     float xRotation;
+
+    public bool isHoldingObject;
     
     // Start is called before the first frame update
     void Start()
@@ -22,7 +24,11 @@ public class CameraController : MonoBehaviour
         float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;
 
         xRotation -= mouseY;
+
+        if (!isHoldingObject)
         xRotation = Mathf.Clamp(xRotation, -90f, 90f);
+        else
+        xRotation = Mathf.Clamp(xRotation, -45f, 45f);
         
         transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
         playerBody.Rotate(Vector3.up * mouseX);
