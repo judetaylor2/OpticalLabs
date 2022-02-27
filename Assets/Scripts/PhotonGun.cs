@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PhotonGun : MonoBehaviour
 {
@@ -8,6 +9,7 @@ public class PhotonGun : MonoBehaviour
     public Transform cameraPoint;
     public float photonDistance;
     int currentColourIndex;
+    public Image colorImage;
     
     // Start is called before the first frame update
     void Start()
@@ -55,5 +57,9 @@ public class PhotonGun : MonoBehaviour
             else 
             currentColourIndex--;
         }
+
+        Color c = colours[currentColourIndex];
+        c.a = 1;
+        colorImage.color = c; 
     }
 }
