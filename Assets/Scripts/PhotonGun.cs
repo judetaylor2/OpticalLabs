@@ -10,6 +10,7 @@ public class PhotonGun : MonoBehaviour
     public float photonDistance;
     int currentColourIndex;
     public Image colorImage;
+    public LayerMask groundMask;
     
     // Start is called before the first frame update
     void Start()
@@ -29,18 +30,40 @@ public class PhotonGun : MonoBehaviour
                 Material m = hit.transform.GetComponent<MeshRenderer>().material;
                 m.color = colours[currentColourIndex];
                 hit.transform.GetComponent<MeshRenderer>().material = m;
+
+                if (hit.transform.gameObject.layer == 6)
+                {
+                    if (currentColourIndex == 0)
+                    {
+                        //speedCollider.transform.localScale = hit.transform.localScale;
+                        //Instantiate(speedCollider, hit.transform.position, hit.transform.rotation);
+
+                        hit.transform.GetChild(0).tag = "Speed";
+                    }
+                    else if (currentColourIndex == 1)
+                    {
+                        hit.transform.GetChild(0).tag = "Gravity";
+                    }
+                    else if (currentColourIndex == 2)
+                    {
+                        hit.transform.GetChild(0).tag = "Bounce";
+                    }                    
+                }
             }
             
         }
         else if (Input.GetButtonDown("Fire2"))
         {
             RaycastHit hit;
-            if (Physics.Raycast(cameraPoint.position, cameraPoint.forward, out hit, photonDistance))
+            if (Physics.Raycast(cameraPoint.position, cameraPoint.forward, out hit, photonDistance, groundMask))
             if (hit.transform.tag == "Conductive")
             {
                 Material m = hit.transform.GetComponent<MeshRenderer>().material;
                 m.color = Color.white;
                 hit.transform.GetComponent<MeshRenderer>().material = m;
+
+                if (hit.transform.gameObject.layer == groundMask)
+                hit.transform.GetChild(0).tag = "Untagged";
             }
         }
         else if (Input.GetAxis("Mouse ScrollWheel") > 0)

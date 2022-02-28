@@ -6,7 +6,7 @@ public class PlayerController : MonoBehaviour
 {
     Rigidbody rb;
     
-    public float moveSpeed, jumpHeight, groundDrag, gravity, groundDistance, objectDistance;
+    public float moveSpeed, jumpHeight, groundDrag, gravity, groundDistance, objectDistance, walkSpeed, sprintSpeed;
     Vector3 velocity;
     public Transform groundCheck, objectPickupPoint, cameraPoint;
     public LayerMask groundMask;
@@ -18,6 +18,7 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        moveSpeed = walkSpeed;
     }
 
     void OnDrawGizmos()
@@ -73,7 +74,7 @@ public class PlayerController : MonoBehaviour
 
 
         velocity.y += gravity * Time.deltaTime * 2;
-        rb.AddForce(velocity);
+        rb.AddForce(velocity.y * transform.up);
         
     }
 
@@ -135,5 +136,41 @@ public class PlayerController : MonoBehaviour
             {
                 objectPickupPoint.position = cameraPoint.position + cameraPoint.forward * objectDistance;
             }
+    }
+    
+    void OnTriggerEnter(Collider other)
+    {
+        
+        if (other.tag == "Gravity")
+        {
+            
+            
+            moveSpeed = walkSpeed;
+        }
+    }
+
+    void OnTriggerStay(Collider other)
+    {
+        if (other.tag == "Speed")
+        {
+            moveSpeed = sprintSpeed;
+        }
+        else if (other.tag == "Bounce")
+        {
+            rb.AddForce(rb.velocity + jumpHeight / 4 * -gravity * other.transform.up);
+            moveSpeed = walkSpeed;
+        }
+    }
+
+    void OnTriggerExit(Collider other)
+    {
+        if (other.tag == "Speed")
+        {
+            moveSpeed = walkSpeed;
+        }
+        else if (other.tag == "Gravity")
+        {
+            transform.up = Vector3.up;
+        }
     }
 }
