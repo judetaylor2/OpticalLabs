@@ -67,6 +67,16 @@ public class PlayerController : MonoBehaviour
         else
         {
             rb.drag = 0;
+            
+            RaycastHit slopeHit;
+            Physics.Raycast(transform.position, -transform.up, out slopeHit);
+            
+            float x = Input.GetAxisRaw("Horizontal");
+            float z = Input.GetAxisRaw("Vertical");
+            
+            Vector3 move = transform.right * x + transform.forward * z;
+            Vector3 slopeDirection = Vector3.ProjectOnPlane(move.normalized, slopeHit.normal);
+            rb.AddForce(slopeDirection * (moveSpeed / 10) * Time.deltaTime);
         }
 
 
@@ -148,6 +158,9 @@ public class PlayerController : MonoBehaviour
         if (other.tag == "Speed")
         {
             moveSpeed = sprintSpeed;
+
+            StartCoroutine("LerpToGravity");
+            isUsingGravityEffect = false;
         }
         else if (other.tag == "Gravity")
         {
@@ -166,6 +179,9 @@ public class PlayerController : MonoBehaviour
         {
             rb.AddForce(rb.velocity + jumpHeight / 4 * -gravity * other.transform.up);
             moveSpeed = walkSpeed;
+
+            StartCoroutine("LerpToGravity");
+            isUsingGravityEffect = false;
         }
         else if (other.tag == "Untagged")
         {
@@ -202,8 +218,8 @@ public class PlayerController : MonoBehaviour
             RaycastHit r;
             if(Physics.Raycast(cameraPoint.position, -Vector3.up, out r, 500, groundMask))
             {
-                Vector3 v = Vector3.Cross(transform.right, r.normal);
-                transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(v, r.normal), 10 * Time.deltaTime);            
+                Vector3 v = Vector3.Cross(transform.right, Vector3.up);
+                transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(v, Vector3.up), 10 * Time.deltaTime);            
             }
 
             if (isUsingGravityEffect)

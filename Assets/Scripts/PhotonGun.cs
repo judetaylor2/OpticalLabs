@@ -24,7 +24,7 @@ public class PhotonGun : MonoBehaviour
         if (Input.GetButtonDown("Fire1"))
         {
             RaycastHit hit;
-            if (Physics.Raycast(cameraPoint.position, cameraPoint.forward, out hit, photonDistance))
+            if (Physics.Raycast(cameraPoint.position, cameraPoint.forward, out hit, photonDistance, groundMask))
             if (hit.transform.tag == "Conductive")
             {
                 Material m = hit.transform.GetComponent<MeshRenderer>().material;
