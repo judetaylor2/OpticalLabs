@@ -1509,7 +1509,7 @@ MonoBehaviour:
   groundDistance: 0.1
   objectDistance: 5
   walkSpeed: 3000
-  sprintSpeed: 10000
+  sprintSpeed: 6000
   groundCheck: {fileID: 1555215574}
   objectPickupPoint: {fileID: 790844071}
   cameraPoint: {fileID: 1687258585}

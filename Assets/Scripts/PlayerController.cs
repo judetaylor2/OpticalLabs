@@ -76,7 +76,7 @@ public class PlayerController : MonoBehaviour
             
             Vector3 move = transform.right * x + transform.forward * z;
             Vector3 slopeDirection = Vector3.ProjectOnPlane(move.normalized, slopeHit.normal);
-            rb.AddForce(slopeDirection * (moveSpeed / 10) * Time.deltaTime);
+            rb.AddForce(slopeDirection * (moveSpeed / 100) * Time.deltaTime);
         }
 
 
@@ -177,8 +177,11 @@ public class PlayerController : MonoBehaviour
         }
         else if (other.tag == "Bounce")
         {
-            rb.AddForce(rb.velocity + jumpHeight / 4 * -gravity * other.transform.up);
-            moveSpeed = walkSpeed;
+            RaycastHit r;
+            if (Physics.Raycast(cameraPoint.position, -(transform.position - other.transform.position), out r, 500, groundMask))
+            rb.AddForce(rb.velocity + jumpHeight / 4 * -gravity * r.normal);
+
+            moveSpeed = walkSpeed; 
 
             StartCoroutine("LerpToGravity");
             isUsingGravityEffect = false;
