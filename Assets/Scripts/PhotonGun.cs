@@ -24,38 +24,41 @@ public class PhotonGun : MonoBehaviour
         if (Input.GetButtonDown("Fire1"))
         {
             RaycastHit hit;
-            if (Physics.Raycast(cameraPoint.position, cameraPoint.forward, out hit, photonDistance, groundMask))
-            if (hit.transform.tag == "Conductive")
+            if (Physics.Raycast(cameraPoint.position, cameraPoint.forward, out hit, photonDistance))
             {
-                Material m = hit.transform.GetComponent<MeshRenderer>().material;
-                m.color = colours[currentColourIndex];
-                hit.transform.GetComponent<MeshRenderer>().material = m;
-
-                if (hit.transform.gameObject.layer == 6)
+                if (hit.transform.tag == "Conductive")
                 {
-                    if (currentColourIndex == 0)
-                    {
-                        //speedCollider.transform.localScale = hit.transform.localScale;
-                        //Instantiate(speedCollider, hit.transform.position, hit.transform.rotation);
+                    Material m = hit.transform.GetComponent<MeshRenderer>().material;
+                    m.color = colours[currentColourIndex];
+                    hit.transform.GetComponent<MeshRenderer>().material = m;
 
-                        hit.transform.GetChild(0).tag = "Speed";
-                    }
-                    else if (currentColourIndex == 1)
+                    if (hit.transform.gameObject.layer == 6)
                     {
-                        hit.transform.GetChild(0).tag = "Gravity";
+                        if (currentColourIndex == 0)
+                        {
+                            //speedCollider.transform.localScale = hit.transform.localScale;
+                            //Instantiate(speedCollider, hit.transform.position, hit.transform.rotation);
+
+                            hit.transform.GetChild(0).tag = "Speed";
+                        }
+                        else if (currentColourIndex == 1)
+                        {
+                            hit.transform.GetChild(0).tag = "Gravity";
+                        }
+                        else if (currentColourIndex == 2)
+                        {
+                            hit.transform.GetChild(0).tag = "Bounce";
+                        }                    
                     }
-                    else if (currentColourIndex == 2)
-                    {
-                        hit.transform.GetChild(0).tag = "Bounce";
-                    }                    
                 }
+                
             }
             
         }
         else if (Input.GetButtonDown("Fire2"))
         {
             RaycastHit hit;
-            if (Physics.Raycast(cameraPoint.position, cameraPoint.forward, out hit, photonDistance, groundMask))
+            if (Physics.Raycast(cameraPoint.position, cameraPoint.forward, out hit, photonDistance))
             if (hit.transform.tag == "Conductive")
             {
                 Material m = hit.transform.GetComponent<MeshRenderer>().material;
