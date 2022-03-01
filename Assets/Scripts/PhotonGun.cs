@@ -62,7 +62,7 @@ public class PhotonGun : MonoBehaviour
                 m.color = Color.white;
                 hit.transform.GetComponent<MeshRenderer>().material = m;
 
-                if (hit.transform.gameObject.layer == groundMask)
+                if (hit.transform.gameObject.layer == 6)
                 hit.transform.GetChild(0).tag = "Untagged";
             }
         }

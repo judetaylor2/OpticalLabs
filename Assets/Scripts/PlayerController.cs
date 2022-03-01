@@ -10,7 +10,7 @@ public class PlayerController : MonoBehaviour
     Vector3 velocity;
     public Transform groundCheck, objectPickupPoint, cameraPoint;
     public LayerMask groundMask;
-    bool isGrounded;
+    bool isGrounded, isUsingGravityEffect;
     GameObject currentlyHeldObject;
     RaycastHit objectHit;
     
@@ -141,12 +141,6 @@ public class PlayerController : MonoBehaviour
     void OnTriggerEnter(Collider other)
     {
         
-        if (other.tag == "Gravity")
-        {
-            
-            
-            moveSpeed = walkSpeed;
-        }
     }
 
     void OnTriggerStay(Collider other)
@@ -155,10 +149,30 @@ public class PlayerController : MonoBehaviour
         {
             moveSpeed = sprintSpeed;
         }
+        else if (other.tag == "Gravity")
+        {
+            isUsingGravityEffect = true;
+
+            RaycastHit r;
+            if(Physics.Raycast(cameraPoint.position, -(transform.position - other.transform.position), out r, 500, groundMask))
+            {
+                Vector3 v = Vector3.Cross(transform.right, r.normal);
+                transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(v, r.normal), 10 * Time.deltaTime);                
+            }
+            
+            moveSpeed = walkSpeed;
+        }
         else if (other.tag == "Bounce")
         {
             rb.AddForce(rb.velocity + jumpHeight / 4 * -gravity * other.transform.up);
             moveSpeed = walkSpeed;
+        }
+        else if (other.tag == "Untagged")
+        {
+            moveSpeed = walkSpeed;
+
+            StartCoroutine("LerpToGravity");
+            isUsingGravityEffect = false;
         }
     }
 
@@ -170,7 +184,34 @@ public class PlayerController : MonoBehaviour
         }
         else if (other.tag == "Gravity")
         {
-            transform.up = Vector3.up;
+            //transform.up = Vector3.up;
+            StartCoroutine("LerpToGravity");
+            isUsingGravityEffect = false;
         }
+    }
+
+    IEnumerator LerpToGravity()
+    {
+        yield return new WaitForSeconds(0.1f);
+
+        if (isUsingGravityEffect)
+            yield break;
+
+        for (int i = 0; i < 10; i++)
+        {
+            RaycastHit r;
+            if(Physics.Raycast(cameraPoint.position, -Vector3.up, out r, 500, groundMask))
+            {
+                Vector3 v = Vector3.Cross(transform.right, r.normal);
+                transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(v, r.normal), 10 * Time.deltaTime);            
+            }
+
+            if (isUsingGravityEffect)
+            yield break;
+            
+            yield return new WaitForSeconds(0.01f);
+            
+        }
+        
     }
 }
