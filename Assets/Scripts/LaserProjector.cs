@@ -21,7 +21,7 @@ public class LaserProjector : MonoBehaviour
         laserMainModule.startColor = meshRenderer.material.color;
         
         RaycastHit hit;
-        if (Physics.Raycast(laserParticle.transform.position, laserParticle.transform.forward, out hit, 100, groundMask))
+        if (Physics.Raycast(laserParticle.transform.position, laserParticle.transform.forward, out hit, 100))
         {
             if (hit.transform.childCount > 0)
             {
@@ -31,7 +31,7 @@ public class LaserProjector : MonoBehaviour
                 
                 for (int i = 0; i < photonGun.colours.Length; i++)
                 {
-                    if (hit.transform.gameObject.layer == 6 && meshRenderer.material.color == photonGun.colours[i])
+                    if (hit.transform.tag == "Conductive" && meshRenderer.material.color == photonGun.colours[i])
                     {
                         if (i == 0)
                         {
