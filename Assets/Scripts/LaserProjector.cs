@@ -17,8 +17,8 @@ public class LaserProjector : MonoBehaviour
 
     void Update()
     {
-        ParticleSystem.MainModule laserMainModule = laserParticle.main; 
-        laserMainModule.startColor = meshRenderer.material.color;
+        //ParticleSystem.MainModule laserMainModule = laserParticle.main; 
+        //laserMainModule.startColor = meshRenderer.material.color;
         
         RaycastHit hit;
         if (Physics.Raycast(laserParticle.transform.position, laserParticle.transform.forward, out hit, 100))

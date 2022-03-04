@@ -9,7 +9,7 @@ public class PlayerController : MonoBehaviour
     public float moveSpeed, jumpHeight, groundDrag, gravity, groundDistance, objectDistance, walkSpeed, sprintSpeed;
     Vector3 velocity;
     public Transform groundCheck, objectPickupPoint, cameraPoint;
-    public LayerMask groundMask;
+    public LayerMask groundMask, nonConductiveGroundMask;
     bool isGrounded, isUsingGravityEffect;
     GameObject currentlyHeldObject;
     RaycastHit objectHit;
@@ -37,7 +37,7 @@ public class PlayerController : MonoBehaviour
 
     void MovePlayer()
     {
-        isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
+        isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask | nonConductiveGroundMask);
 
         
         if (isGrounded)
@@ -135,7 +135,7 @@ public class PlayerController : MonoBehaviour
 
             if (currentlyHeldObject != null)
             {
-                if (Physics.Raycast(cameraPoint.position, cameraPoint.forward, out objectHit, objectDistance, groundMask))
+                if (Physics.Raycast(cameraPoint.position, cameraPoint.forward, out objectHit, objectDistance, groundMask | nonConductiveGroundMask))
                 objectPickupPoint.position = objectHit.point - cameraPoint.forward * currentlyHeldObject.transform.localScale.y;
                 else
                 objectPickupPoint.position = cameraPoint.position + cameraPoint.forward * objectDistance;
@@ -167,7 +167,7 @@ public class PlayerController : MonoBehaviour
             isUsingGravityEffect = true;
 
             RaycastHit r;
-            if(Physics.Raycast(cameraPoint.position, -(transform.position - other.transform.position), out r, 500, groundMask))
+            if(Physics.Raycast(cameraPoint.position, -(transform.position - other.transform.position), out r, 500, groundMask | nonConductiveGroundMask))
             {
                 Vector3 v = Vector3.Cross(transform.right, r.normal);
                 transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(v, r.normal), 10 * Time.deltaTime);                
