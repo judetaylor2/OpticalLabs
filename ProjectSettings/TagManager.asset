@@ -8,6 +8,7 @@ TagManager:
   - Speed
   - Bounce
   - Gravity
+  - Filter
   layers:
   - Default
   - TransparentFX

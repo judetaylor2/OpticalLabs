@@ -26,9 +26,21 @@ public class Filter : MonoBehaviour
                 ParticleSystem.Particle p = particleList[i];
 
                 c = g.GetComponent<MeshRenderer>().material.color;
+
+                c.r += p.startColor.r;
+                c.g += p.startColor.g;
+                c.b += p.startColor.b;
+                c.a += p.startColor.a;
+                
+                c.r -= 255;
+                c.g -= 255;
+                c.b -= 255;
+                c.a -= 255;
+                
+                Debug.Log(c.r + " " + c.g + " " + c.b);
+                
                 p.startColor = c;
                 particleList[i] = p;
-                Debug.Log("Particle222");
                 
             }
                 
