@@ -1285,7 +1285,7 @@ GameObject:
   - component: {fileID: 1427328377}
   m_Layer: 8
   m_Name: Cube (2)
-  m_TagString: Conductive
+  m_TagString: Filter
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2540,7 +2540,7 @@ ParticleSystem:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-  moveWithTransform: 0
+  moveWithTransform: 1
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
   randomSeed: 0
@@ -7285,6 +7285,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e70724f4b96ca4d4e9c61bffd990dce2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  triggerCollider: {fileID: 0}
 --- !u!114 &5413612155955565417
 MonoBehaviour:
   m_ObjectHideFlags: 0
