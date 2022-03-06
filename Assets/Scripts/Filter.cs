@@ -27,19 +27,11 @@ public class Filter : MonoBehaviour
 
                 c = g.GetComponent<MeshRenderer>().material.color;
 
-                c.r += p.startColor.r;
-                c.g += p.startColor.g;
-                c.b += p.startColor.b;
-                c.a += p.startColor.a;
-                
-                c.r -= 255;
-                c.g -= 255;
-                c.b -= 255;
-                c.a -= 255;
-                
-                Debug.Log(c.r + " " + c.g + " " + c.b);
-                
+                if (p.startColor.r >= c.r && p.startColor.g >= c.g && p.startColor.b >= c.b && p.startColor.a >= c.a)
                 p.startColor = c;
+                else
+                p.startColor = Color.clear;
+                
                 particleList[i] = p;
                 
             }
