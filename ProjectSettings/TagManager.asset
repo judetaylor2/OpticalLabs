@@ -9,6 +9,7 @@ TagManager:
   - Bounce
   - Gravity
   - Filter
+  - Mirror
   layers:
   - Default
   - TransparentFX

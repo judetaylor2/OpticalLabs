@@ -31,7 +31,7 @@ public class LaserProjector : MonoBehaviour
                 
                 for (int i = 0; i < photonGun.colours.Length; i++)
                 {
-                    if (hit.transform.tag == "Conductive" && meshRenderer.material.color == photonGun.colours[i])
+                    if (meshRenderer.material.color == photonGun.colours[i])
                     {
                         if (i == 0)
                         {
@@ -55,8 +55,15 @@ public class LaserProjector : MonoBehaviour
                         break;
                     }
 
+                }
+
             }
 
+            if (hit.transform.tag == "Mirror")
+            {
+                hit.transform.GetComponentInParent<Mirror>().isColliding = true;
+                ParticleSystem.MainModule m = hit.transform.GetComponentInParent<Mirror>().laserObject.transform.GetChild(0).GetComponent<ParticleSystem>().main;
+                m.startColor = laserParticle.main.startColor.color;
             }
         }
     }
