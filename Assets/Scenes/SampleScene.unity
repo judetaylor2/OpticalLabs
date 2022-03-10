@@ -414,6 +414,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Wall (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 8523630750565104669, guid: da276153fbc7be1b0a49ab0f8c07a0d7, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8523630750565104669, guid: da276153fbc7be1b0a49ab0f8c07a0d7, type: 3}
+      propertyPath: m_TagString
+      value: Untagged
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: da276153fbc7be1b0a49ab0f8c07a0d7, type: 3}
 --- !u!1001 &156382881
@@ -474,6 +482,14 @@ PrefabInstance:
     - target: {fileID: 8523630750565104669, guid: da276153fbc7be1b0a49ab0f8c07a0d7, type: 3}
       propertyPath: m_Name
       value: Wall (6)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8523630750565104669, guid: da276153fbc7be1b0a49ab0f8c07a0d7, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8523630750565104669, guid: da276153fbc7be1b0a49ab0f8c07a0d7, type: 3}
+      propertyPath: m_TagString
+      value: Untagged
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: da276153fbc7be1b0a49ab0f8c07a0d7, type: 3}
@@ -612,6 +628,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Wall (7)
       objectReference: {fileID: 0}
+    - target: {fileID: 8523630750565104669, guid: da276153fbc7be1b0a49ab0f8c07a0d7, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8523630750565104669, guid: da276153fbc7be1b0a49ab0f8c07a0d7, type: 3}
+      propertyPath: m_TagString
+      value: Untagged
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: da276153fbc7be1b0a49ab0f8c07a0d7, type: 3}
 --- !u!4 &310122477 stripped
@@ -682,6 +706,14 @@ PrefabInstance:
     - target: {fileID: 8523630750565104669, guid: da276153fbc7be1b0a49ab0f8c07a0d7, type: 3}
       propertyPath: m_Name
       value: Wall (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8523630750565104669, guid: da276153fbc7be1b0a49ab0f8c07a0d7, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8523630750565104669, guid: da276153fbc7be1b0a49ab0f8c07a0d7, type: 3}
+      propertyPath: m_TagString
+      value: Untagged
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: da276153fbc7be1b0a49ab0f8c07a0d7, type: 3}
@@ -1187,7 +1219,7 @@ GameObject:
   - component: {fileID: 1278125785}
   - component: {fileID: 1278125784}
   - component: {fileID: 1278125783}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: LaserProjector
   m_TagString: Conductive
   m_Icon: {fileID: 0}
@@ -1480,7 +1512,7 @@ GameObject:
   - component: {fileID: 1427328379}
   - component: {fileID: 1427328378}
   - component: {fileID: 1427328377}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: Cube (2)
   m_TagString: Filter
   m_Icon: {fileID: 0}
@@ -2039,6 +2071,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Wall (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 8523630750565104669, guid: da276153fbc7be1b0a49ab0f8c07a0d7, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8523630750565104669, guid: da276153fbc7be1b0a49ab0f8c07a0d7, type: 3}
+      propertyPath: m_TagString
+      value: Untagged
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: da276153fbc7be1b0a49ab0f8c07a0d7, type: 3}
 --- !u!1001 &1783249517
@@ -2261,6 +2301,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Wall
       objectReference: {fileID: 0}
+    - target: {fileID: 8523630750565104669, guid: da276153fbc7be1b0a49ab0f8c07a0d7, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8523630750565104669, guid: da276153fbc7be1b0a49ab0f8c07a0d7, type: 3}
+      propertyPath: m_TagString
+      value: Untagged
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: da276153fbc7be1b0a49ab0f8c07a0d7, type: 3}
 --- !u!1 &1902127504
@@ -2480,7 +2528,7 @@ MonoBehaviour:
   groundDistance: 0.1
   objectDistance: 5
   walkSpeed: 3000
-  sprintSpeed: 7000
+  sprintSpeed: 10000
   groundCheck: {fileID: 1555215574}
   objectPickupPoint: {fileID: 790844071}
   cameraPoint: {fileID: 1687258585}

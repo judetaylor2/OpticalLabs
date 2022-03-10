@@ -23,25 +23,29 @@ public class Filter : MonoBehaviour
         foreach (GameObject g in possibleTriggers)
         particle.trigger.AddCollider(g.GetComponent<Collider>());
 
-        correctTrigger = possibleTriggers[0];
-        
-        Color32 c;
-       
-        for (int i = 0; i < enterNum; i++)
+        if (possibleTriggers.Length > 0)
         {
-            ParticleSystem.Particle p = particleList[i];
+            correctTrigger = possibleTriggers[0];
             
-            foreach (GameObject g in possibleTriggers)
-            correctTrigger = Vector3.Distance(g.transform.position, p.position) < Vector3.Distance(correctTrigger.transform.position, p.position)? g : correctTrigger;
+            Color32 c;
+        
+            for (int i = 0; i < enterNum; i++)
+            {
+                ParticleSystem.Particle p = particleList[i];
+                
+                foreach (GameObject g in possibleTriggers)
+                correctTrigger = Vector3.Distance(g.transform.position, p.position) < Vector3.Distance(correctTrigger.transform.position, p.position)? g : correctTrigger;
 
-            c = correctTrigger.GetComponent<MeshRenderer>().material.color;
+                c = correctTrigger.GetComponent<MeshRenderer>().material.color;
 
-            if (p.startColor.r >= c.r && p.startColor.g >= c.g && p.startColor.b >= c.b && p.startColor.a >= c.a)
-            p.startColor = c;
-            else
-            p.startColor = Color.clear;
+                if (p.startColor.r >= c.r && p.startColor.g >= c.g && p.startColor.b >= c.b && p.startColor.a >= c.a)
+                p.startColor = c;
+                else
+                p.startColor = Color.clear;
+                
+                particleList[i] = p;    
+            }
             
-            particleList[i] = p;    
         }
 
             

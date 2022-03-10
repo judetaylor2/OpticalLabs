@@ -26,30 +26,29 @@ public class PhotonGun : MonoBehaviour
             RaycastHit hit;
             if (Physics.Raycast(cameraPoint.position, cameraPoint.forward, out hit, photonDistance))
             {
-                if (hit.transform.tag == "Conductive")
+                if (hit.transform.gameObject.layer == 8 || hit.transform.gameObject.layer == 9 || hit.transform.gameObject.layer == 10)
                 {
                     Material m = hit.transform.GetComponent<MeshRenderer>().material;
                     m.color = colours[currentColourIndex];
                     hit.transform.GetComponent<MeshRenderer>().material = m;
-
-                    if (hit.transform.gameObject.layer == 6)
+                    
+                    if (hit.transform.gameObject.layer == 10)
+                    if (currentColourIndex == 0)
                     {
-                        if (currentColourIndex == 0)
-                        {
-                            //speedCollider.transform.localScale = hit.transform.localScale;
-                            //Instantiate(speedCollider, hit.transform.position, hit.transform.rotation);
+                        //speedCollider.transform.localScale = hit.transform.localScale;
+                        //Instantiate(speedCollider, hit.transform.position, hit.transform.rotation);
 
-                            hit.transform.GetChild(0).tag = "Speed";
-                        }
-                        else if (currentColourIndex == 1)
-                        {
-                            hit.transform.GetChild(0).tag = "Gravity";
-                        }
-                        else if (currentColourIndex == 2)
-                        {
-                            hit.transform.GetChild(0).tag = "Bounce";
-                        }                    
+                        hit.transform.tag = "Speed";
                     }
+                    else if (currentColourIndex == 1)
+                    {
+                        hit.transform.tag = "Gravity";
+                    }
+                    else if (currentColourIndex == 2)
+                    {
+                        hit.transform.tag = "Bounce";
+                    }                    
+                    
                 }
                 
             }
@@ -59,14 +58,13 @@ public class PhotonGun : MonoBehaviour
         {
             RaycastHit hit;
             if (Physics.Raycast(cameraPoint.position, cameraPoint.forward, out hit, photonDistance))
-            if (hit.transform.tag == "Conductive")
+            if (hit.transform.gameObject.layer == 8 || hit.transform.gameObject.layer == 9)
             {
                 Material m = hit.transform.GetComponent<MeshRenderer>().material;
                 m.color = Color.white;
                 hit.transform.GetComponent<MeshRenderer>().material = m;
 
-                if (hit.transform.gameObject.layer == 6)
-                hit.transform.GetChild(0).tag = "Untagged";
+                hit.transform.tag = "Untagged";
             }
         }
         else if (Input.GetAxis("Mouse ScrollWheel") > 0)

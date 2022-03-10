@@ -12,27 +12,29 @@ public class LaserProjector : MonoBehaviour
     void Start()
     {
         meshRenderer = GetComponent<MeshRenderer>();
-        laserParticle = transform.GetChild(0).GetComponent<ParticleSystem>();   
+        laserParticle = transform.GetChild(0).GetComponent<ParticleSystem>();
+
+        photonGun = GameObject.FindWithTag("Player").GetComponent<PhotonGun>();
     }
 
     void Update()
     {
-        //ParticleSystem.MainModule laserMainModule = laserParticle.main; 
-        //laserMainModule.startColor = meshRenderer.material.color;
+        ParticleSystem.MainModule laserMainModule = laserParticle.main; 
+        laserMainModule.startColor = meshRenderer.material.color;
         
         RaycastHit hit;
         if (Physics.Raycast(laserParticle.transform.position, laserParticle.transform.forward, out hit, 100))
         {
-            /*if (hit.transform.childCount > 0)
-            {
-                Debug.DrawLine(laserParticle.transform.position, hit.point);
+                Debug.DrawLine(laserParticle.transform.position, hit.point, Color.green);
                 
-                Transform t = hit.transform.GetChild(0);
+                Transform t = hit.transform;
                 
+                if (hit.transform.tag != "Filter")
                 for (int i = 0; i < photonGun.colours.Length; i++)
                 {
                     if (meshRenderer.material.color == photonGun.colours[i])
                     {
+                        if (hit.transform.gameObject.layer == 10)
                         if (i == 0)
                         {
                             t.tag = "Speed";
@@ -50,14 +52,15 @@ public class LaserProjector : MonoBehaviour
                     }
                     else if (meshRenderer.material.color == Color.white)
                     {
+                        if (hit.transform.gameObject.layer == 10)
                         t.tag = "Untagged";
+                        
                         hit.transform.GetComponent<MeshRenderer>().material.color = Color.white;
                         break;
                     }
 
                 }
 
-            }*/
             
             Filter filter = laserParticle.GetComponent<Filter>();
             

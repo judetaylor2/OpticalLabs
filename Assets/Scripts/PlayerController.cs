@@ -96,7 +96,7 @@ public class PlayerController : MonoBehaviour
 
             if (currentlyHeldObject == null && Physics.Raycast(cameraPoint.position, cameraPoint.forward, out objectHit, objectDistance))
             {
-                if (objectHit.transform.tag != "Player" && objectHit.transform.gameObject.layer == 7 && objectHit.transform.localScale.x < 5 && objectHit.transform.localScale.y < 5 && objectHit.transform.localScale.z < 5)
+                if (objectHit.transform.tag != "Player" && (objectHit.transform.gameObject.layer == 7 || objectHit.transform.gameObject.layer == 8) && objectHit.transform.localScale.x < 5 && objectHit.transform.localScale.y < 5 && objectHit.transform.localScale.z < 5)
                 {
                     currentlyHeldObject = objectHit.transform.gameObject;
                     
