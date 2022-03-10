@@ -8,6 +8,7 @@ public class LaserProjector : MonoBehaviour
     ParticleSystem laserParticle;
     public LayerMask groundMask;
     public PhotonGun photonGun;
+    public bool isMirror;
     
     void Start()
     {
@@ -72,10 +73,10 @@ public class LaserProjector : MonoBehaviour
                     hit.transform.GetComponentInParent<Mirror>().isColliding = true;
                     
                 
-                    ParticleSystem.MainModule m = hit.transform.GetComponentInParent<Mirror>().laserObject.transform.GetChild(0).GetComponent<ParticleSystem>().main;
-                    ParticleSystem.MinMaxGradient c = m.startColor;
-                    c.color = filter.particleList[0].startColor;
-                    m.startColor = c;
+                    MeshRenderer m = hit.transform.GetComponentInParent<Mirror>().laserObject.GetComponentInParent<MeshRenderer>();
+                    Color32 c = m.material.color;
+                    c = filter.particleList[0].startColor;
+                    m.material.color = c;
                   
                 }
 
@@ -84,8 +85,8 @@ public class LaserProjector : MonoBehaviour
             {
                 hit.transform.GetComponentInParent<Mirror>().isColliding = true;
                     
-                ParticleSystem.MainModule m = hit.transform.GetComponentInParent<Mirror>().laserObject.transform.GetChild(0).GetComponent<ParticleSystem>().main;
-                m.startColor = laserParticle.main.startColor.color;
+                MeshRenderer m = hit.transform.GetComponentInParent<Mirror>().laserObject.GetComponentInParent<MeshRenderer>();
+                m.material.color = laserParticle.main.startColor.color;
                
             }
         }

@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class PhotonGun : MonoBehaviour
 {
     public Color[] colours;
-    public Transform cameraPoint;
+    public Transform raycastStartPoint;
     public float photonDistance;
     int currentColourIndex;
     public Image colorImage;
@@ -24,9 +24,9 @@ public class PhotonGun : MonoBehaviour
         if (Input.GetButtonDown("Fire1"))
         {
             RaycastHit hit;
-            if (Physics.Raycast(cameraPoint.position, cameraPoint.forward, out hit, photonDistance))
+            if (Physics.Raycast(raycastStartPoint.position, raycastStartPoint.forward, out hit, photonDistance, Physics.AllLayers))
             {
-                if (hit.transform.gameObject.layer == 8 || hit.transform.gameObject.layer == 9 || hit.transform.gameObject.layer == 10)
+                if (hit.transform.gameObject.layer == 8 || hit.transform.gameObject.layer == 9 || hit.transform.gameObject.layer == 10 || hit.transform.tag == "Filter")
                 {
                     Material m = hit.transform.GetComponent<MeshRenderer>().material;
                     m.color = colours[currentColourIndex];
@@ -57,7 +57,7 @@ public class PhotonGun : MonoBehaviour
         else if (Input.GetButtonDown("Fire2"))
         {
             RaycastHit hit;
-            if (Physics.Raycast(cameraPoint.position, cameraPoint.forward, out hit, photonDistance))
+            if (Physics.Raycast(raycastStartPoint.position, raycastStartPoint.forward, out hit, photonDistance))
             if (hit.transform.gameObject.layer == 8 || hit.transform.gameObject.layer == 9)
             {
                 Material m = hit.transform.GetComponent<MeshRenderer>().material;
