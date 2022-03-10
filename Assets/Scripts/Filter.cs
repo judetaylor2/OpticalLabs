@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class Filter : MonoBehaviour
 {
-    List<ParticleSystem.Particle> particleList = new List<ParticleSystem.Particle>();
+    [HideInInspector] public List<ParticleSystem.Particle> particleList = new List<ParticleSystem.Particle>();
     ParticleSystem particle;
+    [HideInInspector] public GameObject[] possibleTriggers;
     
     void OnParticleTrigger()
     {
@@ -14,7 +15,7 @@ public class Filter : MonoBehaviour
         int enterNum = particle.GetTriggerParticles(ParticleSystemTriggerEventType.Enter, particleList);
         Debug.Log("Particle is colliding " + enterNum);
 
-        GameObject[] possibleTriggers = GameObject.FindGameObjectsWithTag("Filter");
+        possibleTriggers = GameObject.FindGameObjectsWithTag("Filter");
         GameObject correctTrigger;
         
         foreach (GameObject g in possibleTriggers)

@@ -23,7 +23,7 @@ public class LaserProjector : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(laserParticle.transform.position, laserParticle.transform.forward, out hit, 100))
         {
-            if (hit.transform.childCount > 0)
+            /*if (hit.transform.childCount > 0)
             {
                 Debug.DrawLine(laserParticle.transform.position, hit.point);
                 
@@ -57,13 +57,33 @@ public class LaserProjector : MonoBehaviour
 
                 }
 
-            }
+            }*/
+            
+            Filter filter = laserParticle.GetComponent<Filter>();
+            
+            if (filter != null && hit.transform.tag == "Mirror")
+            if (filter.particleList.Count > 0)
+            {
+                if (filter.particleList[0].startColor.a > 64)
+                {
+                    hit.transform.GetComponentInParent<Mirror>().isColliding = true;
+                    
+                
+                    ParticleSystem.MainModule m = hit.transform.GetComponentInParent<Mirror>().laserObject.transform.GetChild(0).GetComponent<ParticleSystem>().main;
+                    ParticleSystem.MinMaxGradient c = m.startColor;
+                    c.color = filter.particleList[0].startColor;
+                    m.startColor = c;
+                  
+                }
 
-            if (hit.transform.tag == "Mirror")
+            }
+            else if (hit.transform.tag == "Mirror")
             {
                 hit.transform.GetComponentInParent<Mirror>().isColliding = true;
+                    
                 ParticleSystem.MainModule m = hit.transform.GetComponentInParent<Mirror>().laserObject.transform.GetChild(0).GetComponent<ParticleSystem>().main;
                 m.startColor = laserParticle.main.startColor.color;
+               
             }
         }
     }
