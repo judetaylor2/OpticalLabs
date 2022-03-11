@@ -11,6 +11,7 @@ TagManager:
   - Filter
   - Mirror
   - Sensor
+  - Electrified Panel
   layers:
   - Default
   - TransparentFX

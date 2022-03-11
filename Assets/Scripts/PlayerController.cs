@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
@@ -10,9 +11,11 @@ public class PlayerController : MonoBehaviour
     Vector3 velocity;
     public Transform groundCheck, objectPickupPoint, cameraPoint;
     public LayerMask ground, movableGround, conductiveGround, conductiveMovableGround, conductiveEffectGround;
-    bool isGrounded, isUsingGravityEffect;
+    bool isGrounded, isUsingGravityEffect, isTakingDamage;
     GameObject currentlyHeldObject;
     RaycastHit objectHit;
+
+    float healthStopWatch, healthRegenStopWatch, currentHealth = 100;
     
     // Start is called before the first frame update
     void Start()
@@ -33,6 +36,7 @@ public class PlayerController : MonoBehaviour
     {
         MovePlayer();
         PickupObject();
+        Health();
     }
 
     void MovePlayer()
@@ -135,7 +139,7 @@ public class PlayerController : MonoBehaviour
 
             if (currentlyHeldObject != null)
             {
-                if (Physics.Raycast(cameraPoint.position, cameraPoint.forward, out objectHit, objectDistance, ground))
+                if (Physics.Raycast(cameraPoint.position, cameraPoint.forward, out objectHit, objectDistance, ground | conductiveGround | conductiveEffectGround))
                 objectPickupPoint.position = objectHit.point - cameraPoint.forward * currentlyHeldObject.transform.localScale.y;
                 else
                 objectPickupPoint.position = cameraPoint.position + cameraPoint.forward * objectDistance;
@@ -146,11 +150,6 @@ public class PlayerController : MonoBehaviour
             {
                 objectPickupPoint.position = cameraPoint.position + cameraPoint.forward * objectDistance;
             }
-    }
-    
-    void OnTriggerEnter(Collider other)
-    {
-        
     }
 
     void OnTriggerStay(Collider other)
@@ -193,6 +192,10 @@ public class PlayerController : MonoBehaviour
             StartCoroutine("LerpToGravity");
             isUsingGravityEffect = false;
         }
+        else if (other.tag == "Electrified Panel")
+        {
+            isTakingDamage = true;
+        }
     }
 
     void OnTriggerExit(Collider other)
@@ -233,4 +236,29 @@ public class PlayerController : MonoBehaviour
         }
         
     }
+    
+    void Health()
+    {
+        healthStopWatch += Time.deltaTime;
+        healthRegenStopWatch += Time.deltaTime;
+
+        if (isTakingDamage && healthStopWatch >= 0.5f)
+        {
+            currentHealth -= 25;
+            
+            isTakingDamage = false;
+            healthStopWatch = 0f;
+        }
+        else if (healthRegenStopWatch >= 0.25f)
+        {
+            currentHealth += 5;
+            healthRegenStopWatch = 0f;
+        }
+
+        currentHealth = Mathf.Clamp(currentHealth, 0, 100);
+
+        if (currentHealth == 0)
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
 }
+
