@@ -80,7 +80,7 @@ public class PlayerController : MonoBehaviour
             
             Vector3 move = transform.right * x + transform.forward * z;
             Vector3 slopeDirection = Vector3.ProjectOnPlane(move.normalized, slopeHit.normal);
-            rb.AddForce(slopeDirection * (moveSpeed / 100) * Time.deltaTime);
+            rb.AddForce(slopeDirection * (moveSpeed / 10) * Time.deltaTime);
         }
 
 
@@ -98,9 +98,9 @@ public class PlayerController : MonoBehaviour
         {
             Rigidbody r;
 
-            if (currentlyHeldObject == null && Physics.Raycast(cameraPoint.position, cameraPoint.forward, out objectHit, objectDistance, LayerMask.NameToLayer("MovableGround") | LayerMask.NameToLayer("ConductiveMovableGround")))
+            if (currentlyHeldObject == null && Physics.Raycast(cameraPoint.position, cameraPoint.forward, out objectHit, objectDistance, movableGround | conductiveMovableGround))
             {
-                if (objectHit.transform.tag != "Player" && objectHit.transform.gameObject.layer == 7 && objectHit.transform.localScale.x < 5 && objectHit.transform.localScale.y < 5 && objectHit.transform.localScale.z < 5)
+                if (objectHit.transform.tag != "Player" && objectHit.transform.localScale.x < 5 && objectHit.transform.localScale.y < 5 && objectHit.transform.localScale.z < 5)
                 {
                     currentlyHeldObject = objectHit.transform.gameObject;
                     
