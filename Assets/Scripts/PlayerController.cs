@@ -7,7 +7,7 @@ public class PlayerController : MonoBehaviour
 {
     Rigidbody rb;
     
-    public float moveSpeed, jumpHeight, groundDrag, gravity, groundDistance, objectDistance, walkSpeed, sprintSpeed;
+    public float moveSpeed, jumpHeight, bounceJumpHeight, groundDrag, gravity, groundDistance, objectDistance, walkSpeed, sprintSpeed;
     Vector3 velocity;
     public Transform groundCheck, objectPickupPoint, cameraPoint;
     public LayerMask ground, movableGround, conductiveGround, conductiveMovableGround, conductiveEffectGround;
@@ -178,7 +178,7 @@ public class PlayerController : MonoBehaviour
         {
             RaycastHit r;
             if (Physics.Raycast(cameraPoint.position, -(transform.position - other.transform.position), out r, 500, ground | movableGround | conductiveGround | conductiveMovableGround | conductiveEffectGround))
-            rb.AddForce(rb.velocity + jumpHeight / 4 * -gravity * r.normal);
+            rb.AddForce(rb.velocity + bounceJumpHeight / 4 * -gravity * r.normal);
 
             moveSpeed = walkSpeed; 
 

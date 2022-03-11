@@ -2611,12 +2611,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 5000
   jumpHeight: 10
+  bounceJumpHeight: 25
   groundDrag: 5
   gravity: -20
   groundDistance: 0.1
   objectDistance: 5
   walkSpeed: 3000
-  sprintSpeed: 10000
+  sprintSpeed: 12000
   groundCheck: {fileID: 1555215574}
   objectPickupPoint: {fileID: 790844071}
   cameraPoint: {fileID: 1687258585}
@@ -2668,7 +2669,7 @@ MonoBehaviour:
   - {r: 1, g: 1, b: 0.5019608, a: 0.5019608}
   - {r: 0.5019608, g: 0.5019608, b: 1, a: 0.5019608}
   raycastStartPoint: {fileID: 1106647446}
-  photonDistance: 75
+  photonDistance: 150
   colorImage: {fileID: 1654918069}
   groundMask:
     serializedVersion: 2
