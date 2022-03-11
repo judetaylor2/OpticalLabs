@@ -6,7 +6,7 @@ public class LaserProjector : MonoBehaviour
 {
     MeshRenderer meshRenderer;
     ParticleSystem laserParticle;
-    public LayerMask groundMask;
+    public LayerMask ground, movableGround, conductiveGround, conductiveMovableGround, conductiveEffectGround;
     public PhotonGun photonGun;
     public bool isMirror;
     Sensor sensorCollider;
@@ -25,7 +25,7 @@ public class LaserProjector : MonoBehaviour
         laserMainModule.startColor = meshRenderer.material.color;
         
         RaycastHit hit;
-        if (Physics.Raycast(laserParticle.transform.position, laserParticle.transform.forward, out hit, 100))
+        if (Physics.Raycast(laserParticle.transform.position, laserParticle.transform.forward, out hit, 100, ground | movableGround | conductiveGround | conductiveMovableGround | conductiveEffectGround))
         {
                 Debug.DrawLine(laserParticle.transform.position, hit.point, Color.green);
                 

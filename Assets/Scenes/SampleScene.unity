@@ -2700,6 +2700,26 @@ PrefabInstance:
       propertyPath: photonGun
       value: 
       objectReference: {fileID: 1973711673}
+    - target: {fileID: 2281781543341170089, guid: a966689ac6c021c1ea0061a570badee1, type: 3}
+      propertyPath: ground.m_Bits
+      value: 64
+      objectReference: {fileID: 0}
+    - target: {fileID: 2281781543341170089, guid: a966689ac6c021c1ea0061a570badee1, type: 3}
+      propertyPath: movableGround.m_Bits
+      value: 128
+      objectReference: {fileID: 0}
+    - target: {fileID: 2281781543341170089, guid: a966689ac6c021c1ea0061a570badee1, type: 3}
+      propertyPath: conductiveGround.m_Bits
+      value: 256
+      objectReference: {fileID: 0}
+    - target: {fileID: 2281781543341170089, guid: a966689ac6c021c1ea0061a570badee1, type: 3}
+      propertyPath: conductiveEffectGround.m_Bits
+      value: 1024
+      objectReference: {fileID: 0}
+    - target: {fileID: 2281781543341170089, guid: a966689ac6c021c1ea0061a570badee1, type: 3}
+      propertyPath: conductiveMovableGround.m_Bits
+      value: 512
+      objectReference: {fileID: 0}
     - target: {fileID: 6092112093329090582, guid: a966689ac6c021c1ea0061a570badee1, type: 3}
       propertyPath: m_Name
       value: LaserProjector
