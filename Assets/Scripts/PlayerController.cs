@@ -9,7 +9,7 @@ public class PlayerController : MonoBehaviour
     public float moveSpeed, jumpHeight, groundDrag, gravity, groundDistance, objectDistance, walkSpeed, sprintSpeed;
     Vector3 velocity;
     public Transform groundCheck, objectPickupPoint, cameraPoint;
-    public LayerMask groundMask, nonConductiveGroundMask;
+    public LayerMask ground, movableGround, conductiveGround, conductiveMovableGround, conductiveEffectGround;
     bool isGrounded, isUsingGravityEffect;
     GameObject currentlyHeldObject;
     RaycastHit objectHit;
@@ -37,7 +37,7 @@ public class PlayerController : MonoBehaviour
 
     void MovePlayer()
     {
-        isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask | nonConductiveGroundMask);
+        isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, ground | movableGround | conductiveGround | conductiveMovableGround | conductiveEffectGround);
 
         
         if (isGrounded)
@@ -96,7 +96,7 @@ public class PlayerController : MonoBehaviour
 
             if (currentlyHeldObject == null && Physics.Raycast(cameraPoint.position, cameraPoint.forward, out objectHit, objectDistance, LayerMask.NameToLayer("MovableGround") | LayerMask.NameToLayer("ConductiveMovableGround")))
             {
-                if (objectHit.transform.tag != "Player" && (objectHit.transform.gameObject.layer == 7 || objectHit.transform.gameObject.layer == 9) && objectHit.transform.localScale.x < 5 && objectHit.transform.localScale.y < 5 && objectHit.transform.localScale.z < 5)
+                if (objectHit.transform.tag != "Player" && objectHit.transform.gameObject.layer == 7 && objectHit.transform.localScale.x < 5 && objectHit.transform.localScale.y < 5 && objectHit.transform.localScale.z < 5)
                 {
                     currentlyHeldObject = objectHit.transform.gameObject;
                     
@@ -135,7 +135,7 @@ public class PlayerController : MonoBehaviour
 
             if (currentlyHeldObject != null)
             {
-                if (Physics.Raycast(cameraPoint.position, cameraPoint.forward, out objectHit, objectDistance, groundMask | nonConductiveGroundMask))
+                if (Physics.Raycast(cameraPoint.position, cameraPoint.forward, out objectHit, objectDistance, ground))
                 objectPickupPoint.position = objectHit.point - cameraPoint.forward * currentlyHeldObject.transform.localScale.y;
                 else
                 objectPickupPoint.position = cameraPoint.position + cameraPoint.forward * objectDistance;
@@ -167,7 +167,7 @@ public class PlayerController : MonoBehaviour
             isUsingGravityEffect = true;
 
             RaycastHit r;
-            if(Physics.Raycast(cameraPoint.position, -(transform.position - other.transform.position), out r, 500, groundMask | nonConductiveGroundMask))
+            if(Physics.Raycast(cameraPoint.position, -(transform.position - other.transform.position), out r, 500, ground | movableGround | conductiveGround | conductiveMovableGround | conductiveEffectGround))
             {
                 Vector3 v = Vector3.Cross(transform.right, r.normal);
                 transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(v, r.normal), 10 * Time.deltaTime);                
@@ -178,7 +178,7 @@ public class PlayerController : MonoBehaviour
         else if (other.tag == "Bounce")
         {
             RaycastHit r;
-            if (Physics.Raycast(cameraPoint.position, -(transform.position - other.transform.position), out r, 500, groundMask))
+            if (Physics.Raycast(cameraPoint.position, -(transform.position - other.transform.position), out r, 500, ground | movableGround | conductiveGround | conductiveMovableGround | conductiveEffectGround))
             rb.AddForce(rb.velocity + jumpHeight / 4 * -gravity * r.normal);
 
             moveSpeed = walkSpeed; 
@@ -219,7 +219,7 @@ public class PlayerController : MonoBehaviour
         for (int i = 0; i < 10; i++)
         {
             RaycastHit r;
-            if(Physics.Raycast(cameraPoint.position, -Vector3.up, out r, 500, groundMask))
+            if(Physics.Raycast(cameraPoint.position, -Vector3.up, out r, 500, ground | movableGround | conductiveGround | conductiveMovableGround | conductiveEffectGround))
             {
                 Vector3 v = Vector3.Cross(transform.right, Vector3.up);
                 transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(v, Vector3.up), 10 * Time.deltaTime);            

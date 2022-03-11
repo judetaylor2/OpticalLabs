@@ -2388,12 +2388,21 @@ MonoBehaviour:
   groundCheck: {fileID: 1555215574}
   objectPickupPoint: {fileID: 790844071}
   cameraPoint: {fileID: 1687258585}
-  groundMask:
+  ground:
     serializedVersion: 2
     m_Bits: 64
-  nonConductiveGroundMask:
+  movableGround:
+    serializedVersion: 2
+    m_Bits: 128
+  conductiveGround:
     serializedVersion: 2
     m_Bits: 256
+  conductiveMovableGround:
+    serializedVersion: 2
+    m_Bits: 512
+  conductiveEffectGround:
+    serializedVersion: 2
+    m_Bits: 1024
 --- !u!4 &1973711672
 Transform:
   m_ObjectHideFlags: 0
