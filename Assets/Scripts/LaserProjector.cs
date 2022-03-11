@@ -9,6 +9,7 @@ public class LaserProjector : MonoBehaviour
     public LayerMask groundMask;
     public PhotonGun photonGun;
     public bool isMirror;
+    Sensor sensorCollider;
     
     void Start()
     {
@@ -88,6 +89,18 @@ public class LaserProjector : MonoBehaviour
                 MeshRenderer m = hit.transform.GetComponent<Mirror>().laserObject.GetComponentInParent<MeshRenderer>();
                 m.material.color = laserParticle.main.startColor.color;
                
+            }
+            
+            if (hit.transform.tag == "Sensor")
+            {
+                sensorCollider = hit.transform.GetComponentInParent<Sensor>();
+                sensorCollider.isCollidingWithLaser = true;
+               
+            }
+            else if (sensorCollider != null)
+            {
+                sensorCollider.isCollidingWithLaser = false;
+                sensorCollider = null;
             }
         }
     }

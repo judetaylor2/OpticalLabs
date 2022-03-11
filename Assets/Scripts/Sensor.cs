@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Sensor : MonoBehaviour
 {
-    public bool isOn;
+    public bool isOn, isCollidingWithLaser;
     bool isColliding;
     Collider triggerCollider;
     
@@ -20,6 +20,10 @@ public class Sensor : MonoBehaviour
         {
             isOn = triggerCollider.tag == "Conductive" && triggerCollider.GetComponent<MeshRenderer>().material.color == transform.parent.GetComponent<MeshRenderer>().material.color;
             isColliding = false;
+        }
+        else if (isCollidingWithLaser)
+        {
+            isOn = true;
         }
         else
         isOn = false;

@@ -10,6 +10,7 @@ TagManager:
   - Gravity
   - Filter
   - Mirror
+  - Sensor
   layers:
   - Default
   - TransparentFX
