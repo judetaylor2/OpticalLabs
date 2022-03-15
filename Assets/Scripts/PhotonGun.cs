@@ -30,7 +30,7 @@ public class PhotonGun : MonoBehaviour
                 {
                     Material m = hit.transform.GetComponent<MeshRenderer>().material;
                     m.color = colours[currentColourIndex];
-                    hit.transform.GetComponent<MeshRenderer>().material = m;
+                    hit.transform.GetChild(1).GetComponent<MeshRenderer>().material = m;
                     
                     if (hit.transform.gameObject.layer == 10)
                     if (currentColourIndex == 0)
@@ -62,7 +62,7 @@ public class PhotonGun : MonoBehaviour
             {
                 Material m = hit.transform.GetComponent<MeshRenderer>().material;
                 m.color = Color.white;
-                hit.transform.GetComponent<MeshRenderer>().material = m;
+                hit.transform.GetChild(1).GetComponent<MeshRenderer>().material = m;
 
                 hit.transform.tag = "Untagged";
             }

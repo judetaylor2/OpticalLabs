@@ -50,14 +50,14 @@ public class LaserProjector : MonoBehaviour
                         t.tag = "Bounce";
                     }
 
-                    hit.transform.GetComponent<MeshRenderer>().material.color = photonGun.colours[i];                    
+                    hit.transform.GetChild(1).GetComponent<MeshRenderer>().material.color = photonGun.colours[i];                    
                 }
                 else if (meshRenderer.material.color == Color.white)
                 {
                     if (hit.transform.gameObject.layer == 10)
                     t.tag = "Untagged";
                     
-                    hit.transform.GetComponent<MeshRenderer>().material.color = Color.white;
+                    hit.transform.GetChild(1).GetComponent<MeshRenderer>().material.color = Color.white;
                     break;
                 }
 
