@@ -1,44 +1,22 @@
 fileFormatVersion: 2
-guid: e26aca6fd8ae2d6efa596d6d4b055c75
+guid: 1c5ed3a26ec4a8bd98f1a2bcb6381739
 ModelImporter:
   serializedVersion: 20200
-  internalIDToNameTable: []
+  internalIDToNameTable:
+  - first:
+      74: -623603649343465320
+    second: Scene
   externalObjects:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: Blue
-    second: {fileID: 2100000, guid: c2b14563153aa97ef8dbc0e179e87d1d, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Display
-    second: {fileID: 2100000, guid: f1927981d124109b28104aa5b301c404, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Glass
-    second: {fileID: 2100000, guid: 3b80b04743a22008282eef8365f789ff, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Handle
+      name: Material
     second: {fileID: 2100000, guid: d5f94712aa78759b98af30611fb5620c, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: Main
+      name: Material.001
     second: {fileID: 2100000, guid: 9bf2302ccd51dbadba8d461c8a63100b, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Red
-    second: {fileID: 2100000, guid: 7e85d687d2267d9b5951fd112a5d43ee, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Yellow
-    second: {fileID: 2100000, guid: 8e0b001a521bceb4daffe3eab5088cad, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
