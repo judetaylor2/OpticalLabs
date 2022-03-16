@@ -10,7 +10,7 @@ public class PlayerController : MonoBehaviour
     public float moveSpeed, jumpHeight, bounceJumpHeight, groundDrag, gravity, groundDistance, objectDistance, walkSpeed, sprintSpeed;
     Vector3 velocity;
     public Transform groundCheck, objectPickupPoint, cameraPoint;
-    public LayerMask ground, movableGround, conductiveGround, conductiveMovableGround, conductiveEffectGround;
+    public LayerMask ground, movableGround, conductiveGround, conductiveMovableGround, conductiveEffectGround, movable;
     bool isGrounded, isUsingGravityEffect, isTakingDamage;
     GameObject currentlyHeldObject;
     RaycastHit objectHit;
@@ -98,7 +98,7 @@ public class PlayerController : MonoBehaviour
         {
             Rigidbody r;
 
-            if (currentlyHeldObject == null && Physics.Raycast(cameraPoint.position, cameraPoint.forward, out objectHit, objectDistance, movableGround | conductiveMovableGround))
+            if (currentlyHeldObject == null && Physics.Raycast(cameraPoint.position, cameraPoint.forward, out objectHit, objectDistance, movableGround | conductiveMovableGround | movable))
             {
                 if (objectHit.transform.tag != "Player" && objectHit.transform.localScale.x < 5 && objectHit.transform.localScale.y < 5 && objectHit.transform.localScale.z < 5)
                 {

@@ -3921,7 +3921,7 @@ ParticleSystem:
         m_RotationOrder: 4
     minKillSpeed: 10000
     maxKillSpeed: 10000
-    radiusScale: 1
+    radiusScale: 0.25
     collidesWith:
       serializedVersion: 2
       m_Bits: 1984
@@ -3939,7 +3939,7 @@ ParticleSystem:
     enter: 2
     exit: 2
     colliderQueryMode: 0
-    radiusScale: 1
+    radiusScale: 0.25
     primitives:
     - {fileID: 0}
   SubModule:
