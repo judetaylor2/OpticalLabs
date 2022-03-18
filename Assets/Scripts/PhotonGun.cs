@@ -26,11 +26,10 @@ public class PhotonGun : MonoBehaviour
             RaycastHit hit;
             if (Physics.Raycast(raycastStartPoint.position, raycastStartPoint.forward, out hit, photonDistance, Physics.AllLayers))
             {
-                if (hit.transform.gameObject.layer == 8 || hit.transform.gameObject.layer == 9 || hit.transform.gameObject.layer == 10 || hit.transform.tag == "Filter")
+                if ((hit.transform.gameObject.layer == 8 || hit.transform.gameObject.layer == 9 || hit.transform.gameObject.layer == 10 || hit.transform.tag == "Filter") && hit.transform.name != "LaserProjector")
                 {
-                    Material m = hit.transform.GetComponent<MeshRenderer>().material;
+                    Material m = hit.transform.GetChild(1).GetComponent<MeshRenderer>().material;
                     m.color = colours[currentColourIndex];
-                    hit.transform.GetChild(1).GetComponent<MeshRenderer>().material = m;
                     
                     if (hit.transform.gameObject.layer == 10)
                     if (currentColourIndex == 0)
@@ -49,6 +48,12 @@ public class PhotonGun : MonoBehaviour
                         hit.transform.tag = "Bounce";
                     }                    
                     
+                }
+                else if (hit.transform.name == "LaserProjector")
+                {
+                    Material m = hit.transform.GetComponent<MeshRenderer>().material;
+                    m.color = colours[currentColourIndex];
+                    hit.transform.GetChild(1).GetComponent<MeshRenderer>().material = m;
                 }
                 
             }
