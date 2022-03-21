@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class LaserProjector : MonoBehaviour
 {
-    MeshRenderer meshRenderer;
+    public MeshRenderer meshRenderer;
     ParticleSystem laserParticle;
     public LayerMask ground, movableGround, conductiveGround, conductiveMovableGround, conductiveEffectGround;
     public PhotonGun photonGun;
@@ -13,7 +13,6 @@ public class LaserProjector : MonoBehaviour
     
     void Start()
     {
-        meshRenderer = GetComponent<MeshRenderer>();
         laserParticle = transform.GetChild(0).GetComponent<ParticleSystem>();
 
         photonGun = GameObject.FindWithTag("Player").GetComponent<PhotonGun>();

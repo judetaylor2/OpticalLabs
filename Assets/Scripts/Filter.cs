@@ -36,7 +36,7 @@ public class Filter : MonoBehaviour
                 foreach (GameObject g in possibleTriggers)
                 correctTrigger = Vector3.Distance(g.transform.position, p.position) < Vector3.Distance(correctTrigger.transform.position, p.position)? g : correctTrigger;
 
-                c = correctTrigger.GetComponent<MeshRenderer>().material.color;
+                c = correctTrigger.transform.GetChild(1).GetComponent<MeshRenderer>().material.color;
 
                 if (p.startColor.r >= c.r && p.startColor.g >= c.g && p.startColor.b >= c.b && p.startColor.a >= c.a)
                 p.startColor = c;

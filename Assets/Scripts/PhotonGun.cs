@@ -51,7 +51,7 @@ public class PhotonGun : MonoBehaviour
                 }
                 else if (hit.transform.name == "LaserProjector")
                 {
-                    Material m = hit.transform.GetComponent<MeshRenderer>().material;
+                    Material m = hit.transform.GetChild(1).GetComponent<MeshRenderer>().material;
                     m.color = colours[currentColourIndex];
                     hit.transform.GetChild(1).GetComponent<MeshRenderer>().material = m;
                 }
@@ -65,7 +65,7 @@ public class PhotonGun : MonoBehaviour
             if (Physics.Raycast(raycastStartPoint.position, raycastStartPoint.forward, out hit, photonDistance))
             if (hit.transform.gameObject.layer == 8 || hit.transform.gameObject.layer == 9 || hit.transform.gameObject.layer == 10 || hit.transform.tag == "Filter")
             {
-                Material m = hit.transform.GetComponent<MeshRenderer>().material;
+                Material m = hit.transform.GetChild(1).GetComponent<MeshRenderer>().material;
                 m.color = Color.white;
                 hit.transform.GetChild(1).GetComponent<MeshRenderer>().material = m;
 
