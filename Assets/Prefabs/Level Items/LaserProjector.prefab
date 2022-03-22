@@ -48,6 +48,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df7afb24e02a397caa675b82a9c7d751, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  meshRenderer: {fileID: 0}
   ground:
     serializedVersion: 2
     m_Bits: 64
@@ -63,6 +64,9 @@ MonoBehaviour:
   conductiveEffectGround:
     serializedVersion: 2
     m_Bits: 1024
+  conductive:
+    serializedVersion: 2
+    m_Bits: 8192
   photonGun: {fileID: 0}
   isMirror: 0
 --- !u!33 &7318914381406553738
