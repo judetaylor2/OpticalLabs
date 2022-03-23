@@ -12,6 +12,7 @@ TagManager:
   - Mirror
   - Sensor
   - Electrified Panel
+  - Inverter
   layers:
   - Default
   - TransparentFX
