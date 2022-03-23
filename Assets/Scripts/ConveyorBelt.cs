@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class ConveyorBelt : MonoBehaviour
 {
-    public float moveSpeed;
+    public float moveSpeed, offset, conveyorBeltMoveSpeed;
+    public Renderer meshRenderer;
     
     void OnTriggerStay(Collider other)
     {
@@ -13,5 +14,14 @@ public class ConveyorBelt : MonoBehaviour
         {
             rb.AddForce(moveSpeed * transform.forward * Time.deltaTime);
         }
+    }
+
+    void Update()
+    {
+        offset -= conveyorBeltMoveSpeed * Time.deltaTime;
+
+        if (offset >= 5) offset = 0;
+        
+        meshRenderer.material.mainTextureOffset = new Vector2(0, offset);
     }
 }
