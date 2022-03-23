@@ -13,6 +13,7 @@ public class ConveyorBelt : MonoBehaviour
         if (other.TryGetComponent<Rigidbody>(out rb))
         {
             rb.AddForce(moveSpeed * transform.forward * Time.deltaTime);
+            rb.AddForce(moveSpeed * Vector3.down * Time.deltaTime);
         }
     }
 
