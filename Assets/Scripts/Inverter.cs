@@ -7,6 +7,7 @@ public class Inverter : MonoBehaviour
     [HideInInspector] public List<ParticleSystem.Particle> particleList = new List<ParticleSystem.Particle>();
     ParticleSystem particle;
     [HideInInspector] public GameObject[] possibleTriggers;
+    public Color32 colour;
     
     void OnParticleTrigger()
     {
@@ -26,8 +27,6 @@ public class Inverter : MonoBehaviour
         if (possibleTriggers.Length > 0)
         {
             correctTrigger = possibleTriggers[0];
-            
-            Color32 c;
         
             for (int i = 0; i < enterNum; i++)
             {
@@ -36,8 +35,11 @@ public class Inverter : MonoBehaviour
                 foreach (GameObject g in possibleTriggers)
                 correctTrigger = Vector3.Distance(g.transform.position, p.position) < Vector3.Distance(correctTrigger.transform.position, p.position)? g : correctTrigger;
 
-    
-                Color32 colour = new Color(255 - p.startColor.r, 255 - p.startColor.g, 255 - p.startColor.b, 255);
+                Vector4 c = new Vector4(p.startColor.r, p.startColor.g, p.startColor.b, 255);
+                colour = new Color32((byte)(255 - c.x), (byte)(255 - c.y), (byte)(255 - c.z), 255);
+                Debug.Log("c.r: " + (byte)(255 - c.x) + " " + c.x);
+                Debug.Log("c.g: " + (byte)(255 - c.y) + " " + c.y);
+                Debug.Log("c.b: " + (byte)(255 - c.z) + " " + c.z);
 
                 p.startColor = colour;
                 
