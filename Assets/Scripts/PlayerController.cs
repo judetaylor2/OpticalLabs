@@ -145,6 +145,7 @@ public class PlayerController : MonoBehaviour
                 objectPickupPoint.position = cameraPoint.position + cameraPoint.forward * objectDistance;
                 
                 currentlyHeldObject.transform.position = objectPickupPoint.position;
+                currentlyHeldObject.transform.rotation = transform.rotation;
             }
             else
             {
