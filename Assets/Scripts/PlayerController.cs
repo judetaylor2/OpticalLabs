@@ -14,6 +14,7 @@ public class PlayerController : MonoBehaviour
     bool isGrounded, isUsingGravityEffect, isTakingDamage;
     GameObject currentlyHeldObject;
     RaycastHit objectHit;
+    public ParticleSystem[] pickupParticles;
 
     float healthStopWatch, healthRegenStopWatch, currentHealth = 100;
     
@@ -146,10 +147,17 @@ public class PlayerController : MonoBehaviour
                 
                 currentlyHeldObject.transform.position = objectPickupPoint.position;
                 currentlyHeldObject.transform.rotation = transform.rotation;
+                for (int i = 0; i < pickupParticles.Length; i++)
+                if (!pickupParticles[i].isPlaying)
+                pickupParticles[i].Play();
             }
             else
             {
                 objectPickupPoint.position = cameraPoint.position + cameraPoint.forward * objectDistance;
+
+                for (int i = 0; i < pickupParticles.Length; i++)
+                if (pickupParticles[i].isPlaying)
+                pickupParticles[i].Stop();
             }
     }
 
