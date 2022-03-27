@@ -6,6 +6,7 @@ public class Mirror : MonoBehaviour
 {
     [HideInInspector] public bool isColliding;
     public GameObject laserObject;
+    public ParticleSystem collidingParticle;
     
     // Start is called before the first frame update
     void Start()
@@ -19,12 +20,19 @@ public class Mirror : MonoBehaviour
         if (isColliding)
         {
             laserObject.SetActive(true);
+
+            if (!collidingParticle.isPlaying) collidingParticle.Play();
         }
         else
         {
             laserObject.SetActive(false);
+            
+            if (collidingParticle.isPlaying) collidingParticle.Stop();
         }
         
         isColliding = false;
+
+        ParticleSystem.MainModule m = collidingParticle.main;
+        m.startColor = transform.GetComponentInChildren<ParticleSystem>().main.startColor;
     }
 }

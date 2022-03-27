@@ -11,6 +11,7 @@ public class PhotonGun : MonoBehaviour
     int currentColourIndex;
     public Image colorImage;
     public LayerMask groundMask;
+    public ParticleSystem shootParticle, shootParticleFlash;
     
     // Start is called before the first frame update
     void Start()
@@ -21,14 +22,21 @@ public class PhotonGun : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        ParticleSystem.MainModule p1 = shootParticle.main;
+        ParticleSystem.MainModule p2 = shootParticleFlash.main;
+        p1.startColor = p2.startColor = colours[currentColourIndex];
+        
         if (Input.GetButtonDown("Fire1"))
         {
+            if (!shootParticle.isPlaying) shootParticle.Play();
+            
             RaycastHit hit;
             if (Physics.Raycast(raycastStartPoint.position, raycastStartPoint.forward, out hit, photonDistance, Physics.AllLayers))
             {
                 Debug.Log ("name = " + LayerMask.LayerToName(hit.collider.gameObject.layer));
                 if ((hit.collider.gameObject.layer == 8 || hit.collider.gameObject.layer == 9 || hit.collider.gameObject.layer == 10 || hit.collider.gameObject.layer == 13 || hit.collider.transform.tag == "Filter") && hit.collider.transform.name != "LaserProjector")
                 {
+                    
                     Material m = hit.collider.transform.GetChild(1).GetComponent<MeshRenderer>().material;
                     m.color = colours[currentColourIndex];
                     
@@ -62,10 +70,13 @@ public class PhotonGun : MonoBehaviour
         }
         else if (Input.GetButtonDown("Fire2"))
         {
+            if (!shootParticle.isPlaying) shootParticle.Stop();
+            
             RaycastHit hit;
             if (Physics.Raycast(raycastStartPoint.position, raycastStartPoint.forward, out hit, photonDistance))
             if (hit.collider.gameObject.layer == 8 || hit.collider.gameObject.layer == 9 || hit.collider.gameObject.layer == 10 || hit.collider.transform.tag == "Filter")
             {
+                
                 Material m = hit.collider.transform.GetChild(1).GetComponent<MeshRenderer>().material;
                 m.color = Color.white;
                 hit.collider.transform.GetChild(1).GetComponent<MeshRenderer>().material = m;
