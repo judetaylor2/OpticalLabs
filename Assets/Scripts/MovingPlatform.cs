@@ -15,14 +15,25 @@ public class MovingPlatform : MonoBehaviour
         moveDirection = transform.forward;    
     }
 
+    void OnDrawGizmos() {Debug.DrawLine(transform.position, transform.position + (transform.forward * 5));}
     // Update is called once per frame
     void Update()
     {
-        rb.AddForce(moveSpeed * moveDirection * Time.deltaTime);
+        transform.Translate(moveSpeed * moveDirection * Time.deltaTime, Space.World);
     }
 
-    void OnCollisionEnter(Collision other)
+    void OnTriggerEnter(Collider other)
     {
+
+        if (other.gameObject.tag == "Player") 
+        other.transform.parent = transform;
+        else 
         moveDirection = -moveDirection;
+    }
+
+    void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.tag == "Player")
+        other.transform.parent = null;
     }
 }
