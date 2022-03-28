@@ -42,7 +42,7 @@ public class PlayerController : MonoBehaviour
 
     void MovePlayer()
     {
-        isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, ground | movableGround | conductiveGround | conductiveMovableGround | conductiveEffectGround);
+        isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, ground | movableGround | conductiveGround | conductiveMovableGround);
 
         
         if (isGrounded)
