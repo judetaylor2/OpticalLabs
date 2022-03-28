@@ -791,6 +791,10 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 167573970898035308, guid: 8813558b06b0459929b008684e0e471a, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: f973c43e23d6de70da0045dd70353af8, type: 2}
     - target: {fileID: 167573970898035309, guid: 8813558b06b0459929b008684e0e471a, type: 3}
       propertyPath: m_Enabled
       value: 1
@@ -2525,7 +2529,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: e745492728544aa488aa0429b6068e71, type: 2}
+  - {fileID: 2100000, guid: 1d129b8be69bb09b7ae22d3019e0e417, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -3740,7 +3744,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   colours:
   - {r: 1, g: 0.5019608, b: 0.5019608, a: 0.5019608}
-  - {r: 1, g: 1, b: 0.5019608, a: 0.5019608}
+  - {r: 0.5019608, g: 1, b: 0.5019608, a: 0.5019608}
   - {r: 0.5019608, g: 0.5019608, b: 1, a: 0.5019608}
   raycastStartPoint: {fileID: 1106647446}
   photonDistance: 150
