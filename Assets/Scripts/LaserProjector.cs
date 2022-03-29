@@ -30,7 +30,7 @@ public class LaserProjector : MonoBehaviour
             
             Transform t = hit.collider.transform;
             
-            if (hit.collider.transform.tag != "Filter")
+            if (hit.collider.transform.tag != "Filter" && hit.collider.transform.tag != "Sensor")
             for (int i = 0; i < photonGun.colours.Length; i++)
             {
                 if (meshRenderer.material.color == photonGun.colours[i])
@@ -98,17 +98,24 @@ public class LaserProjector : MonoBehaviour
                 
             }
             
-            if (hit.collider.transform.tag == "Sensor")
+        }
+        
+        RaycastHit hit2;
+        if (Physics.Raycast(laserParticle.transform.position, laserParticle.transform.forward, out hit2, 100, ground))
+        {
+            if (hit2.collider.transform.tag == "Sensor")
             {
-                sensorCollider = hit.collider.transform.GetComponentInParent<Sensor>();
-                sensorCollider.isCollidingWithLaser = true;
+                sensorCollider = hit2.collider.transform.GetComponent<Sensor>();
+                
+                sensorCollider.isCollidingWithLaser = hit2.collider.transform.GetChild(1).GetComponent<MeshRenderer>().material.color == laserParticle.main.startColor.color;
                
             }
-            else if (sensorCollider != null)
-            {
-                sensorCollider.isCollidingWithLaser = false;
-                sensorCollider = null;
-            }
+            
+        }
+        else if (sensorCollider != null)
+        {
+            sensorCollider.isCollidingWithLaser = false;
+            sensorCollider = null;
         }
     }
 }

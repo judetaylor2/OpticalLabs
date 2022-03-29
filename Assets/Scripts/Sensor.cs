@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Sensor : MonoBehaviour
 {
-    public bool isOn;
+    public bool isOn, isCollidingWithLaser;
     bool isColliding;
     Collider triggerCollider;
     
@@ -13,13 +13,12 @@ public class Sensor : MonoBehaviour
         triggerCollider = other;
         //isColliding = true;
         
-        if (other.gameObject.layer == 8 || other.gameObject.layer == 9)
-        isOn = true;
+        isOn = ((other.gameObject.layer == 8 || other.gameObject.layer == 9) && other.transform.GetChild(1).GetComponent<MeshRenderer>().material.color == transform.GetChild(1).GetComponent<MeshRenderer>().material.color);
     }
 
     void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.layer == 8 || other.gameObject.layer == 9)
+        if ((other.gameObject.layer == 8 || other.gameObject.layer == 9) && !isCollidingWithLaser)
         isOn = false;
     }
 
@@ -37,7 +36,8 @@ public class Sensor : MonoBehaviour
         else
         isOn = false;*/
         
-        isOn = triggerCollider != null;
+        //isOn = triggerCollider != null;
         
+        isOn = isCollidingWithLaser;
     }
 }
