@@ -24,10 +24,10 @@ public class PhotonGun : MonoBehaviour
     {
         ParticleSystem.MainModule p1 = shootParticle.main;
         ParticleSystem.MainModule p2 = shootParticleFlash.main;
-        p1.startColor = p2.startColor = colours[currentColourIndex];
         
         if (Input.GetButtonDown("Fire1"))
         {
+            p1.startColor = p2.startColor = colours[currentColourIndex];
             if (!shootParticle.isPlaying) shootParticle.Play();
             
             RaycastHit hit;
@@ -70,7 +70,8 @@ public class PhotonGun : MonoBehaviour
         }
         else if (Input.GetButtonDown("Fire2"))
         {
-            if (!shootParticle.isPlaying) shootParticle.Stop();
+            p1.startColor = p2.startColor = Color.white;
+            if (!shootParticle.isPlaying) shootParticle.Play();
             
             RaycastHit hit;
             if (Physics.Raycast(raycastStartPoint.position, raycastStartPoint.forward, out hit, photonDistance))
