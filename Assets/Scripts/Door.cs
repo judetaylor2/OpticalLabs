@@ -17,22 +17,17 @@ public class Door : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!animationPlayed && sensor.isOn)
+        if (sensor.isOn)
         {
-            anim.Play("Door_Open");
-            animationPlayed = true;
+            anim.SetBool("DoorOpened", true);
+            //animationPlayed = true;
 
         }
-        else if (!animationPlayed && !sensor.isOn)
+        else if (!sensor.isOn)
         {
-            anim.Play("Door_Close");
-            animationPlayed = true;
+            anim.SetBool("DoorOpened", false);
+            //animationPlayed = true;
         }
-        
-        if (sensor.isOn != prevSensorValue)
-        animationPlayed = false;
-        
-        prevSensorValue = sensor.isOn;
         
     }
 }
