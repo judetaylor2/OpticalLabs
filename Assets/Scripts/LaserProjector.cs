@@ -24,7 +24,7 @@ public class LaserProjector : MonoBehaviour
         laserMainModule.startColor = meshRenderer.material.color;
         
         RaycastHit hit;
-        if (Physics.Raycast(laserParticle.transform.position, laserParticle.transform.forward, out hit, 100, conductiveGround | conductiveMovableGround | conductiveEffectGround | conductive))
+        if (Physics.Raycast(laserParticle.transform.position, laserParticle.transform.forward, out hit, 100, ground | conductiveGround | conductiveMovableGround | conductiveEffectGround | conductive))
         {
             Debug.DrawLine(laserParticle.transform.position, hit.point, Color.green);
             
