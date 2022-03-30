@@ -134,7 +134,10 @@ public class PlayerController : MonoBehaviour
                 currentlyHeldObject = null;
 
                 cameraPoint.GetComponent<CameraController>().isHoldingObject = false;
+                
             }
+                
+            currentlyHeldObject.transform.rotation = transform.rotation;
 
         }
 
@@ -146,10 +149,12 @@ public class PlayerController : MonoBehaviour
                 objectPickupPoint.position = cameraPoint.position + cameraPoint.forward * objectDistance;
                 
                 currentlyHeldObject.transform.position = objectPickupPoint.position;
-                currentlyHeldObject.transform.rotation = transform.rotation;
                 for (int i = 0; i < pickupParticles.Length; i++)
                 if (!pickupParticles[i].isPlaying)
                 pickupParticles[i].Play();
+
+                if (Input.GetButtonDown("Rotate"))
+                currentlyHeldObject.transform.Rotate(0,90, 0);
             }
             else
             {
