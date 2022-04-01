@@ -19,7 +19,7 @@ public class MovingPlatform : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.Translate(moveSpeed * moveDirection * Time.deltaTime, Space.World);
+        rb.AddForce(moveSpeed * moveDirection * Time.deltaTime);
     }
 
     void OnTriggerEnter(Collider other)

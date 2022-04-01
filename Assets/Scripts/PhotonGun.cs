@@ -13,6 +13,7 @@ public class PhotonGun : MonoBehaviour
     public LayerMask groundMask;
     public ParticleSystem shootParticle, shootParticleFlash;
     public Animator anim;
+    public GameObject laserColourHolder;
     
     // Start is called before the first frame update
     void Start()
@@ -96,6 +97,8 @@ public class PhotonGun : MonoBehaviour
             currentColourIndex = 0;
             else 
             currentColourIndex++;
+
+            laserColourHolder.transform.Rotate(120, 0, 0);
         }
         else if (Input.GetAxis("Mouse ScrollWheel") < 0)
         {
@@ -103,6 +106,9 @@ public class PhotonGun : MonoBehaviour
             currentColourIndex = colours.Length - 1;
             else 
             currentColourIndex--;
+
+            laserColourHolder.transform.Rotate(-120, 0, 0);
+            
         }
 
         Color c = colours[currentColourIndex];
