@@ -15,6 +15,7 @@ public class PlayerController : MonoBehaviour
     GameObject currentlyHeldObject;
     RaycastHit objectHit;
     public ParticleSystem[] pickupParticles;
+    public Animator anim;
 
     float healthStopWatch, healthRegenStopWatch, currentHealth = 100;
     
@@ -97,10 +98,13 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.GetButtonDown("Interact"))
         {
+
             Rigidbody r;
 
             if (currentlyHeldObject == null && Physics.Raycast(cameraPoint.position, cameraPoint.forward, out objectHit, objectDistance, movableGround | conductiveMovableGround | movable))
             {
+                anim.SetBool("isPickingUpObject", true);
+                
                 if (objectHit.transform.tag != "Player" && objectHit.transform.localScale.x < 5 && objectHit.transform.localScale.y < 5 && objectHit.transform.localScale.z < 5)
                 {
                     currentlyHeldObject = objectHit.transform.gameObject;
@@ -122,6 +126,8 @@ public class PlayerController : MonoBehaviour
             }
             else if (currentlyHeldObject != null)
             {
+                anim.SetBool("isPickingUpObject", false);
+
                 currentlyHeldObject.transform.parent = null;
 
                 if (currentlyHeldObject.TryGetComponent<Rigidbody>(out r))
