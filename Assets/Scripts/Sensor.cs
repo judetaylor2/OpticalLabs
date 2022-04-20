@@ -38,6 +38,6 @@ public class Sensor : MonoBehaviour
         
         //isOn = triggerCollider != null;
         
-        isOn = isCollidingWithLaser;
+        //isOn = isCollidingWithLaser;
     }
 }

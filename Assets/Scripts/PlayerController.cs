@@ -245,7 +245,7 @@ public class PlayerController : MonoBehaviour
             if(Physics.Raycast(cameraPoint.position, -Vector3.up, out r, 500, ground | movableGround | conductiveGround | conductiveMovableGround | conductiveEffectGround))
             {
                 Vector3 v = Vector3.Cross(transform.right, Vector3.up);
-                transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(v, Vector3.up), 10 * Time.deltaTime);            
+                transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(v, Vector3.up), 30 * Time.deltaTime);            
             }
 
             if (isUsingGravityEffect)

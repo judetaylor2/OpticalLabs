@@ -22,13 +22,20 @@ public class MovingPlatform : MonoBehaviour
         rb.AddForce(moveSpeed * moveDirection * Time.deltaTime);
     }
 
-    void OnTriggerEnter(Collider other)
+    void OnCollisionEnter(Collision other)
+    {
+
+        if (other.gameObject.tag != "Player")
+        moveDirection = -moveDirection;
+    }
+
+    void OnTriggerStay(Collider other)
     {
 
         if (other.gameObject.tag == "Player") 
         other.transform.parent = transform;
-        else 
-        moveDirection = -moveDirection;
+
+        other.GetComponent<Rigidbody>().AddForce((moveSpeed * moveDirection * Time.deltaTime) / 2);
     }
 
     void OnTriggerExit(Collider other)
