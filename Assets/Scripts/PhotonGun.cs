@@ -25,7 +25,7 @@ public class PhotonGun : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if ((shootSound.time >= 4 && shootSound.time < 4.8f) || shootSound.time >= 5.5f)
+        if ((shootSound.time >= 4 && shootSound.time < 4.8f) || (shootSound.time > 0.7 && shootSound.time < 0.9f) || shootSound.time >= 5.5f)
         {
             shootSound.Stop();
         }
@@ -43,7 +43,7 @@ public class PhotonGun : MonoBehaviour
                 Debug.Log ("name = " + LayerMask.LayerToName(hit.collider.gameObject.layer));
                 if ((hit.collider.gameObject.layer == 8 || hit.collider.gameObject.layer == 9 || hit.collider.gameObject.layer == 10 || hit.collider.gameObject.layer == 13 || hit.collider.transform.tag == "Filter") && hit.collider.transform.name != "LaserProjector")
                 {
-                    shootSound.time = 3;
+                    shootSound.time = Random.Range(0, 2) == 1? 0 : 3;
                     shootSound.Play();
                     
                     anim.SetBool("isShooting", true);

@@ -16,7 +16,7 @@ public class PlayerController : MonoBehaviour
     RaycastHit objectHit;
     public ParticleSystem[] pickupParticles;
     public Animator anim;
-    public AudioSource moveSound;
+    public AudioSource moveSound1, moveSound2;
 
     float healthStopWatch, healthRegenStopWatch, currentHealth = 100;
     
@@ -85,18 +85,31 @@ public class PlayerController : MonoBehaviour
             rb.AddForce(slopeDirection * (moveSpeed / 10) * Time.deltaTime);
         }
 
-        //play move sound
-        if (isGrounded && (x != 0 || z != 0) && (!moveSound.isPlaying || moveSound.time >= 10f))
+        if (moveSpeed == sprintSpeed)
         {
-            moveSound.time = 6.3f;
-            moveSound.Play();
+            //play move sound on speed surface
+            if (isGrounded && (x != 0 || z != 0) && (!moveSound2.isPlaying || moveSound2.time >= 10f))
+            {
+                moveSound2.time = 6.3f;
+                moveSound2.Play();
+            }
         }
+        else
+        {
+            //play move sound on ground
+            if (isGrounded && (x != 0 || z != 0) && (!moveSound1.isPlaying || moveSound1.time >= 10f))
+            {
+                moveSound1.time = 6.3f;
+                moveSound1.Play();
+            }
+            
+        }
+
         
         if (!isGrounded || (x == 0 && z == 0))
         {
-            moveSound.Stop();
-            moveSound.time = 6.3f;
-            Debug.Log("hello123");
+            moveSound1.Stop();
+            moveSound2.Stop();
         }
 
 

@@ -7,6 +7,7 @@ public class Door : MonoBehaviour
     public Sensor sensor;
     Animator anim;
     bool prevSensorValue, animationPlayed;
+    public AudioSource doorSound;
     
     // Start is called before the first frame update
     void Start()
@@ -27,6 +28,12 @@ public class Door : MonoBehaviour
         {
             anim.SetBool("DoorOpened", false);
             //animationPlayed = true;
+        }
+
+        if (sensor.isOn && !anim.GetCurrentAnimatorStateInfo(0).IsName("Door_Open_Idle") && !doorSound.isPlaying)
+        {
+            doorSound.time = 3;
+            doorSound.Play();
         }
         
     }
