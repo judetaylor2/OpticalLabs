@@ -16,6 +16,7 @@ public class PlayerController : MonoBehaviour
     RaycastHit objectHit;
     public ParticleSystem[] pickupParticles;
     public Animator anim;
+    public AudioSource moveSound;
 
     float healthStopWatch, healthRegenStopWatch, currentHealth = 100;
     
@@ -45,6 +46,8 @@ public class PlayerController : MonoBehaviour
     {
         isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, ground | movableGround | conductiveGround | conductiveMovableGround);
 
+        float x = Input.GetAxisRaw("Horizontal");
+        float z = Input.GetAxisRaw("Vertical");
         
         if (isGrounded)
         {
@@ -55,15 +58,15 @@ public class PlayerController : MonoBehaviour
             
             rb.drag = groundDrag;
             
+            //move player relative to ground slope direction
             RaycastHit slopeHit;
-            Physics.Raycast(transform.position, -transform.up, out slopeHit);
-            
-            float x = Input.GetAxisRaw("Horizontal");
-            float z = Input.GetAxisRaw("Vertical");
+            Physics.Raycast(transform.position, -transform.up, out slopeHit);          
             
             Vector3 move = transform.right * x + transform.forward * z;
             Vector3 slopeDirection = Vector3.ProjectOnPlane(move.normalized, slopeHit.normal);
             rb.AddForce(slopeDirection * moveSpeed * Time.deltaTime);
+
+            
 
             if (Input.GetButtonDown("Jump"))
             {
@@ -77,15 +80,24 @@ public class PlayerController : MonoBehaviour
             RaycastHit slopeHit;
             Physics.Raycast(transform.position, -transform.up, out slopeHit);
             
-            float x = Input.GetAxisRaw("Horizontal");
-            float z = Input.GetAxisRaw("Vertical");
-            
             Vector3 move = transform.right * x + transform.forward * z;
             Vector3 slopeDirection = Vector3.ProjectOnPlane(move.normalized, slopeHit.normal);
             rb.AddForce(slopeDirection * (moveSpeed / 10) * Time.deltaTime);
         }
 
-
+        //play move sound
+        if (isGrounded && (x != 0 || z != 0) && (!moveSound.isPlaying || moveSound.time >= 10f))
+        {
+            moveSound.time = 6.3f;
+            moveSound.Play();
+        }
+        
+        if (!isGrounded || (x == 0 && z == 0))
+        {
+            moveSound.Stop();
+            moveSound.time = 6.3f;
+            Debug.Log("hello123");
+        }
 
 
 

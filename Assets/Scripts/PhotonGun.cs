@@ -14,6 +14,7 @@ public class PhotonGun : MonoBehaviour
     public ParticleSystem shootParticle, shootParticleFlash;
     public Animator anim;
     public GameObject laserColourHolder;
+    public AudioSource shootSound;
     
     // Start is called before the first frame update
     void Start()
@@ -24,22 +25,31 @@ public class PhotonGun : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if ((shootSound.time >= 4 && shootSound.time < 4.8f) || shootSound.time >= 5.5f)
+        {
+            shootSound.Stop();
+        }
+
         ParticleSystem.MainModule p1 = shootParticle.main;
         ParticleSystem.MainModule p2 = shootParticleFlash.main;
         
         if (Input.GetButtonDown("Fire1"))
         {
-            anim.SetBool("isShooting", true);
-            
-            p1.startColor = p2.startColor = colours[currentColourIndex];
-            if (!shootParticle.isPlaying) shootParticle.Play();
             
             RaycastHit hit;
             if (Physics.Raycast(raycastStartPoint.position, raycastStartPoint.forward, out hit, photonDistance, Physics.AllLayers))
             {
+                
                 Debug.Log ("name = " + LayerMask.LayerToName(hit.collider.gameObject.layer));
                 if ((hit.collider.gameObject.layer == 8 || hit.collider.gameObject.layer == 9 || hit.collider.gameObject.layer == 10 || hit.collider.gameObject.layer == 13 || hit.collider.transform.tag == "Filter") && hit.collider.transform.name != "LaserProjector")
                 {
+                    shootSound.time = 3;
+                    shootSound.Play();
+                    
+                    anim.SetBool("isShooting", true);
+                    
+                    p1.startColor = p2.startColor = colours[currentColourIndex];
+                    if (!shootParticle.isPlaying) shootParticle.Play();
 
                     Material m = hit.collider.transform.GetChild(1).GetComponent<MeshRenderer>().material;
                     m.color = colours[currentColourIndex];
@@ -74,15 +84,18 @@ public class PhotonGun : MonoBehaviour
         }
         else if (Input.GetButtonDown("Fire2"))
         {
-            anim.SetBool("isShooting", true);
-            
-            p1.startColor = p2.startColor = Color.white;
-            if (!shootParticle.isPlaying) shootParticle.Play();
             
             RaycastHit hit;
             if (Physics.Raycast(raycastStartPoint.position, raycastStartPoint.forward, out hit, photonDistance))
             if (hit.collider.gameObject.layer == 8 || hit.collider.gameObject.layer == 9 || hit.collider.gameObject.layer == 10 || hit.collider.transform.tag == "Filter")
             {
+                shootSound.time = 4.8f;
+                shootSound.Play();
+
+                anim.SetBool("isShooting", true);
+                
+                p1.startColor = p2.startColor = Color.white;
+                if (!shootParticle.isPlaying) shootParticle.Play();
                 
                 Material m = hit.collider.transform.GetChild(1).GetComponent<MeshRenderer>().material;
                 m.color = Color.white;
