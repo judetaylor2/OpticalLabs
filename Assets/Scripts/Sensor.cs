@@ -5,8 +5,9 @@ using UnityEngine;
 public class Sensor : MonoBehaviour
 {
     public bool isOn, isCollidingWithLaser;
-    bool isColliding;
+    bool isColliding, soundPlayed;
     Collider triggerCollider;
+    public AudioSource sensorSound;
     
     void OnTriggerStay(Collider other)
     {
@@ -39,5 +40,15 @@ public class Sensor : MonoBehaviour
         //isOn = triggerCollider != null;
         
         //isOn = isCollidingWithLaser;
+
+        if (isOn && !sensorSound.isPlaying && !soundPlayed)
+        {
+            sensorSound.Play();
+            soundPlayed = true;
+        }
+        else
+        {
+            soundPlayed = false;
+        }
     }
 }
