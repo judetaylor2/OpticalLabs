@@ -175,7 +175,7 @@ public class PlayerController : MonoBehaviour
             if (currentlyHeldObject != null)
             {
                 if (Physics.Raycast(cameraPoint.position, cameraPoint.forward, out objectHit, objectDistance, ground | conductiveGround | conductiveEffectGround))
-                objectPickupPoint.position = objectHit.point - cameraPoint.forward * currentlyHeldObject.transform.localScale.y;
+                objectPickupPoint.position = objectHit.point - cameraPoint.forward * currentlyHeldObject.transform.localScale.y * 2;
                 else
                 objectPickupPoint.position = cameraPoint.position + cameraPoint.forward * objectDistance;
                 

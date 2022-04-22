@@ -40,6 +40,10 @@ public class Sensor : MonoBehaviour
         //isOn = triggerCollider != null;
         
         //isOn = isCollidingWithLaser;
+        if (isCollidingWithLaser)
+        isOn = true;
+        if (!isCollidingWithLaser && triggerCollider == null)
+        isOn = false;
 
         if (isOn && !sensorSound.isPlaying && !soundPlayed)
         {
