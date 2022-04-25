@@ -177,7 +177,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isOn: 0
   isCollidingWithLaser: 0
-  sensorSound: {fileID: 0}
+  sensorSound: {fileID: 4298715809261048559}
 --- !u!65 &3103809720324567522
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -201,7 +201,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 35df3241ffc4bf20a877fc0c065d3cbc, type: 3}
+  m_audioClip: {fileID: 8300000, guid: f84eb292790e6788aa6f483f90151dd9, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1

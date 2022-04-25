@@ -50,7 +50,7 @@ public class Sensor : MonoBehaviour
             sensorSound.Play();
             soundPlayed = true;
         }
-        else
+        else if (!isOn)
         {
             soundPlayed = false;
         }

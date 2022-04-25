@@ -16,7 +16,7 @@ public class PlayerController : MonoBehaviour
     RaycastHit objectHit;
     public ParticleSystem[] pickupParticles;
     public Animator anim;
-    public AudioSource moveSound1, moveSound2;
+    public AudioSource moveSound1, moveSound2, pickupSound;
 
     float healthStopWatch, healthRegenStopWatch, currentHealth = 100;
     
@@ -70,7 +70,7 @@ public class PlayerController : MonoBehaviour
 
             if (Input.GetButtonDown("Jump"))
             {
-                rb.AddForce(jumpHeight * -2f * gravity * transform.up);
+                rb.AddForce(jumpHeight * 2f * transform.up);
             }
         }
         else
@@ -128,6 +128,8 @@ public class PlayerController : MonoBehaviour
 
             if (currentlyHeldObject == null && Physics.Raycast(cameraPoint.position, cameraPoint.forward, out objectHit, objectDistance, movableGround | conductiveMovableGround | movable))
             {
+                pickupSound.pitch = 1;
+                pickupSound.Play();
                 anim.SetBool("isPickingUpObject", true);
                 
                 if (objectHit.transform.tag != "Player" && objectHit.transform.localScale.x < 5 && objectHit.transform.localScale.y < 5 && objectHit.transform.localScale.z < 5)
@@ -151,6 +153,8 @@ public class PlayerController : MonoBehaviour
             }
             else if (currentlyHeldObject != null)
             {
+                pickupSound.pitch = 0.75f;
+                pickupSound.Play();
                 anim.SetBool("isPickingUpObject", false);
 
                 currentlyHeldObject.transform.parent = null;
@@ -162,13 +166,14 @@ public class PlayerController : MonoBehaviour
                     r.velocity = rb.velocity;
                 }
                 
+                currentlyHeldObject.transform.rotation = transform.rotation;
+                
                 currentlyHeldObject = null;
 
                 cameraPoint.GetComponent<CameraController>().isHoldingObject = false;
                 
             }
                 
-            currentlyHeldObject.transform.rotation = transform.rotation;
 
         }
 

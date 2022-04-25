@@ -49,7 +49,7 @@ public class PhotonGun : MonoBehaviour
                     anim.SetBool("isShooting", true);
                     
                     p1.startColor = p2.startColor = colours[currentColourIndex];
-                    if (!shootParticle.isPlaying) shootParticle.Play();
+                    shootParticle.Play();
 
                     Material m = hit.collider.transform.GetChild(1).GetComponent<MeshRenderer>().material;
                     m.color = colours[currentColourIndex];
@@ -74,6 +74,14 @@ public class PhotonGun : MonoBehaviour
                 }
                 else if (hit.collider.transform.name == "LaserProjector")
                 {
+                    shootSound.time = Random.Range(0, 2) == 1? 0 : 3;
+                    shootSound.Play();
+                    
+                    anim.SetBool("isShooting", true);
+
+                    p1.startColor = p2.startColor = colours[currentColourIndex];
+                    shootParticle.Play();
+                    
                     Material m = hit.collider.transform.GetChild(1).GetComponent<MeshRenderer>().material;
                     m.color = colours[currentColourIndex];
                     hit.collider.transform.GetChild(1).GetComponent<MeshRenderer>().material = m;
@@ -95,7 +103,7 @@ public class PhotonGun : MonoBehaviour
                 anim.SetBool("isShooting", true);
                 
                 p1.startColor = p2.startColor = Color.white;
-                if (!shootParticle.isPlaying) shootParticle.Play();
+                shootParticle.Play();
                 
                 Material m = hit.collider.transform.GetChild(1).GetComponent<MeshRenderer>().material;
                 m.color = Color.white;
