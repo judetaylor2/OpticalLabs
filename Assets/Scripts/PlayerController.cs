@@ -2,13 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
     Rigidbody rb;
     
     public float moveSpeed, jumpHeight, bounceJumpHeight, groundDrag, gravity, groundDistance, objectDistance, walkSpeed, sprintSpeed;
-    Vector3 velocity;
+    Vector3 velocity, panelKnockbackDirection;
     public Transform groundCheck, objectPickupPoint, cameraPoint;
     public LayerMask ground, movableGround, conductiveGround, conductiveMovableGround, conductiveEffectGround, movable;
     bool isGrounded, isUsingGravityEffect, isTakingDamage;
@@ -16,9 +17,11 @@ public class PlayerController : MonoBehaviour
     RaycastHit objectHit;
     public ParticleSystem[] pickupParticles;
     public Animator anim;
-    public AudioSource moveSound1, moveSound2, pickupSound;
+    public AudioSource moveSound1, moveSound2, pickupSound, damageSound, fallSound;
 
     float healthStopWatch, healthRegenStopWatch, currentHealth = 100;
+    public Gradient healthGradient;
+    public Image damageUI;
     
     // Start is called before the first frame update
     void Start()
@@ -72,9 +75,14 @@ public class PlayerController : MonoBehaviour
             {
                 rb.AddForce(jumpHeight * 2f * transform.up);
             }
+
+            fallSound.Stop();
         }
         else
         {
+            if (velocity.y < -50 && !fallSound.isPlaying)
+            fallSound.Play();
+            
             rb.drag = 0;
             
             RaycastHit slopeHit;
@@ -149,6 +157,8 @@ public class PlayerController : MonoBehaviour
                     cameraPoint.GetComponent<CameraController>().isHoldingObject = true;
                     
                 }
+
+                currentlyHeldObject.transform.rotation = transform.rotation;
                 
             }
             else if (currentlyHeldObject != null)
@@ -244,6 +254,7 @@ public class PlayerController : MonoBehaviour
         }
         else if (other.tag == "Electrified Panel")
         {
+            panelKnockbackDirection = transform.position - other.transform.position;
             isTakingDamage = true;
         }
     }
@@ -294,10 +305,18 @@ public class PlayerController : MonoBehaviour
 
         if (isTakingDamage && healthStopWatch >= 0.5f)
         {
+            rb.AddForce(panelKnockbackDirection * 10000 * Time.deltaTime);
+            
+            damageSound.time = 6.4f;
+            damageSound.pitch = Random.Range(1f, 2f);
+            damageSound.Play();
+            
             currentHealth -= 25;
             
             isTakingDamage = false;
             healthStopWatch = 0f;
+
+            StartCoroutine("DamageUI");
         }
         else if (healthRegenStopWatch >= 0.25f)
         {
@@ -309,6 +328,23 @@ public class PlayerController : MonoBehaviour
 
         if (currentHealth == 0)
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+    
+    IEnumerator DamageUI()
+    {
+        for (int i = 0; i < 10; i++)
+        {
+            damageUI.color = Color.Lerp(damageUI.color, healthGradient.Evaluate(1 / currentHealth), 10 * Time.deltaTime);
+            yield return new WaitForSeconds(0.0001f);
+        }
+
+        yield return new WaitForSeconds(1f);
+
+        for (int i = 0; i < 100; i++)
+        {
+            damageUI.color = Color.Lerp(damageUI.color, Color.clear, 1 * Time.deltaTime);
+            yield return new WaitForSeconds(0.01f);
+        }
     }
 }
 
