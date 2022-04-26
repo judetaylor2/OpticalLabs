@@ -105,12 +105,12 @@ public class LaserProjector : MonoBehaviour
             {
                 sensorCollider = hit2.collider.transform.GetComponent<Sensor>();
                 
-                sensorCollider.isCollidingWithLaser = hit2.collider.transform.GetChild(1).GetComponent<MeshRenderer>().material.color == laserParticle.main.startColor.color;
+                sensorCollider.isOn = hit2.collider.transform.GetChild(1).GetComponent<MeshRenderer>().material.color == laserParticle.main.startColor.color;
                
             }
             else if (sensorCollider != null)
             {
-                sensorCollider.isCollidingWithLaser = false;
+                sensorCollider.isOn = false;
                 sensorCollider = null;
             }
             else
@@ -119,7 +119,7 @@ public class LaserProjector : MonoBehaviour
         }
         else if (sensorCollider != null)
         {
-            sensorCollider.isCollidingWithLaser = false;
+            sensorCollider.isOn = false;
             sensorCollider = null;
         }
         else

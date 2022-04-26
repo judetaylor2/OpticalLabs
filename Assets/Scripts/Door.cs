@@ -35,6 +35,11 @@ public class Door : MonoBehaviour
             doorSound.time = 3;
             doorSound.Play();
         }
+        else if (!sensor.isOn && !anim.GetCurrentAnimatorStateInfo(0).IsName("Door_Closed_Idle") && !doorSound.isPlaying)
+        {
+            doorSound.time = 4;
+            doorSound.Play();
+        }
         
     }
 }
