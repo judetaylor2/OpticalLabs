@@ -48,7 +48,7 @@ GameObject:
   - component: {fileID: -1390096207699510079}
   - component: {fileID: -386872091629217077}
   - component: {fileID: -820103686640995590}
-  m_Layer: 7
+  m_Layer: 9
   m_Name: Standard Cube
   m_TagString: Conductive
   m_Icon: {fileID: 0}
@@ -64,7 +64,7 @@ Transform:
   m_GameObject: {fileID: 5626826442857853767}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -18.20474, y: 1, z: 16.736202}
-  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
   m_Children:
   - {fileID: 8679958450725120321}
   - {fileID: 4426819589644354281}

@@ -8,7 +8,7 @@ public class LaserProjector : MonoBehaviour
     ParticleSystem laserParticle;
     public LayerMask ground, movableGround, conductiveGround, conductiveMovableGround, conductiveEffectGround, conductive;
     public PhotonGun photonGun;
-    public bool isMirror;
+    public bool isMirror, sendOffSignal;
     Sensor sensorCollider;
     
     void Start()
@@ -36,20 +36,23 @@ public class LaserProjector : MonoBehaviour
                 if (meshRenderer.material.color == photonGun.colours[i])
                 {
                     if (hit.collider.transform.gameObject.layer == 10)
-                    if (i == 0)
                     {
-                        t.tag = "Speed";
-                    }
-                    else if (i == 1)
-                    {
-                        t.tag = "Gravity";
-                    }
-                    else if (i == 2)
-                    {
-                        t.tag = "Bounce";
-                    }
+                        if (i == 0)
+                        {
+                            t.tag = "Speed";
+                        }
+                        else if (i == 1)
+                        {
+                            t.tag = "Gravity";
+                        }
+                        else if (i == 2)
+                        {
+                            t.tag = "Bounce";
+                        }
 
-                    hit.collider.transform.GetChild(1).GetComponent<MeshRenderer>().material.color = photonGun.colours[i];                    
+                        hit.collider.transform.GetChild(1).GetComponent<MeshRenderer>().material.color = photonGun.colours[i];                    
+                        
+                    }
                 }
                 else if (meshRenderer.material.color == Color.white)
                 {
@@ -99,30 +102,26 @@ public class LaserProjector : MonoBehaviour
         }
         
         RaycastHit hit2;
-        if (Physics.Raycast(laserParticle.transform.position, laserParticle.transform.forward, out hit2, 100, ground))
+        if (Physics.Raycast(laserParticle.transform.position, laserParticle.transform.forward, out hit2))
         {
-            if (hit2.collider.transform.tag == "Sensor")
+            if (hit2.transform.gameObject.layer == 6)
             {
-                sensorCollider = hit2.collider.transform.GetComponent<Sensor>();
+                if (hit2.collider.transform.tag == "Sensor")
+                {
+                    sensorCollider = hit2.collider.transform.GetComponent<Sensor>();
+                    
+                    if (hit2.collider.transform.GetChild(1).GetComponent<MeshRenderer>().material.color == laserParticle.main.startColor.color)
+                    sensorCollider.isOn = !sendOffSignal;
                 
-                sensorCollider.isOn = hit2.collider.transform.GetChild(1).GetComponent<MeshRenderer>().material.color == laserParticle.main.startColor.color;
-               
+                }
+                
             }
             else if (sensorCollider != null)
             {
-                sensorCollider.isOn = false;
-                sensorCollider = null;
+                sensorCollider.isOn = true;
+                //sensorCollider = null;
             }
-            else
-            sensorCollider = null;
-            
+
         }
-        else if (sensorCollider != null)
-        {
-            sensorCollider.isOn = false;
-            sensorCollider = null;
-        }
-        else
-        sensorCollider = null;
     }
 }
