@@ -176,7 +176,7 @@ public class PlayerController : MonoBehaviour
                     r.velocity = rb.velocity;
                 }
                 
-                currentlyHeldObject.transform.rotation = transform.rotation;
+                //currentlyHeldObject.transform.rotation = transform.rotation;
                 
                 currentlyHeldObject = null;
 
