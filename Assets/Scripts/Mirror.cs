@@ -17,6 +17,7 @@ public class Mirror : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //only activate the laser project when laser is colliding. isColliding is set in the LaserProjector script
         if (isColliding)
         {
             laserObject.SetActive(true);

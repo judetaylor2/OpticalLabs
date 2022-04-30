@@ -30,6 +30,7 @@ public class Door : MonoBehaviour
             //animationPlayed = true;
         }
 
+        //play open and close sound before it is in it's idle animation
         if (sensor.isOn && !anim.GetCurrentAnimatorStateInfo(0).IsName("Door_Open_Idle") && !doorSound.isPlaying)
         {
             doorSound.time = 3;

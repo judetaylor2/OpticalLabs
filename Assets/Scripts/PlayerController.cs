@@ -330,6 +330,7 @@ public class PlayerController : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
     
+    //if health decreases, the screen will become more red and will gradualy turn back
     IEnumerator DamageUI()
     {
         for (int i = 0; i < 10; i++)

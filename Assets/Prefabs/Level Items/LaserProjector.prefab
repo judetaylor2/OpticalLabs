@@ -28,7 +28,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1727610676627372807}
   m_LocalRotation: {x: -0.7071073, y: -0.0000023767352, z: -0.70710635, w: 0.0000022053719}
-  m_LocalPosition: {x: 0.56333673, y: -0.123033285, z: -0.002600352}
+  m_LocalPosition: {x: 0.25, y: -0.123033285, z: -0.002600352}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7318914381406553736}
@@ -47,6 +47,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   possibleTriggers: []
+  laserProjector: {fileID: 0}
 --- !u!114 &761467993073645941
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4811,7 +4812,7 @@ ParticleSystemRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_RenderMode: 1
+  m_RenderMode: 0
   m_SortMode: 0
   m_MinParticleSize: 0
   m_MaxParticleSize: 0.5
@@ -4906,6 +4907,7 @@ MonoBehaviour:
     m_Bits: 8192
   photonGun: {fileID: 0}
   isMirror: 0
+  sendOffSignal: 0
 --- !u!33 &7318914381406553738
 MeshFilter:
   m_ObjectHideFlags: 0

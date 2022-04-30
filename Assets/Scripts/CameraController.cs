@@ -25,12 +25,15 @@ public class CameraController : MonoBehaviour
 
         xRotation -= mouseY;
 
+        //clamp camera viewing angle when holding object to avoid object getting to close to player
         if (!isHoldingObject)
         xRotation = Mathf.Clamp(xRotation, -90f, 90f);
         else
         xRotation = Mathf.Clamp(xRotation, -30f, 30f);
         
         transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
+
+        //rotate the player in the camera script since it will always be the same as the mouseX
         playerBody.Rotate(Vector3.up * mouseX);
     }
 }

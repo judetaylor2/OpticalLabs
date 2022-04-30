@@ -16,6 +16,7 @@ public class MovingPlatform : MonoBehaviour
     }
 
     void OnDrawGizmos() {Debug.DrawLine(transform.position, transform.position + (transform.forward * 5));}
+    
     // Update is called once per frame
     void Update()
     {

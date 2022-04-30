@@ -59,21 +59,32 @@ public class LaserProjector : MonoBehaviour
                     if (hit.collider.transform.gameObject.layer == 10)
                     t.tag = "Untagged";
                     
-                    hit.collider.transform.GetChild(1).GetComponent<MeshRenderer>().material.color = Color.white;
+                    //hit.collider.transform.GetChild(1).GetComponent<MeshRenderer>().material.color = Color.white;
                     break;
                 }
 
             }
 
-            
-            Filter filter = laserParticle.GetComponent<Filter>();
+            //set the position, rotation and colour of the filters laser to look seamless
+            if(hit.collider.gameObject.tag == "Filter")
+            {
+                hit.collider.transform.GetChild(2).position = hit.point - new Vector3(1.5f, 0f, 0f);
+                hit.collider.transform.GetChild(2).rotation = transform.rotation;              
+                //filter.laserProjector.GetComponent<LaserProjector>().laserParticle.main.startColor = laserParticle.main.startColor;}
+
+                if (hit.collider.transform.GetChild(1).GetComponent<MeshRenderer>().material.color == laserParticle.main.startColor.color)
+                //get colour from mesh since the laser particle gets its start colour from the mesh
+                hit.collider.transform.GetChild(2).GetChild(1).GetComponent<MeshRenderer>().material.color = laserParticle.main.startColor.color;
+                else
+                hit.collider.transform.GetChild(2).GetChild(1).GetComponent<MeshRenderer>().material.color = Color.clear;
+            }
             
             if (hit.collider.transform.tag == "Mirror")
             {
                 //if (filter != null)
-                if (filter.particleList.Count > 0)
+                //if (filter.particleList.Count > 0)
                 {
-                    if (filter.particleList[0].startColor.a > 64)
+                    //if (filter.particleList[0].startColor.a > 64)
                     {
                         hit.collider.transform.GetComponentInParent<Mirror>().isColliding = true;
                         
@@ -83,7 +94,7 @@ public class LaserProjector : MonoBehaviour
                         
                     }
 
-                }
+                }/*
                 else
                 {
                     hit.collider.transform.GetComponentInParent<Mirror>().isColliding = true;
@@ -95,7 +106,7 @@ public class LaserProjector : MonoBehaviour
                     //hit.collider.transform.GetComponentInParent<Mirror>().laserObject.transform.GetChild(0).position = hit.point;
                     //hit.collider.transform.GetComponentInParent<Mirror>().laserObject.transform.rotation = hit.collider.transform.rotation;
                
-                }
+                }*/
                 
             }
             

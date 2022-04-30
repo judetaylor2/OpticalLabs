@@ -9,6 +9,7 @@ public class ConveyorBelt : MonoBehaviour
     
     void OnTriggerStay(Collider other)
     {
+        //push any object that has a rigidbody
         Rigidbody rb;
         if (other.TryGetComponent<Rigidbody>(out rb))
         {
@@ -19,6 +20,7 @@ public class ConveyorBelt : MonoBehaviour
 
     void Update()
     {
+        //offset the conveyor belt texture to make it look like it's moving
         offset -= conveyorBeltMoveSpeed * Time.deltaTime;
 
         if (offset >= 5) offset = 0;

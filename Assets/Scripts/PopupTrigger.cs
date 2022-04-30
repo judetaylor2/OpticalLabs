@@ -28,8 +28,10 @@ public class PopupTrigger : MonoBehaviour
         StartCoroutine("ShowPopup");
     }
 
+    //gradually increase and decrease the opacity of the message for a smooth transition
     IEnumerator ShowPopup()
     {
+        //set the current message on top of the other as other messages could still be shown
         popupImage.transform.SetAsLastSibling();
         
         popupFinished = false;

@@ -33,14 +33,14 @@ public class PhotonGun : MonoBehaviour
         ParticleSystem.MainModule p1 = shootParticle.main;
         ParticleSystem.MainModule p2 = shootParticleFlash.main;
         
+        //shoot colour
         if (Input.GetButtonDown("Fire1"))
         {
             
             RaycastHit hit;
             if (Physics.Raycast(raycastStartPoint.position, raycastStartPoint.forward, out hit, photonDistance, Physics.AllLayers))
             {
-                
-                Debug.Log ("name = " + LayerMask.LayerToName(hit.collider.gameObject.layer));
+                //ground layers
                 if ((hit.collider.gameObject.layer == 8 || hit.collider.gameObject.layer == 9 || hit.collider.gameObject.layer == 10 || hit.collider.gameObject.layer == 13 || hit.collider.transform.tag == "Filter") && hit.collider.transform.name != "LaserProjector")
                 {
                     shootSound.time = Random.Range(0, 2) == 1? 0 : 3;
@@ -54,6 +54,7 @@ public class PhotonGun : MonoBehaviour
                     Material m = hit.collider.transform.GetChild(1).GetComponent<MeshRenderer>().material;
                     m.color = colours[currentColourIndex];
                     
+                    //change tag if the layer is conductiveEffectGround
                     if (hit.collider.gameObject.layer == 10)
                     if (currentColourIndex == 0)
                     {
@@ -72,6 +73,7 @@ public class PhotonGun : MonoBehaviour
                     }                    
                     
                 }
+                //change laser projectors colour
                 else if (hit.collider.transform.name == "LaserProjector")
                 {
                     shootSound.time = Random.Range(0, 2) == 1? 0 : 3;
@@ -89,13 +91,13 @@ public class PhotonGun : MonoBehaviour
                 
             }
             
-        }
+        }//clear colour
         else if (Input.GetButtonDown("Fire2"))
         {
             
             RaycastHit hit;
             if (Physics.Raycast(raycastStartPoint.position, raycastStartPoint.forward, out hit, photonDistance))
-            if (hit.collider.gameObject.layer == 8 || hit.collider.gameObject.layer == 9 || hit.collider.gameObject.layer == 10 || hit.collider.transform.tag == "Filter")
+            if (hit.collider.gameObject.layer == 8 || hit.collider.gameObject.layer == 9 || hit.collider.gameObject.layer == 10 || hit.collider.gameObject.layer == 13)
             {
                 shootSound.time = 4.8f;
                 shootSound.Play();
@@ -111,7 +113,7 @@ public class PhotonGun : MonoBehaviour
 
                 hit.collider.transform.tag = "Untagged";
             }
-        }
+        }//switch colour
         else if (Input.GetAxis("Mouse ScrollWheel") > 0)
         {
             if (currentColourIndex == colours.Length - 1)

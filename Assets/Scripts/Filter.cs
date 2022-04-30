@@ -7,7 +7,15 @@ public class Filter : MonoBehaviour
     [HideInInspector] public List<ParticleSystem.Particle> particleList = new List<ParticleSystem.Particle>();
     ParticleSystem particle;
     [HideInInspector] public GameObject[] possibleTriggers;
+
+    Color[] photonGunColours;
     
+    void Start()
+    {
+        GameObject g = GameObject.FindWithTag("Player");
+        
+        photonGunColours = g.GetComponent<PhotonGun>().colours;
+    }
     void OnParticleTrigger()
     {
         particle = GetComponent<ParticleSystem>();
@@ -37,11 +45,20 @@ public class Filter : MonoBehaviour
                 correctTrigger = Vector3.Distance(g.transform.position, p.position) < Vector3.Distance(correctTrigger.transform.position, p.position)? g : correctTrigger;
 
                 c = correctTrigger.transform.GetChild(1).GetComponent<MeshRenderer>().material.color;
-
-                if (p.startColor.r >= c.r && p.startColor.g >= c.g && p.startColor.b >= c.b && p.startColor.a >= c.a)
+                
+                /*foreach (Color photonColours in photonGunColours)
+                if (c == photonColours)
+                {
+                    p.startColor = c;
+                    break;
+                }
+                else
+                p.startColor = Color.clear;*/
+                
+                /*if (p.startColor.r >= c.r && p.startColor.g >= c.g && p.startColor.b >= c.b && p.startColor.a >= c.a)
                 p.startColor = c;
                 else
-                p.startColor = Color.clear;
+                p.startColor = Color.clear;*/
                 
                 particleList[i] = p;    
             }

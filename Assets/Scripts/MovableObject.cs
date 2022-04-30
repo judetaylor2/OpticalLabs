@@ -8,6 +8,7 @@ public class MovableObject : MonoBehaviour
     
     void OnCollisionStay(Collision other)
     {
+        //play move sound when moving fast enough across the ground
         if (other.gameObject.layer == 6 && GetComponent<Rigidbody>().velocity.magnitude >= 2 && !moveSound.isPlaying)
         {
             moveSound.time = 2.6f;
