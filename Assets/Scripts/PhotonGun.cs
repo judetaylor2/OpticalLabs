@@ -97,20 +97,21 @@ public class PhotonGun : MonoBehaviour
             
             RaycastHit hit;
             if (Physics.Raycast(raycastStartPoint.position, raycastStartPoint.forward, out hit, photonDistance))
-            if (hit.collider.gameObject.layer == 8 || hit.collider.gameObject.layer == 9 || hit.collider.gameObject.layer == 10 || hit.collider.gameObject.layer == 13)
+            if (hit.collider.gameObject.layer == 8 || hit.collider.gameObject.layer == 9 || hit.collider.gameObject.layer == 10 || hit.collider.gameObject.layer == 13 || hit.collider.transform.tag == "Filter")
             {
                 shootSound.time = 4.8f;
                 shootSound.Play();
 
                 anim.SetBool("isShooting", true);
                 
-                p1.startColor = p2.startColor = Color.white;
+                p1.startColor = p2.startColor = new Color(1, 1, 1, 0.25f);
                 shootParticle.Play();
                 
                 Material m = hit.collider.transform.GetChild(1).GetComponent<MeshRenderer>().material;
-                m.color = Color.white;
+                m.color = new Color(1, 1, 1, 0.25f);
                 hit.collider.transform.GetChild(1).GetComponent<MeshRenderer>().material = m;
 
+                if (hit.collider.transform.tag != "Filter")
                 hit.collider.transform.tag = "Untagged";
             }
         }//switch colour

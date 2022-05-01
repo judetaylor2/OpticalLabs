@@ -14,6 +14,7 @@ public class Sensor : MonoBehaviour
         triggerCollider = other;
         //isColliding = true;
         
+        if (other.gameObject.layer == 8 || other.gameObject.layer == 9)
         isOn = ((other.gameObject.layer == 8 || other.gameObject.layer == 9) && other.transform.GetChild(1).GetComponent<MeshRenderer>().material.color == transform.GetChild(1).GetComponent<MeshRenderer>().material.color);
     }
 

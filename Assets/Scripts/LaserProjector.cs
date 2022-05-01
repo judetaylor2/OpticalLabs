@@ -8,7 +8,7 @@ public class LaserProjector : MonoBehaviour
     ParticleSystem laserParticle;
     public LayerMask ground, movableGround, conductiveGround, conductiveMovableGround, conductiveEffectGround, conductive;
     public PhotonGun photonGun;
-    public bool isMirror, sendOffSignal;
+    public bool isMirror, sendOffSignal, isFilterLaser;
     Sensor sensorCollider;
     Transform prevFilter;
     
@@ -17,6 +17,12 @@ public class LaserProjector : MonoBehaviour
         laserParticle = transform.GetChild(0).GetComponent<ParticleSystem>();
 
         photonGun = GameObject.FindWithTag("Player").GetComponent<PhotonGun>();
+    }
+
+    void OnDrawGizmos()
+    {
+        if (laserParticle != null)
+        Gizmos.DrawSphere(laserParticle.transform.position, 0.1f);
     }
 
     void Update()
@@ -55,7 +61,7 @@ public class LaserProjector : MonoBehaviour
                         
                     }
                 }
-                else if (meshRenderer.material.color == Color.white)
+                else if (meshRenderer.material.color == new Color(1, 1, 1, 0.25f))
                 {
                     if (hit.collider.transform.gameObject.layer == 10)
                     t.tag = "Untagged";
@@ -67,22 +73,34 @@ public class LaserProjector : MonoBehaviour
             }
 
             //set the position, rotation and colour of the filters laser to look seamless
-            if(hit.collider.gameObject.tag == "Filter")
+            if(hit.collider.gameObject.tag == "Filter" && !isFilterLaser)
             {
-                prevFilter = hit.collider.transform.GetChild(2);
-                prevFilter.transform.position = hit.point + hit.collider.transform.GetChild(2).GetChild(0).forward * 1.5f;
+                if (prevFilter == null)
+                prevFilter = Instantiate(hit.collider.transform.GetChild(2), hit.collider.transform);
+                
+                prevFilter.gameObject.SetActive(true);
+                
+                //transform.GetChild(0).forward is the laser direction
+                prevFilter.transform.position = hit.point + transform.GetChild(0).forward * 1.5f;
                 prevFilter.transform.rotation = transform.rotation;              
                 //filter.laserProjector.GetComponent<LaserProjector>().laserParticle.main.startColor = laserParticle.main.startColor;}
 
-                if (hit.collider.transform.GetChild(1).GetComponent<MeshRenderer>().material.color == laserParticle.main.startColor.color || laserParticle.main.startColor.color == Color.white)
+                //the alpha value is rounded to 2 decimal places since the original value since MinMaxGradient to Color give unnescesary places
+                Color c = laserParticle.main.startColor.color;
+                c.a = Mathf.Round(c.a * 100) / 100;
+
+                if (hit.collider.transform.GetChild(1).GetComponent<MeshRenderer>().material.color == (laserParticle.main.startColor.color) || c == new Color(1, 1, 1, 0.25f))
                 //get colour from mesh since the laser particle gets its start colour from the mesh
                 prevFilter.transform.GetChild(1).GetComponent<MeshRenderer>().material.color = hit.collider.transform.GetChild(1).GetComponent<MeshRenderer>().material.color;
                 else
                 prevFilter.transform.GetChild(1).GetComponent<MeshRenderer>().material.color = Color.clear;
             }
             //reset colour if not colliding with filter
-            else if (prevFilter != null)
-            prevFilter.transform.GetChild(1).GetComponent<MeshRenderer>().material.color = Color.clear;
+            else if (prevFilter != null && !isFilterLaser)
+            {
+                prevFilter.transform.GetChild(1).GetComponent<MeshRenderer>().material.color = Color.clear;
+                prevFilter.gameObject.SetActive(false);
+            }
             
             if (hit.collider.transform.tag == "Mirror")
             {
@@ -118,7 +136,10 @@ public class LaserProjector : MonoBehaviour
         }
         //reset colour if not colliding with filter
         else if (prevFilter != null)
-        prevFilter.transform.GetChild(1).GetComponent<MeshRenderer>().material.color = Color.clear;
+        {
+            prevFilter.transform.GetChild(1).GetComponent<MeshRenderer>().material.color = Color.clear;
+            prevFilter.gameObject.SetActive(false);
+        }
         
         RaycastHit hit2;
         if (Physics.Raycast(laserParticle.transform.position, laserParticle.transform.forward, out hit2))
@@ -137,7 +158,7 @@ public class LaserProjector : MonoBehaviour
             }
             else if (sensorCollider != null)
             {
-                sensorCollider.isOn = true;
+                sensorCollider.isOn = false;
                 //sensorCollider = null;
             }
 
