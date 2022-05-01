@@ -1966,14 +1966,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 5000
-  jumpHeight: 100
-  bounceJumpHeight: 1000
+  jumpHeight: 125
+  bounceJumpHeight: 125
   groundDrag: 5
   gravity: -20
   groundDistance: 0.1
   objectDistance: 7.5
   walkSpeed: 3000
-  sprintSpeed: 6000
+  sprintSpeed: 7000
   groundCheck: {fileID: 1913796346744520173}
   objectPickupPoint: {fileID: 1913796347072633756}
   cameraPoint: {fileID: 1913796345802951906}

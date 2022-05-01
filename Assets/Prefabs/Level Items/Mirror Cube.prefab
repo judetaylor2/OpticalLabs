@@ -499,6 +499,7 @@ MonoBehaviour:
   photonGun: {fileID: 0}
   isMirror: 0
   sendOffSignal: 0
+  isFilterLaser: 0
 --- !u!33 &9220131538638398024
 MeshFilter:
   m_ObjectHideFlags: 0

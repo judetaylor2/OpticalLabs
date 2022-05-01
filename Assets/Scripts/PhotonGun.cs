@@ -51,7 +51,13 @@ public class PhotonGun : MonoBehaviour
                     p1.startColor = p2.startColor = colours[currentColourIndex];
                     shootParticle.Play();
 
-                    Material m = hit.collider.transform.GetChild(1).GetComponent<MeshRenderer>().material;
+                    Material m;
+                    
+                    if (hit.collider.gameObject.layer != 10)
+                    m = hit.collider.transform.GetChild(1).GetComponent<MeshRenderer>().material;
+                    else
+                    m = hit.collider.transform.GetComponent<MeshRenderer>().material;
+
                     m.color = colours[currentColourIndex];
                     
                     //change tag if the layer is conductiveEffectGround
