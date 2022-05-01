@@ -613,7 +613,7 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 47095
+    m_Bits: 243703
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -1971,7 +1971,7 @@ MonoBehaviour:
   groundDrag: 5
   gravity: -20
   groundDistance: 0.1
-  objectDistance: 5.5
+  objectDistance: 7.5
   walkSpeed: 3000
   sprintSpeed: 6000
   groundCheck: {fileID: 1913796346744520173}

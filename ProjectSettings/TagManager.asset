@@ -30,9 +30,9 @@ TagManager:
   - Conductive
   - Infared
   - Laser
-  - 
-  - 
-  - 
+  - PlayerForceField
+  - ObjectForceField
+  - Player
   - 
   - 
   - 
