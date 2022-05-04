@@ -113,12 +113,25 @@ public class PhotonGun : MonoBehaviour
                 p1.startColor = p2.startColor = new Color(1, 1, 1, 0.25f);
                 shootParticle.Play();
                 
-                Material m = hit.collider.transform.GetChild(1).GetComponent<MeshRenderer>().material;
-                m.color = new Color(1, 1, 1, 0.25f);
-                hit.collider.transform.GetChild(1).GetComponent<MeshRenderer>().material = m;
+                if (hit.collider.gameObject.layer != 10)
+                {
+                    Material m = hit.collider.transform.GetChild(1).GetComponent<MeshRenderer>().material;
+                    m.color = new Color(1, 1, 1, 0.25f);
+                    hit.collider.transform.GetChild(1).GetComponent<MeshRenderer>().material = m;
+
+                }
+                else if (hit.collider.gameObject.layer == 10)
+                {
+                    hit.collider.transform.tag = "Untagged";
+
+                    Material m = hit.collider.transform.GetComponent<MeshRenderer>().material;
+                    m.color = new Color(1, 1, 1, 0.25f);
+                    hit.collider.transform.GetChild(1).GetComponent<MeshRenderer>().material = m;
+                }
 
                 if (hit.collider.transform.tag != "Filter")
                 hit.collider.transform.tag = "Untagged";
+
             }
         }//switch colour
         else if (Input.GetAxis("Mouse ScrollWheel") > 0)
