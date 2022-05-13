@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 895671421724809898}
   m_Layer: 8
   m_Name: LaserProjector
-  m_TagString: Conductive
+  m_TagString: LaserProjector
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

@@ -13,6 +13,7 @@ TagManager:
   - Sensor
   - Electrified Panel
   - Inverter
+  - LaserProjector
   layers:
   - Default
   - TransparentFX

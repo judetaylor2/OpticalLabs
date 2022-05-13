@@ -162,7 +162,7 @@ public class PhotonGun : MonoBehaviour
             Physics.Raycast(raycastStartPoint.position, raycastStartPoint.forward, out hit, photonDistance);
 
             //drag lasers
-            if (Input.GetButtonDown("Interact"))
+            if (Input.GetKeyDown(KeyCode.LeftShift))
             {
                 if (isHoldingLaser && hit.collider == null)
                 {
@@ -178,11 +178,17 @@ public class PhotonGun : MonoBehaviour
                     return;
                 }
             
-                if (hit.collider.transform.name.Contains("LaserProjector") && !isHoldingLaser)
+                if ((hit.collider.transform.name.Contains("LaserProjector") || hit.collider.transform.name.Contains("Mirror")) && !isHoldingLaser)
                 {
                     anim.SetBool("isPickingUpObject", true);
                     
+                    if (hit.collider.transform.name.Contains("LaserProjector"))
                     currentLaser = Instantiate(hit.transform.GetChild(0).gameObject, hit.transform.GetChild(0).position, hit.transform.GetChild(0).rotation, hit.transform);
+                    else
+                    if (hit.collider.transform.name.Contains("Mirror"))
+                    currentLaser = Instantiate(hit.transform.GetChild(1).GetChild(0).gameObject, hit.transform.GetChild(1).GetChild(0).position, hit.transform.GetChild(1).GetChild(0).rotation, hit.transform.GetChild(1));
+                    
+                    currentLaser.transform.parent.GetComponent<LaserProjector>().laserList.Add(currentLaser.GetComponent<ParticleSystem>());
                     currentLaser.SetActive(true);
                     isHoldingLaser = true;
                     
@@ -192,8 +198,8 @@ public class PhotonGun : MonoBehaviour
                     Physics.Raycast(raycastStartPoint.position, raycastStartPoint.forward, out hit, photonDistance);
                     if (hit.collider.tag != "Mirror" && hit.collider.tag != "Sensor")
                     Destroy(currentLaser);
-                    else if (hit.collider.tag != "Sensor")
-                    hit.collider.GetComponent<Sensor>().isCollidingWithLaser = true;
+                    //else if (hit.collider.tag == "Sensor")
+                    //hit.collider.GetComponent<Sensor>().isCollidingWithLaser = true;
                     
                     anim.SetBool("isPickingUpObject", false);
 
@@ -204,15 +210,32 @@ public class PhotonGun : MonoBehaviour
             }
             
             if (hit.collider != null)
-            if (hit.collider.transform.name.Contains("LaserProjector"))
+            //if (hit.collider.transform.name.Contains("LaserProjector"))
             {
-                ParticleSystem ps2 = hit.transform.GetChild(0).gameObject.GetComponent<ParticleSystem>();
                 
                 for (int i = 0; i < hit.transform.childCount; i++)
                 {
                     ParticleSystem ps1;
-                    if (hit.transform.GetChild(i).TryGetComponent<ParticleSystem>(out ps1))
+                    if (hit.collider.tag == "LaserProjector" && hit.transform.GetChild(i).TryGetComponent<ParticleSystem>(out ps1))
                     {
+                        ParticleSystem ps2 = hit.transform.GetChild(0).gameObject.GetComponent<ParticleSystem>();
+                        
+                        ParticleSystem.MainModule m1 = ps1.main;
+                        m1.startColor = ps2.main.startColor;
+                        
+                        if (Input.GetKeyDown(KeyCode.R) && i != 0)
+                        {
+                            //delete last placed laser
+                            Destroy(ps1.gameObject);
+                            isHoldingLaser = false;
+                            break;
+                        }
+                    }
+                    else if (hit.collider.tag == "Mirror" && i != 0)
+                    if (hit.transform.GetChild(1).GetChild(i).TryGetComponent<ParticleSystem>(out ps1))
+                    {
+                        ParticleSystem ps2 = hit.transform.GetChild(1).GetChild(0).gameObject.GetComponent<ParticleSystem>();
+                        
                         ParticleSystem.MainModule m1 = ps1.main;
                         m1.startColor = ps2.main.startColor;
                         

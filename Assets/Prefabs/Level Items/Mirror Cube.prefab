@@ -98,7 +98,7 @@ GameObject:
   - component: {fileID: -9001794729203357908}
   m_Layer: 7
   m_Name: Mirror Cube
-  m_TagString: Untagged
+  m_TagString: Mirror
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -500,6 +500,7 @@ MonoBehaviour:
   isMirror: 0
   sendOffSignal: 0
   isFilterLaser: 0
+  laserList: []
 --- !u!33 &9220131538638398024
 MeshFilter:
   m_ObjectHideFlags: 0
