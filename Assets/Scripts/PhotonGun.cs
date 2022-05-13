@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class PhotonGun : MonoBehaviour
 {
     public Color[] colours;
-    public Transform raycastStartPoint;
+    public Transform raycastStartPoint, pickupPoint, camPoint;
     public float photonDistance;
     int currentColourIndex;
     public Image colorImage;
@@ -15,6 +15,8 @@ public class PhotonGun : MonoBehaviour
     public Animator anim;
     public GameObject laserColourHolder;
     public AudioSource shootSound;
+    bool isHoldingLaser;
+    GameObject currentLaser;
     
     // Start is called before the first frame update
     void Start()
@@ -52,11 +54,7 @@ public class PhotonGun : MonoBehaviour
                     shootParticle.Play();
 
                     Material m;
-                    
-                    if (hit.collider.gameObject.layer != 10)
                     m = hit.collider.transform.GetChild(1).GetComponent<MeshRenderer>().material;
-                    else
-                    m = hit.collider.transform.GetComponent<MeshRenderer>().material;
 
                     m.color = colours[currentColourIndex];
                     
@@ -80,7 +78,7 @@ public class PhotonGun : MonoBehaviour
                     
                 }
                 //change laser projectors colour
-                else if (hit.collider.transform.name == "LaserProjector")
+                else if (hit.collider.transform.name.Contains("LaserProjector"))
                 {
                     shootSound.time = Random.Range(0, 2) == 1? 0 : 3;
                     shootSound.Play();
@@ -124,7 +122,7 @@ public class PhotonGun : MonoBehaviour
                 {
                     hit.collider.transform.tag = "Untagged";
 
-                    Material m = hit.collider.transform.GetComponent<MeshRenderer>().material;
+                    Material m = hit.collider.transform.GetChild(1).GetComponent<MeshRenderer>().material;
                     m.color = new Color(1, 1, 1, 0.25f);
                     hit.collider.transform.GetChild(1).GetComponent<MeshRenderer>().material = m;
                 }
@@ -156,6 +154,92 @@ public class PhotonGun : MonoBehaviour
 
         Color c = colours[currentColourIndex];
         c.a = 1;
-        colorImage.color = c; 
+        colorImage.color = c;
+
+
+        {
+            RaycastHit hit;
+            Physics.Raycast(raycastStartPoint.position, raycastStartPoint.forward, out hit, photonDistance);
+
+            //drag lasers
+            if (Input.GetButtonDown("Interact"))
+            {
+                if (isHoldingLaser && hit.collider == null)
+                {
+                    Destroy(currentLaser);
+                    anim.SetBool("isPickingUpObject", false);
+
+                    isHoldingLaser = false;
+                    
+                    return;
+                }
+                else if (hit.collider == null)
+                {
+                    return;
+                }
+            
+                if (hit.collider.transform.name.Contains("LaserProjector") && !isHoldingLaser)
+                {
+                    anim.SetBool("isPickingUpObject", true);
+                    
+                    currentLaser = Instantiate(hit.transform.GetChild(0).gameObject, hit.transform.GetChild(0).position, hit.transform.GetChild(0).rotation, hit.transform);
+                    currentLaser.SetActive(true);
+                    isHoldingLaser = true;
+                    
+                }
+                else if (isHoldingLaser)
+                {
+                    Physics.Raycast(raycastStartPoint.position, raycastStartPoint.forward, out hit, photonDistance);
+                    if (hit.collider.tag != "Mirror" && hit.collider.tag != "Sensor")
+                    Destroy(currentLaser);
+                    else if (hit.collider.tag != "Sensor")
+                    hit.collider.GetComponent<Sensor>().isCollidingWithLaser = true;
+                    
+                    anim.SetBool("isPickingUpObject", false);
+
+                    isHoldingLaser = false;
+                }
+                
+                
+            }
+            
+            if (hit.collider != null)
+            if (hit.collider.transform.name.Contains("LaserProjector"))
+            {
+                ParticleSystem ps2 = hit.transform.GetChild(0).gameObject.GetComponent<ParticleSystem>();
+                
+                for (int i = 0; i < hit.transform.childCount; i++)
+                {
+                    ParticleSystem ps1;
+                    if (hit.transform.GetChild(i).TryGetComponent<ParticleSystem>(out ps1))
+                    {
+                        ParticleSystem.MainModule m1 = ps1.main;
+                        m1.startColor = ps2.main.startColor;
+                        
+                        if (Input.GetKeyDown(KeyCode.R) && i != 0)
+                        {
+                            //delete last placed laser
+                            Destroy(ps1.gameObject);
+                            isHoldingLaser = false;
+                            break;
+                        }
+                    }
+                    
+                }
+                
+            }
+
+        }
+
+        //is Holding
+        if (isHoldingLaser && currentLaser != null)
+        {
+            RaycastHit hit;
+            if (Physics.Raycast(raycastStartPoint.position, raycastStartPoint.forward, out hit, photonDistance))
+            currentLaser.transform.LookAt(hit.point);
+            else
+            currentLaser.transform.LookAt(camPoint.transform.position + camPoint.transform.forward * 50);
+        }
+
     }
 }

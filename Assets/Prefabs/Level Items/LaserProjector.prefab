@@ -71,6 +71,7 @@ MonoBehaviour:
   photonGun: {fileID: 0}
   isMirror: 0
   sendOffSignal: 0
+  isFilterLaser: 0
 --- !u!33 &7318914381406553738
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -283,6 +284,10 @@ PrefabInstance:
     - target: {fileID: 4320184974042663807, guid: fd58edc5652fd9ebd85ba4535d375b93, type: 3}
       propertyPath: m_Name
       value: Laser (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4320184974042663807, guid: fd58edc5652fd9ebd85ba4535d375b93, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fd58edc5652fd9ebd85ba4535d375b93, type: 3}

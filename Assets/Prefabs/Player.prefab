@@ -1943,6 +1943,8 @@ MonoBehaviour:
   - {r: 0.5019608, g: 1, b: 0.5019608, a: 0.5019608}
   - {r: 0.5019608, g: 0.5019608, b: 1, a: 0.5019608}
   raycastStartPoint: {fileID: 1913796346295423149}
+  pickupPoint: {fileID: 1913796347072633756}
+  camPoint: {fileID: 1913796345802951906}
   photonDistance: 150
   colorImage: {fileID: 0}
   groundMask:
