@@ -148,7 +148,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 112
   m_CollisionDetection: 0
 --- !u!114 &1632296218726178039
 MonoBehaviour:
@@ -497,7 +497,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8192
   photonGun: {fileID: 0}
-  isMirror: 0
+  isMirror: 1
   sendOffSignal: 0
   isFilterLaser: 0
   laserList: []
@@ -642,15 +642,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4320184974042663800, guid: fd58edc5652fd9ebd85ba4535d375b93, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.48933333
+      value: -0.010666668
       objectReference: {fileID: 0}
     - target: {fileID: 4320184974042663800, guid: fd58edc5652fd9ebd85ba4535d375b93, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.5833333
       objectReference: {fileID: 0}
     - target: {fileID: 4320184974042663800, guid: fd58edc5652fd9ebd85ba4535d375b93, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.0119997915
+      value: 0.012001063
       objectReference: {fileID: 0}
     - target: {fileID: 4320184974042663800, guid: fd58edc5652fd9ebd85ba4535d375b93, type: 3}
       propertyPath: m_LocalRotation.w
@@ -683,6 +683,10 @@ PrefabInstance:
     - target: {fileID: 4320184974042663807, guid: fd58edc5652fd9ebd85ba4535d375b93, type: 3}
       propertyPath: m_Name
       value: Laser (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4320184974042663807, guid: fd58edc5652fd9ebd85ba4535d375b93, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fd58edc5652fd9ebd85ba4535d375b93, type: 3}

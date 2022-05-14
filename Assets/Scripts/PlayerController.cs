@@ -158,7 +158,7 @@ public class PlayerController : MonoBehaviour
                     
                 }
 
-                currentlyHeldObject.transform.rotation = transform.rotation;
+                //currentlyHeldObject.transform.rotation = transform.rotation;
                 
             }
             else if (currentlyHeldObject != null)
@@ -199,8 +199,8 @@ public class PlayerController : MonoBehaviour
                 if (!pickupParticles[i].isPlaying)
                 pickupParticles[i].Play();
 
-                if (Input.GetButtonDown("Rotate"))
-                currentlyHeldObject.transform.Rotate(0,90, 0);
+                //if (Input.GetButtonDown("Rotate"))
+                //currentlyHeldObject.transform.Rotate(0,90, 0);
             }
             else
             {

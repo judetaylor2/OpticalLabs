@@ -15,7 +15,7 @@ public class PhotonGun : MonoBehaviour
     public Animator anim;
     public GameObject laserColourHolder;
     public AudioSource shootSound;
-    bool isHoldingLaser;
+    public bool isHoldingLaser;
     GameObject currentLaser;
     
     // Start is called before the first frame update
@@ -212,11 +212,12 @@ public class PhotonGun : MonoBehaviour
             if (hit.collider != null)
             //if (hit.collider.transform.name.Contains("LaserProjector"))
             {
+                ParticleSystem ps1;
                 
+                if (hit.collider.tag == "LaserProjector")
                 for (int i = 0; i < hit.transform.childCount; i++)
                 {
-                    ParticleSystem ps1;
-                    if (hit.collider.tag == "LaserProjector" && hit.transform.GetChild(i).TryGetComponent<ParticleSystem>(out ps1))
+                    if (i != 0 && hit.transform.GetChild(i).TryGetComponent<ParticleSystem>(out ps1))
                     {
                         ParticleSystem ps2 = hit.transform.GetChild(0).gameObject.GetComponent<ParticleSystem>();
                         
@@ -228,11 +229,18 @@ public class PhotonGun : MonoBehaviour
                             //delete last placed laser
                             Destroy(ps1.gameObject);
                             isHoldingLaser = false;
+                            Debug.Log("Laser removed");
                             break;
                         }
                     }
-                    else if (hit.collider.tag == "Mirror" && i != 0)
-                    if (hit.transform.GetChild(1).GetChild(i).TryGetComponent<ParticleSystem>(out ps1))
+                    //else break;
+                    
+                }
+
+                if (hit.collider.tag == "Mirror")
+                for (int i = 0; i < hit.transform.GetChild(1).childCount; i++)
+                {
+                    if (i != 0 && hit.transform.GetChild(1).GetChild(i).TryGetComponent<ParticleSystem>(out ps1))
                     {
                         ParticleSystem ps2 = hit.transform.GetChild(1).GetChild(0).gameObject.GetComponent<ParticleSystem>();
                         
@@ -244,9 +252,11 @@ public class PhotonGun : MonoBehaviour
                             //delete last placed laser
                             Destroy(ps1.gameObject);
                             isHoldingLaser = false;
+                            Debug.Log("Laser removed");
                             break;
                         }
                     }
+                    //else break;
                     
                 }
                 

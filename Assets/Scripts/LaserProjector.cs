@@ -31,12 +31,30 @@ public class LaserProjector : MonoBehaviour
 
     void Update()
     {
+        //int particleCount = 0;
         foreach (ParticleSystem g in laserList)
         {
+            if (g == null)
+            {
+                laserList.Remove(g);
+                return;
+            }
+            //do not check for the first laser particle since it is invisible
+            //if (g.gameObject.transform == laserParticle.gameObject.transform)
+            //return;
             
             ParticleSystem.MainModule laserMainModule = g.main; 
             laserMainModule.startColor = meshRenderer.material.color;
             
+            /*if (particleCount == 0)
+            return;
+            else
+            {
+                particleCount++;
+
+            }*/
+            
+
             RaycastHit hit;
             if (Physics.Raycast(g.transform.position, g.transform.forward, out hit, 999, ground | conductiveGround | conductiveMovableGround | conductiveEffectGround | conductive))
             {
@@ -44,6 +62,7 @@ public class LaserProjector : MonoBehaviour
                 
                 Transform t = hit.collider.transform;
                 
+                if (g != laserParticle)
                 if (hit.collider.transform.tag != "Filter" && hit.collider.transform.tag != "Sensor")
                 for (int i = 0; i < photonGun.colours.Length; i++)
                 {
@@ -109,22 +128,41 @@ public class LaserProjector : MonoBehaviour
                     prevFilter.gameObject.SetActive(false);
                 }
                 
+                if (g != laserParticle)
                 if (hit.collider.transform.tag == "Mirror")
                 {
+                    bool isSameMirror = false;
+                    if (isMirror)
+                    {
+                        if (hit.collider.transform.tag == "Mirror" && hit.collider.gameObject != transform.parent.gameObject)
+                        {
+                            isSameMirror = true;
+                        }
+                        else
+                        isSameMirror = false;
+
+                    }
+                    else 
+                    isSameMirror = false;
                     //if (filter != null)
                     //if (filter.particleList.Count > 0)
-                    {
+               
                         //if (filter.particleList[0].startColor.a > 64)
+                        if (!isSameMirror)
                         {
                             hit.collider.transform.GetComponentInParent<Mirror>().isColliding = true;
                             
                             MeshRenderer m = hit.collider.transform.GetChild(1).GetComponent<MeshRenderer>();
                             ParticleSystem.MainModule p = hit.collider.transform.GetComponentInParent<Mirror>().laserObject.transform.GetChild(0).GetComponent<ParticleSystem>().main;
                             p.startColor = m.material.color = g.main.startColor.color;
+
+                            //follow the mirror
+                            g.transform.LookAt(hit.transform.position);
                             
                         }
 
-                    }/*
+
+                    /*
                     else
                     {
                         hit.collider.transform.GetComponentInParent<Mirror>().isColliding = true;
@@ -159,6 +197,9 @@ public class LaserProjector : MonoBehaviour
                         
                         if (hit2.collider.transform.GetChild(1).GetComponent<MeshRenderer>().material.color == g.main.startColor.color)
                         sensorCollider.isOn = !sendOffSignal;
+
+                        //follow the sensor
+                        g.transform.LookAt(hit.transform.position);
                     
                     }
                     
@@ -169,6 +210,13 @@ public class LaserProjector : MonoBehaviour
                     //sensorCollider = null;
                 }
 
+            }
+            
+            //deletes laser when there is no target
+            if (hit.collider != null)
+            if (hit.collider.transform.tag != "Sensor" && hit.collider.transform.tag != "Mirror" && g != laserParticle && !photonGun.isHoldingLaser)
+            {
+                Destroy(g.gameObject);
             }
         }
         }
