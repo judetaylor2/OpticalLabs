@@ -178,7 +178,7 @@ public class PhotonGun : MonoBehaviour
                     return;
                 }
             
-                if ((hit.collider.transform.name.Contains("LaserProjector") || hit.collider.transform.name.Contains("Mirror")) && !isHoldingLaser)
+                if ((hit.collider.transform.name.Contains("LaserProjector") || hit.collider.transform.name.Contains("Mirror")  || hit.collider.transform.name.Contains("Filter")) && !isHoldingLaser)
                 {
                     anim.SetBool("isPickingUpObject", true);
                     
@@ -196,7 +196,7 @@ public class PhotonGun : MonoBehaviour
                 else if (isHoldingLaser)
                 {
                     Physics.Raycast(raycastStartPoint.position, raycastStartPoint.forward, out hit, photonDistance);
-                    if (hit.collider.tag != "Mirror" && hit.collider.tag != "Sensor")
+                    if (hit.collider.tag != "Mirror" && hit.collider.tag != "Sensor" && hit.collider.tag != "Filter")
                     Destroy(currentLaser);
                     //else if (hit.collider.tag == "Sensor")
                     //hit.collider.GetComponent<Sensor>().isCollidingWithLaser = true;

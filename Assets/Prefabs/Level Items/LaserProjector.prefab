@@ -72,6 +72,7 @@ MonoBehaviour:
   isMirror: 0
   sendOffSignal: 0
   isFilterLaser: 0
+  laserList: []
 --- !u!33 &7318914381406553738
 MeshFilter:
   m_ObjectHideFlags: 0

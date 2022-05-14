@@ -39,12 +39,13 @@ public class LaserProjector : MonoBehaviour
                 laserList.Remove(g);
                 return;
             }
-            //do not check for the first laser particle since it is invisible
-            //if (g.gameObject.transform == laserParticle.gameObject.transform)
-            //return;
             
-            ParticleSystem.MainModule laserMainModule = g.main; 
-            laserMainModule.startColor = meshRenderer.material.color;
+            //do not check for the first laser particle since it is invisible
+            if (g.gameObject.transform != laserParticle.gameObject.transform)
+            {
+                ParticleSystem.MainModule laserMainModule = g.main; 
+                laserMainModule.startColor = meshRenderer.material.color;
+            }
             
             /*if (particleCount == 0)
             return;
@@ -102,13 +103,15 @@ public class LaserProjector : MonoBehaviour
                 if(hit.collider.gameObject.tag == "Filter" && !isFilterLaser)
                 {
                     if (prevFilter == null)
-                    prevFilter = Instantiate(hit.collider.transform.GetChild(2), hit.collider.transform);
+                    prevFilter = Instantiate(hit.collider.transform.GetChild(2));
                     
                     prevFilter.gameObject.SetActive(true);
                     
                     //transform.GetChild(0).forward is the laser direction
                     prevFilter.transform.position = hit.point + transform.GetChild(0).forward * 1.5f;
-                    prevFilter.transform.rotation = transform.rotation;              
+                    //prevFilter.transform.GetChild(0).transform.LookAt(transform);
+                    prevFilter.transform.GetChild(0).rotation = g.transform.rotation;
+                    //prevFilter.GetChild(0).rotation = Quaternion.LookRotation(transform.GetChild(0).position);           
                     //filter.laserProjector.GetComponent<LaserProjector>().laserParticle.main.startColor = laserParticle.main.startColor;}
 
                     //the alpha value is rounded to 2 decimal places since the original value since MinMaxGradient to Color give unnescesary places
@@ -116,10 +119,14 @@ public class LaserProjector : MonoBehaviour
                     c.a = Mathf.Round(c.a * 100) / 100;
 
                     if (hit.collider.transform.GetChild(1).GetComponent<MeshRenderer>().material.color == (g.main.startColor.color) || c == new Color(1, 1, 1, 0.25f))
+                    {
+                        prevFilter.transform.GetChild(1).GetComponent<MeshRenderer>().material.color = hit.collider.transform.GetChild(1).GetComponent<MeshRenderer>().material.color;
+                    }
                     //get colour from mesh since the laser particle gets its start colour from the mesh
-                    prevFilter.transform.GetChild(1).GetComponent<MeshRenderer>().material.color = hit.collider.transform.GetChild(1).GetComponent<MeshRenderer>().material.color;
                     else
-                    prevFilter.transform.GetChild(1).GetComponent<MeshRenderer>().material.color = Color.clear;
+                    {
+                        prevFilter.transform.GetChild(1).GetComponent<MeshRenderer>().material.color = Color.clear;
+                    }
                 }
                 //reset colour if not colliding with filter
                 else if (prevFilter != null && !isFilterLaser)
@@ -214,7 +221,7 @@ public class LaserProjector : MonoBehaviour
             
             //deletes laser when there is no target
             if (hit.collider != null)
-            if (hit.collider.transform.tag != "Sensor" && hit.collider.transform.tag != "Mirror" && g != laserParticle && !photonGun.isHoldingLaser)
+            if (hit.collider.transform.tag != "Sensor" && hit.collider.transform.tag != "Mirror" && hit.collider.transform.tag != "Filter" && g != laserParticle && !photonGun.isHoldingLaser)
             {
                 Destroy(g.gameObject);
             }
