@@ -138,24 +138,6 @@ public class LaserProjector : MonoBehaviour
                 if (g != laserParticle)
                 if (hit.collider.transform.tag == "Mirror")
                 {
-                    bool isSameMirror = false;
-                    if (isMirror)
-                    {
-                        if (hit.collider.transform.tag == "Mirror" && hit.collider.gameObject != transform.parent.gameObject)
-                        {
-                            isSameMirror = true;
-                        }
-                        else
-                        isSameMirror = false;
-
-                    }
-                    else 
-                    isSameMirror = false;
-                    //if (filter != null)
-                    //if (filter.particleList.Count > 0)
-               
-                        //if (filter.particleList[0].startColor.a > 64)
-                        if (!isSameMirror)
                         {
                             hit.collider.transform.GetComponentInParent<Mirror>().isColliding = true;
                             
@@ -202,10 +184,19 @@ public class LaserProjector : MonoBehaviour
                     {
                         sensorCollider = hit2.collider.transform.GetComponent<Sensor>();
                         
-                        if (hit2.collider.transform.GetChild(1).GetComponent<MeshRenderer>().material.color.r == g.main.startColor.color.r &&
-                        hit2.collider.transform.GetChild(1).GetComponent<MeshRenderer>().material.color.g == g.main.startColor.color.g &&
-                        hit2.collider.transform.GetChild(1).GetComponent<MeshRenderer>().material.color.b == g.main.startColor.color.b )
-                        sensorCollider.isOn = !sendOffSignal;
+                        /*//prevent sensor being left on when laser is invisible
+                        if (isMirror && !GetComponentInParent<Mirror>().isColliding && sensorCollider.isOn)
+                        {
+                            sensorCollider.isOn = false;    
+                        }
+                        else*/
+                        {
+                            if (hit2.collider.transform.GetChild(1).GetComponent<MeshRenderer>().material.color.r == g.main.startColor.color.r &&
+                            hit2.collider.transform.GetChild(1).GetComponent<MeshRenderer>().material.color.g == g.main.startColor.color.g &&
+                            hit2.collider.transform.GetChild(1).GetComponent<MeshRenderer>().material.color.b == g.main.startColor.color.b )
+                            sensorCollider.isOn = !sendOffSignal;
+                        }
+                        
 
                         //follow the sensor
                         g.transform.LookAt(hit.transform.position);

@@ -443,7 +443,7 @@ GameObject:
   - component: {fileID: 9220131538638398027}
   - component: {fileID: 9220131538638398024}
   - component: {fileID: 9220131538638398025}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: LaserProjector (1)
   m_TagString: Conductive
   m_Icon: {fileID: 0}
