@@ -108,7 +108,7 @@ public class LaserProjector : MonoBehaviour
                     prevFilter.gameObject.SetActive(true);
                     
                     //transform.GetChild(0).forward is the laser direction
-                    prevFilter.transform.position = hit.point + transform.GetChild(0).forward * 1.5f;
+                    prevFilter.transform.position = hit.point + transform.GetChild(0).forward * 2f;
                     //prevFilter.transform.GetChild(0).transform.LookAt(transform);
                     prevFilter.transform.GetChild(0).rotation = g.transform.rotation;
                     //prevFilter.GetChild(0).rotation = Quaternion.LookRotation(transform.GetChild(0).position);           
@@ -202,7 +202,9 @@ public class LaserProjector : MonoBehaviour
                     {
                         sensorCollider = hit2.collider.transform.GetComponent<Sensor>();
                         
-                        if (hit2.collider.transform.GetChild(1).GetComponent<MeshRenderer>().material.color == g.main.startColor.color)
+                        if (hit2.collider.transform.GetChild(1).GetComponent<MeshRenderer>().material.color.r == g.main.startColor.color.r &&
+                        hit2.collider.transform.GetChild(1).GetComponent<MeshRenderer>().material.color.g == g.main.startColor.color.g &&
+                        hit2.collider.transform.GetChild(1).GetComponent<MeshRenderer>().material.color.b == g.main.startColor.color.b )
                         sensorCollider.isOn = !sendOffSignal;
 
                         //follow the sensor
@@ -217,6 +219,11 @@ public class LaserProjector : MonoBehaviour
                     //sensorCollider = null;
                 }
 
+            }
+            else if (sensorCollider != null)
+            {
+                sensorCollider.isOn = false;
+                //sensorCollider = null;
             }
             
             //deletes laser when there is no target

@@ -9,7 +9,7 @@ public class Sensor : MonoBehaviour
     Collider triggerCollider;
     public AudioSource sensorSound;
     
-    void OnTriggerStay(Collider other)
+    /*void OnTriggerStay(Collider other)
     {
         triggerCollider = other;
         //isColliding = true;
@@ -22,7 +22,7 @@ public class Sensor : MonoBehaviour
     {
         if ((other.gameObject.layer == 8 || other.gameObject.layer == 9) && !isCollidingWithLaser)
         isOn = false;
-    }
+    }*/
 
     void Update()
     {
@@ -36,7 +36,7 @@ public class Sensor : MonoBehaviour
             isOn = true;
         }
         else
-        isOn = false;*/
+        isOn = false;
         
         //isOn = triggerCollider != null;
         
@@ -45,6 +45,8 @@ public class Sensor : MonoBehaviour
         isOn = true;
         if (!isCollidingWithLaser && triggerCollider == null)
         isOn = false;
+
+        */
 
         if (isOn && !sensorSound.isPlaying && !soundPlayed)
         {
