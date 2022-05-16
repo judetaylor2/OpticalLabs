@@ -57,7 +57,7 @@ public class LaserProjector : MonoBehaviour
             
 
             RaycastHit hit;
-            if (Physics.Raycast(g.transform.position, g.transform.forward, out hit, 999, ground | conductiveGround | conductiveMovableGround | conductiveEffectGround | conductive))
+            if (Physics.Raycast(g.transform.position, g.transform.forward, out hit, 999, ground | conductiveGround | conductiveMovableGround | conductiveEffectGround | conductive | movableGround))
             {
                 Debug.DrawLine(g.transform.position, hit.point, Color.green);
                 
@@ -139,14 +139,14 @@ public class LaserProjector : MonoBehaviour
                 if (hit.collider.transform.tag == "Mirror")
                 {
                         {
-                            hit.collider.transform.GetComponentInParent<Mirror>().isColliding = true;
+                            hit.collider.transform.GetComponent<Mirror>().isColliding = true;
                             
-                            MeshRenderer m = hit.collider.transform.GetChild(1).GetComponent<MeshRenderer>();
-                            ParticleSystem.MainModule p = hit.collider.transform.GetComponentInParent<Mirror>().laserObject.transform.GetChild(0).GetComponent<ParticleSystem>().main;
+                            MeshRenderer m = hit.collider.transform.GetChild(0).GetComponent<MeshRenderer>();
+                            ParticleSystem.MainModule p = hit.collider.transform.GetComponent<Mirror>().laserObject.transform.GetChild(0).GetComponent<ParticleSystem>().main;
                             p.startColor = m.material.color = g.main.startColor.color;
 
                             //follow the mirror
-                            g.transform.LookAt(hit.transform.position);
+                            g.transform.LookAt(hit.transform.GetChild(0).position);
                             
                         }
 
@@ -222,6 +222,11 @@ public class LaserProjector : MonoBehaviour
             if (hit.collider.transform.tag != "Sensor" && hit.collider.transform.tag != "Mirror" && hit.collider.transform.tag != "Filter" && g != laserParticle && !photonGun.isHoldingLaser)
             {
                 Destroy(g.gameObject);
+            }
+
+            if (isMirror)
+            {
+                transform.parent.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotation;
             }
         }
         }

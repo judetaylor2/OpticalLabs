@@ -150,6 +150,7 @@ public class PlayerController : MonoBehaviour
 
                     if (currentlyHeldObject.TryGetComponent<Rigidbody>(out r))
                     {
+                        r.velocity = Vector3.zero;
                         r.useGravity = false;
                         r.constraints = RigidbodyConstraints.FreezeRotation;
                     }
@@ -171,7 +172,9 @@ public class PlayerController : MonoBehaviour
 
                 if (currentlyHeldObject.TryGetComponent<Rigidbody>(out r))
                 {
+                    r.transform.rotation = Quaternion.identity;
                     r.constraints = RigidbodyConstraints.None;
+                    r.constraints = RigidbodyConstraints.FreezeRotation;
                     r.useGravity = true;
                     r.velocity = rb.velocity;
                 }
