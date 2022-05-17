@@ -178,7 +178,8 @@ public class PhotonGun : MonoBehaviour
                     return;
                 }
             
-                if ((hit.collider.transform.name.Contains("LaserProjector") || hit.collider.transform.name.Contains("Mirror")  || hit.collider.transform.name.Contains("Filter")) && !isHoldingLaser)
+                if ((hit.collider.transform.name.Contains("LaserProjector") || hit.collider.transform.name.Contains("Mirror")  || hit.collider.transform.name.Contains("Filter")) 
+                && !isHoldingLaser && hit.transform.GetChild(1).GetChild(0).gameObject.GetComponent<ParticleSystem>().main.startColor.color != Color.clear)
                 {
                     anim.SetBool("isPickingUpObject", true);
                     

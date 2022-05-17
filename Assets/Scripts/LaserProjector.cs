@@ -175,14 +175,13 @@ public class LaserProjector : MonoBehaviour
                 prevFilter.gameObject.SetActive(false);
             }
             
-            RaycastHit hit2;
-            if (Physics.Raycast(g.transform.position, g.transform.forward, out hit2))
+            if (hit.collider !=null)
             {
-                if (hit2.transform.gameObject.layer == 6)
+                if (hit.transform.gameObject.layer == 6)
                 {
-                    if (hit2.collider.transform.tag == "Sensor")
+                    if (hit.collider.transform.tag == "Sensor")
                     {
-                        sensorCollider = hit2.collider.transform.GetComponent<Sensor>();
+                        sensorCollider = hit.collider.transform.GetComponent<Sensor>();
                         
                         /*//prevent sensor being left on when laser is invisible
                         if (isMirror && !GetComponentInParent<Mirror>().isColliding && sensorCollider.isOn)
@@ -191,9 +190,9 @@ public class LaserProjector : MonoBehaviour
                         }
                         else*/
                         {
-                            if (hit2.collider.transform.GetChild(1).GetComponent<MeshRenderer>().material.color.r == g.main.startColor.color.r &&
-                            hit2.collider.transform.GetChild(1).GetComponent<MeshRenderer>().material.color.g == g.main.startColor.color.g &&
-                            hit2.collider.transform.GetChild(1).GetComponent<MeshRenderer>().material.color.b == g.main.startColor.color.b )
+                            if (hit.collider.transform.GetChild(1).GetComponent<MeshRenderer>().material.color.r == g.main.startColor.color.r &&
+                            hit.collider.transform.GetChild(1).GetComponent<MeshRenderer>().material.color.g == g.main.startColor.color.g &&
+                            hit.collider.transform.GetChild(1).GetComponent<MeshRenderer>().material.color.b == g.main.startColor.color.b )
                             sensorCollider.isOn = !sendOffSignal;
                         }
                         
