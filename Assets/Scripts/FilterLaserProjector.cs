@@ -31,7 +31,7 @@ public class FilterLaserProjector : MonoBehaviour
         laserMainModule.startColor = meshRenderer.material.color;
         
         RaycastHit hit;
-        if (Physics.Raycast(laserParticle.transform.position, laserParticle.transform.forward, out hit, 999, ground | conductiveGround | conductiveMovableGround | conductiveEffectGround | conductive))
+        if (Physics.Raycast(laserParticle.transform.position, laserParticle.transform.forward, out hit, 999, ground | conductiveGround | conductiveMovableGround | conductiveEffectGround | conductive | movableGround))
         {
             Debug.DrawLine(laserParticle.transform.position, hit.point, Color.green);
             
@@ -114,9 +114,9 @@ public class FilterLaserProjector : MonoBehaviour
                         MeshRenderer m = hit.collider.transform.GetChild(1).GetComponent<MeshRenderer>();
                         ParticleSystem.MainModule p = hit.collider.transform.GetComponentInParent<Mirror>().laserObject.transform.GetChild(0).GetComponent<ParticleSystem>().main;
                         p.startColor = m.material.color = laserParticle.main.startColor.color;
-
+                        
                         //follow the mirror
-                        //transform.GetChild(0).LookAt(hit.transform.position);
+                        transform.GetChild(0).LookAt(hit.collider.transform.GetChild(0).transform.position);
                         
                     }
 

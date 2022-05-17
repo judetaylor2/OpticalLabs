@@ -181,17 +181,26 @@ public class PhotonGun : MonoBehaviour
                 if ((hit.collider.transform.name.Contains("LaserProjector") || hit.collider.transform.name.Contains("Mirror")  || hit.collider.transform.name.Contains("Filter")) 
                 && !isHoldingLaser && hit.transform.GetChild(1).GetChild(0).gameObject.GetComponent<ParticleSystem>().main.startColor.color != Color.clear)
                 {
-                    anim.SetBool("isPickingUpObject", true);
                     
                     if (hit.collider.transform.name.Contains("LaserProjector"))
                     currentLaser = Instantiate(hit.transform.GetChild(0).gameObject, hit.transform.GetChild(0).position, hit.transform.GetChild(0).rotation, hit.transform);
                     else
-                    if (hit.collider.transform.name.Contains("Mirror"))
-                    currentLaser = Instantiate(hit.transform.GetChild(1).GetChild(0).gameObject, hit.transform.GetChild(1).GetChild(0).position, hit.transform.GetChild(1).GetChild(0).rotation, hit.transform.GetChild(1));
+                    {
+                        //prevents player from being able to create invisible lasers
+                        if (hit.collider.GetComponent<Mirror>())
+                        if (hit.collider.GetComponent<Mirror>().isColliding && hit.collider.transform.name.Contains("Mirror"))
+                        currentLaser = Instantiate(hit.transform.GetChild(1).GetChild(0).gameObject, hit.transform.GetChild(1).GetChild(0).position, hit.transform.GetChild(1).GetChild(0).rotation, hit.transform.GetChild(1));
+                        
+                    }
                     
-                    currentLaser.transform.parent.GetComponent<LaserProjector>().laserList.Add(currentLaser.GetComponent<ParticleSystem>());
-                    currentLaser.SetActive(true);
-                    isHoldingLaser = true;
+                    if (currentLaser != null)
+                    {
+                        anim.SetBool("isPickingUpObject", true);
+                        currentLaser.transform.parent.GetComponent<LaserProjector>().laserList.Add(currentLaser.GetComponent<ParticleSystem>());
+                        currentLaser.SetActive(true);
+                        isHoldingLaser = true;
+
+                    }
                     
                 }
                 else if (isHoldingLaser)

@@ -55,7 +55,7 @@ public class LaserProjector : MonoBehaviour
                 if(colliderObject.tag == "Filter")
                 {
                     if (prevFilter == null) //instantiate a new filter laser for each projector laser
-                    prevFilter = Instantiate(colliderObject.transform.GetChild(2));
+                    prevFilter = Instantiate(colliderObject.transform.GetChild(2), colliderObject.transform);
 
                     prevFilter.gameObject.SetActive(true); //bring the laser forward slightly to avoid the ray clipping with the laser
                     prevFilter.transform.position = hit.point - transform.GetChild(0).up * 2f;
@@ -68,9 +68,9 @@ public class LaserProjector : MonoBehaviour
                     //only let the correct colours through
                     if (colliderObject.transform.GetChild(1).GetComponent<MeshRenderer>().material.color == (g.main.startColor.color) || c == new Color(1, 1, 1, 0.25f))
                         //change mesh colour since the laser particle gets its start colour from the mesh
-                        prevFilter.transform.GetChild(1).GetComponent<MeshRenderer>().material.color = colliderObject.transform.GetChild(1).GetComponent<MeshRenderer>().material.color;
+                        prevFilter.parent.GetComponent<MeshRenderer>().material.color = colliderObject.transform.GetChild(1).GetComponent<MeshRenderer>().material.color;
                     else
-                        prevFilter.transform.GetChild(1).GetComponent<MeshRenderer>().material.color = Color.clear;
+                        prevFilter.parent.GetComponent<MeshRenderer>().material.color = Color.clear;
                 
                 }
                 else if (prevFilter != null)
