@@ -579,7 +579,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d3aae60a99315551a32ce437db831e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mouseSensitivity: 1000
+  mouseSensitivity: 250
   playerBody: {fileID: 1913796346091108867}
   isHoldingObject: 0
 --- !u!20 &1913796345802951907
@@ -1955,6 +1955,7 @@ MonoBehaviour:
   anim: {fileID: 1607295177694662331}
   laserColourHolder: {fileID: 1913796347017050093}
   shootSound: {fileID: 1913796346091108871}
+  isHoldingLaser: 0
 --- !u!114 &1913796346091108876
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1969,9 +1970,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 5000
   jumpHeight: 125
-  bounceJumpHeight: 125
+  bounceJumpHeight: 175
   groundDrag: 5
-  gravity: -20
+  gravity: -15
   groundDistance: 0.1
   objectDistance: 7.5
   walkSpeed: 3000
@@ -2051,7 +2052,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1913796346091108873}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1

@@ -12,7 +12,7 @@ public class PlayerController : MonoBehaviour
     Vector3 velocity, panelKnockbackDirection;
     public Transform groundCheck, objectPickupPoint, cameraPoint;
     public LayerMask ground, movableGround, conductiveGround, conductiveMovableGround, conductiveEffectGround, movable;
-    bool isGrounded, isUsingGravityEffect, isTakingDamage;
+    bool isGrounded, isUsingGravityEffect, isTakingDamage, isJumping;
     GameObject currentlyHeldObject;
     RaycastHit objectHit;
     public ParticleSystem[] pickupParticles;
@@ -45,6 +45,16 @@ public class PlayerController : MonoBehaviour
         Health();
     }
 
+    void FixedUpdate()
+    {
+            if (isJumping && isGrounded)
+            {
+                rb.AddForce(jumpHeight * 1.5f * transform.up);
+                isJumping = false;
+            }
+
+    }
+
     void MovePlayer()
     {
         isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, ground | movableGround | conductiveGround | conductiveMovableGround | conductiveEffectGround);
@@ -73,7 +83,7 @@ public class PlayerController : MonoBehaviour
 
             if (Input.GetButtonDown("Jump"))
             {
-                rb.AddForce(jumpHeight * 2f * transform.up);
+                isJumping = true;
             }
 
             fallSound.Stop();
@@ -237,7 +247,7 @@ public class PlayerController : MonoBehaviour
             
             moveSpeed = walkSpeed;
         }
-        else if (other.tag == "Bounce")
+        else if (other.tag == "Bounce" && isGrounded)
         {
             RaycastHit r;
             if (Physics.Raycast(cameraPoint.position, -(transform.position - other.transform.position), out r, 500, ground | movableGround | conductiveGround | conductiveMovableGround | conductiveEffectGround))
