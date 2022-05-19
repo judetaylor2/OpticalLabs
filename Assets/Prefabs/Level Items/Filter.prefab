@@ -45,7 +45,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e70724f4b96ca4d4e9c61bffd990dce2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  possibleTriggers: []
 --- !u!198 &92455048878346575
 ParticleSystem:
   m_ObjectHideFlags: 0
@@ -5077,7 +5076,7 @@ GameObject:
   - component: {fileID: 92455050314968731}
   - component: {fileID: 92455050314968724}
   - component: {fileID: 92455050314968725}
-  m_Layer: 6
+  m_Layer: 13
   m_Name: Filter
   m_TagString: Filter
   m_Icon: {fileID: 0}

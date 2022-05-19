@@ -45,7 +45,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e70724f4b96ca4d4e9c61bffd990dce2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  possibleTriggers: []
 --- !u!198 &4320184974042663801
 ParticleSystem:
   m_ObjectHideFlags: 0
@@ -55,7 +54,7 @@ ParticleSystem:
   m_GameObject: {fileID: 4320184974042663807}
   serializedVersion: 7
   lengthInSec: 5
-  simulationSpeed: 10
+  simulationSpeed: 1
   stopAction: 0
   cullingMode: 0
   ringBufferMode: 0
@@ -182,7 +181,7 @@ ParticleSystem:
     startSpeed:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 100
+      scalar: 200
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -879,7 +878,7 @@ ParticleSystem:
     rateOverTime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 250
+      scalar: 500
       minScalar: 10
       maxCurve:
         serializedVersion: 2
@@ -3805,16 +3804,15 @@ ParticleSystem:
     collidesWithDynamic: 1
     interiorCollisions: 0
   TriggerModule:
-    enabled: 0
+    enabled: 1
     serializedVersion: 2
     inside: 2
     outside: 2
     enter: 2
     exit: 2
     colliderQueryMode: 0
-    radiusScale: 1
-    primitives:
-    - {fileID: 0}
+    radiusScale: 0.25
+    primitives: []
   SubModule:
     serializedVersion: 2
     enabled: 0

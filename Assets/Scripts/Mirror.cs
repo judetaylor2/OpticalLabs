@@ -34,6 +34,6 @@ public class Mirror : MonoBehaviour
         isColliding = false;
 
         ParticleSystem.MainModule m = collidingParticle.main;
-        m.startColor = transform.GetComponentInChildren<ParticleSystem>().main.startColor;
+        m.startColor = transform.GetChild(0).GetComponent<MeshRenderer>().material.color;
     }
 }

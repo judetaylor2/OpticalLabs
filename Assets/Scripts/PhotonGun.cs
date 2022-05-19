@@ -10,7 +10,7 @@ public class PhotonGun : MonoBehaviour
     public float photonDistance;
     int currentColourIndex;
     public Image colorImage;
-    public LayerMask groundMask;
+    public LayerMask groundMask, movableGround, conductiveGround, conductiveMovableGround, conductiveEffectGround, movable, conductive;
     public ParticleSystem shootParticle, shootParticleFlash;
     public Animator anim;
     public GameObject laserColourHolder;
@@ -278,7 +278,7 @@ public class PhotonGun : MonoBehaviour
         if (isHoldingLaser && currentLaser != null)
         {
             RaycastHit hit;
-            if (Physics.Raycast(raycastStartPoint.position, raycastStartPoint.forward, out hit, photonDistance))
+            if (Physics.Raycast(raycastStartPoint.position, raycastStartPoint.forward, out hit, photonDistance, groundMask | movableGround | conductiveGround | conductiveMovableGround | conductiveEffectGround | movable))
             currentLaser.transform.LookAt(hit.point);
             else
             currentLaser.transform.LookAt(camPoint.transform.position + camPoint.transform.forward * 50);

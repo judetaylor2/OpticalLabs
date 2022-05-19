@@ -4,71 +4,89 @@ using UnityEngine;
 
 public class Filter : MonoBehaviour
 {
-    [HideInInspector] public List<ParticleSystem.Particle> particleList = new List<ParticleSystem.Particle>();
-    ParticleSystem particle;
-    [HideInInspector] public GameObject[] possibleTriggers;
-
-    Color[] photonGunColours;
+    ParticleSystem ps;
+    ParticleSystem.TriggerModule t;
     
+    [HideInInspector] public Color32 endColour;
+
     void Start()
     {
-        GameObject g = GameObject.FindWithTag("Player");
-        
-        photonGunColours = g.GetComponent<PhotonGun>().colours;
+        ps = GetComponent<ParticleSystem>();
+
+        t = ps.trigger;
+
+        GameObject[] filterObjects = GameObject.FindGameObjectsWithTag("Filter");
+
+        foreach (GameObject g in filterObjects)
+        t.AddCollider(g.GetComponent<Component>());
+
+        //CalculateEndColour();
+        endColour = new Color();
     }
+
+    void Update()
+    {
+       // CalculateEndColour();
+    }
+
+    void CalculateEndColour()
+    {
+        ParticleSystem.Particle[] particles = new ParticleSystem.Particle[ps.particleCount];
+        int particleCount = ps.GetParticles(particles, ps.particleCount);
+
+        if (particleCount > 0)
+        endColour = particles[ps.particleCount - 1].startColor;
+        else
+        endColour = Color.white;
+
+        Debug.Log(endColour + "is the color");
+    }
+
     void OnParticleTrigger()
     {
-        particle = GetComponent<ParticleSystem>();
+        if (ps == null)
+        return;
         
-        int enterNum = particle.GetTriggerParticles(ParticleSystemTriggerEventType.Enter, particleList);
-        Debug.Log("Particle is colliding " + enterNum);
+        List<ParticleSystem.Particle> enterParticles = new List<ParticleSystem.Particle>();
+        int enterNum = ps.GetTriggerParticles(ParticleSystemTriggerEventType.Enter, enterParticles);
 
-        possibleTriggers = GameObject.FindGameObjectsWithTag("Filter");
-        GameObject correctTrigger;
-        
-        foreach (GameObject g in possibleTriggers)
-        particle.trigger.RemoveCollider(g.GetComponent<Collider>());
-        foreach (GameObject g in possibleTriggers)
-        particle.trigger.AddCollider(g.GetComponent<Collider>());
 
-        if (possibleTriggers.Length > 0)
+        for (int i = 0; i < enterNum; i++)
         {
-            correctTrigger = possibleTriggers[0];
+            ParticleSystem.Particle p = enterParticles[i];
             
-            Color32 c;
-        
-            for (int i = 0; i < enterNum; i++)
+            //since there is no way of finding out the object the particle collided with, it is calculated by finding the closest position
+            Transform minDistanceTransform = t.GetCollider(0).transform;
+            for (int x = 0; x < t.colliderCount; x++)
             {
-                ParticleSystem.Particle p = particleList[i];
-                
-                foreach (GameObject g in possibleTriggers)
-                correctTrigger = Vector3.Distance(g.transform.position, p.position) < Vector3.Distance(correctTrigger.transform.position, p.position)? g : correctTrigger;
-
-                c = correctTrigger.transform.GetChild(1).GetComponent<MeshRenderer>().material.color;
-                
-                /*foreach (Color photonColours in photonGunColours)
-                if (c == photonColours)
-                {
-                    p.startColor = c;
-                    break;
-                }
-                else
-                p.startColor = Color.clear;*/
-                
-                /*if (p.startColor.r >= c.r && p.startColor.g >= c.g && p.startColor.b >= c.b && p.startColor.a >= c.a)
-                p.startColor = c;
-                else
-                p.startColor = Color.clear;*/
-                
-                particleList[i] = p;    
+                if (Vector3.Distance(p.position, t.GetCollider(x).transform.position) < Vector3.Distance(p.position, minDistanceTransform.position))
+                minDistanceTransform = t.GetCollider(x).transform;
             }
             
-        }
-
+            //the 1st child is where the mesh renderer of the filter is stored
             
-        particle.SetTriggerParticles(ParticleSystemTriggerEventType.Enter, particleList);
-        
-    }
+            Color32 meshColour = minDistanceTransform.GetChild(1).gameObject.GetComponent<MeshRenderer>().material.color;
+            
+            Debug.Log(ps.main.startColor.color.r*255 + " "+ meshColour.r);
+            //check if the laser can pass through the filter
+            if (ps.main.startColor.color == meshColour || ps.main.startColor.color == new Color(1, 1, 1, 0.25f))
+            {
+                p.startColor = meshColour;
+            }
+            else
+            {
+                p.startColor = Color.clear;
+            }
 
-   
+            enterParticles[i] = p;
+        }
+        
+        //set the endColour once the particles have been changed
+        if (enterNum > 0)
+        endColour = enterParticles[enterNum - 1].startColor;
+        else
+        endColour = ps.main.startColor.color;
+
+        ps.SetTriggerParticles(ParticleSystemTriggerEventType.Enter, enterParticles);
+    }
 }

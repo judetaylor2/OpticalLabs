@@ -20,6 +20,8 @@ public class LaserProjector : MonoBehaviour
         laserParticle = transform.GetChild(0).GetComponent<ParticleSystem>();
 
         photonGun = GameObject.FindWithTag("Player").GetComponent<PhotonGun>();
+        
+        meshRenderer.material.color = new Color(1, 1, 1, 0.25f);
     }
 
     void OnDrawGizmos()
@@ -44,7 +46,7 @@ public class LaserProjector : MonoBehaviour
             laserMainModule.startColor = meshRenderer.material.color;
 
             RaycastHit hit;
-            if (Physics.Raycast(g.transform.position, g.transform.forward, out hit, 999, ground | conductiveGround | conductiveMovableGround | conductiveEffectGround | conductive | movableGround))
+            if (Physics.Raycast(g.transform.position, g.transform.forward, out hit, 999, ground | conductiveGround | conductiveMovableGround | conductiveEffectGround | movableGround))
             {
                 Debug.DrawLine(g.transform.position, hit.point, Color.green);
                 
@@ -52,7 +54,7 @@ public class LaserProjector : MonoBehaviour
                 GameObject colliderObject = hit.collider.gameObject;
 
                 //set the position, rotation and colour of the filters laser to look seamless
-                if(colliderObject.tag == "Filter")
+                /*if(colliderObject.tag == "Filter")
                 {
                     if (prevFilter == null) //instantiate a new filter laser for each projector laser
                     prevFilter = Instantiate(colliderObject.transform.GetChild(2), colliderObject.transform);
@@ -78,7 +80,7 @@ public class LaserProjector : MonoBehaviour
                     //reset colour of the filter laser if not colliding with filter
                     prevFilter.transform.GetChild(1).GetComponent<MeshRenderer>().material.color = Color.clear;
                     prevFilter.gameObject.SetActive(false);
-                }
+                }*/
                 
 
                 if (colliderObject.transform.tag == "Mirror")
@@ -88,7 +90,7 @@ public class LaserProjector : MonoBehaviour
                     //change colour that mirror reflects
                     MeshRenderer m = colliderObject.transform.GetChild(0).GetComponent<MeshRenderer>();
                     ParticleSystem.MainModule p = colliderObject.transform.GetComponent<Mirror>().laserObject.transform.GetChild(0).GetComponent<ParticleSystem>().main;
-                    p.startColor = m.material.color = g.main.startColor.color;
+                    p.startColor = m.material.color = g.GetComponent<Filter>().endColour;
 
                     //follow the mirror
                     g.transform.LookAt(hit.transform.GetChild(0).position);
@@ -99,11 +101,11 @@ public class LaserProjector : MonoBehaviour
                 {
                     sensorCollider = colliderObject.transform.GetComponent<Sensor>();
                     
-                    //check if the R G & B values are the same but not the A
-                    if (colliderObject.transform.GetChild(1).GetComponent<MeshRenderer>().material.color.r == g.main.startColor.color.r &&
-                    colliderObject.transform.GetChild(1).GetComponent<MeshRenderer>().material.color.g == g.main.startColor.color.g &&
-                    colliderObject.transform.GetChild(1).GetComponent<MeshRenderer>().material.color.b == g.main.startColor.color.b )
+                    //check if the R G & B
+                    if (colliderObject.transform.GetChild(1).GetComponent<MeshRenderer>().material.color == g.GetComponent<Filter>().endColour)
                     sensorCollider.isOn = !sendOffSignal;
+                    else
+                    sensorCollider.isOn = sendOffSignal;
                     
                     //follow the sensor
                     g.transform.LookAt(hit.transform.position);

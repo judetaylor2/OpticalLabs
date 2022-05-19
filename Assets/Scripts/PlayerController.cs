@@ -11,7 +11,7 @@ public class PlayerController : MonoBehaviour
     public float moveSpeed, jumpHeight, bounceJumpHeight, groundDrag, gravity, groundDistance, objectDistance, walkSpeed, sprintSpeed;
     Vector3 velocity, panelKnockbackDirection;
     public Transform groundCheck, objectPickupPoint, cameraPoint;
-    public LayerMask ground, movableGround, conductiveGround, conductiveMovableGround, conductiveEffectGround, movable;
+    public LayerMask ground, movableGround, conductiveGround, conductiveMovableGround, conductiveEffectGround, movable, conductive;
     bool isGrounded, isUsingGravityEffect, isTakingDamage, isJumping;
     GameObject currentlyHeldObject;
     RaycastHit objectHit;
@@ -202,7 +202,7 @@ public class PlayerController : MonoBehaviour
 
             if (currentlyHeldObject != null)
             {
-                if (Physics.Raycast(cameraPoint.position, cameraPoint.forward, out objectHit, objectDistance, ground | conductiveGround | conductiveEffectGround))
+                if (Physics.Raycast(cameraPoint.position, cameraPoint.forward, out objectHit, objectDistance, ground | conductiveGround | conductiveEffectGround | conductive))
                 objectPickupPoint.position = objectHit.point - cameraPoint.forward * currentlyHeldObject.transform.localScale.y * 2;
                 else
                 objectPickupPoint.position = cameraPoint.position + cameraPoint.forward * objectDistance;
