@@ -208,6 +208,12 @@ public class PhotonGun : MonoBehaviour
                     Physics.Raycast(raycastStartPoint.position, raycastStartPoint.forward, out hit, photonDistance);
                     if (hit.collider.tag != "Mirror" && hit.collider.tag != "Sensor" && hit.collider.tag != "Filter")
                     Destroy(currentLaser);
+
+                    //prevent mirror from connecting to itself
+                    if (hit.collider.tag == "Mirror" && currentLaser.transform.parent.parent != null)
+                    if (hit.collider.gameObject == currentLaser.transform.parent.parent.gameObject)
+                    Destroy(currentLaser);
+                    
                     //else if (hit.collider.tag == "Sensor")
                     //hit.collider.GetComponent<Sensor>().isCollidingWithLaser = true;
                     

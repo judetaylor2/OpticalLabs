@@ -20,13 +20,20 @@ public class Mirror : MonoBehaviour
         //only activate the laser project when laser is colliding. isColliding is set in the LaserProjector script
         if (isColliding)
         {
-            laserObject.SetActive(true);
+            //laserObject.SetActive(true);
 
             if (!collidingParticle.isPlaying) collidingParticle.Play();
         }
         else
         {
-            laserObject.SetActive(false);
+            //remove lasers and reset the laser list when not colliding
+            if (laserObject.GetComponent<LaserProjector>().laserList.Count > 0)
+            {
+                foreach (ParticleSystem p in laserObject.GetComponent<LaserProjector>().laserList)
+                Destroy(p);
+                
+                laserObject.GetComponent<LaserProjector>().laserList.Clear();
+            }
             
             if (collidingParticle.isPlaying) collidingParticle.Stop();
         }
