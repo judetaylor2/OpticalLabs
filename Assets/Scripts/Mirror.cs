@@ -29,10 +29,9 @@ public class Mirror : MonoBehaviour
             //remove lasers and reset the laser list when not colliding
             if (laserObject.GetComponent<LaserProjector>().laserList.Count > 0)
             {
-                foreach (ParticleSystem p in laserObject.GetComponent<LaserProjector>().laserList)
-                Destroy(p);
                 
-                laserObject.GetComponent<LaserProjector>().laserList.Clear();
+                foreach (ParticleSystem p in laserObject.GetComponent<LaserProjector>().laserList)
+                laserObject.GetComponent<LaserProjector>().DeleteLaser(p);
             }
             
             if (collidingParticle.isPlaying) collidingParticle.Stop();

@@ -243,7 +243,7 @@ public class PhotonGun : MonoBehaviour
                         if (Input.GetKeyDown(KeyCode.R) && i != 0)
                         {
                             //delete last placed laser
-                            Destroy(ps1.gameObject);
+                            ps1.GetComponentInParent<LaserProjector>().DeleteLaser(ps1);
                             isHoldingLaser = false;
                             Debug.Log("Laser removed");
                             break;
@@ -266,7 +266,7 @@ public class PhotonGun : MonoBehaviour
                         if (Input.GetKeyDown(KeyCode.R) && i != 0)
                         {
                             //delete last placed laser
-                            Destroy(ps1.gameObject);
+                            ps1.GetComponentInParent<LaserProjector>().DeleteLaser(ps1);
                             isHoldingLaser = false;
                             Debug.Log("Laser removed");
                             break;

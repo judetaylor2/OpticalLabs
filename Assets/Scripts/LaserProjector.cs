@@ -9,7 +9,7 @@ public class LaserProjector : MonoBehaviour
     public LayerMask ground, movableGround, conductiveGround, conductiveMovableGround, conductiveEffectGround, conductive;
     public PhotonGun photonGun;
     public bool isMirror, sendOffSignal, isFilterLaser;
-    Sensor sensorCollider;
+    [HideInInspector] public Sensor sensorCollider;
     Transform prevFilter;
     public List<ParticleSystem> laserList;
     List<Vector3> laserDirection;
@@ -103,13 +103,22 @@ public class LaserProjector : MonoBehaviour
                     
                     //check if the R G & B
                     if (colliderObject.transform.GetChild(1).GetComponent<MeshRenderer>().material.color == g.GetComponent<Filter>().endColour)
-                    sensorCollider.isOn = !sendOffSignal;
+                    sensorCollider.isOn = true;
                     else
-                    sensorCollider.isOn = sendOffSignal;
+                    sensorCollider.isOn = false;
                     
                     //follow the sensor
                     g.transform.LookAt(hit.transform.position);
                 
+                }
+                else
+                {
+                    if (sensorCollider != null)
+                    {
+                        sensorCollider.isOn = false;
+                    }
+                
+                    sensorCollider = null;
                 }
                 
                 //deletes laser when there is no target
@@ -140,6 +149,24 @@ public class LaserProjector : MonoBehaviour
             {
                 transform.parent.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotation;
             }
+        }
+    }
+
+    public void DeleteLaser(ParticleSystem g)
+    {
+        RaycastHit hit;
+        if (Physics.Raycast(g.transform.position, g.transform.forward, out hit, 999, ground | conductiveGround | conductiveMovableGround | conductiveEffectGround | movableGround))
+        {
+            if (hit.collider.transform.tag == "Sensor")
+            {
+                sensorCollider = hit.collider.transform.GetComponent<Sensor>();
+                sensorCollider.isOn = false;
+                sensorCollider = null;
+
+            }
+            
+            Destroy(g.gameObject);
+            laserList.Remove(g);
         }
     }
 }
