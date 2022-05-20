@@ -1973,6 +1973,7 @@ MonoBehaviour:
   anim: {fileID: 1607295177694662331}
   laserColourHolder: {fileID: 1913796347017050093}
   shootSound: {fileID: 1913796346091108871}
+  pickupSound: {fileID: 5112969809419295480}
   isHoldingLaser: 0
 --- !u!114 &1913796346091108876
 MonoBehaviour:

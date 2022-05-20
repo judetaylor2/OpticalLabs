@@ -28,6 +28,8 @@ public class PlayerController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         moveSpeed = walkSpeed;
+        
+        DontDestroyOnLoad(gameObject);
     }
 
     void OnDrawGizmos()
@@ -179,6 +181,7 @@ public class PlayerController : MonoBehaviour
                 anim.SetBool("isPickingUpObject", false);
 
                 currentlyHeldObject.transform.parent = null;
+                SceneManager.MoveGameObjectToScene(currentlyHeldObject, SceneManager.GetActiveScene());
 
                 if (currentlyHeldObject.TryGetComponent<Rigidbody>(out r))
                 {

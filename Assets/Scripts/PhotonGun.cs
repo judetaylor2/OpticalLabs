@@ -14,14 +14,14 @@ public class PhotonGun : MonoBehaviour
     public ParticleSystem shootParticle, shootParticleFlash;
     public Animator anim;
     public GameObject laserColourHolder;
-    public AudioSource shootSound;
+    public AudioSource shootSound, pickupSound;
     public bool isHoldingLaser;
     GameObject currentLaser;
     
     // Start is called before the first frame update
     void Start()
     {
-        
+        Object.DontDestroyOnLoad(colorImage.canvas.gameObject);
     }
 
     // Update is called once per frame
@@ -36,7 +36,7 @@ public class PhotonGun : MonoBehaviour
         ParticleSystem.MainModule p2 = shootParticleFlash.main;
         
         //shoot colour
-        if (Input.GetButtonDown("Fire1"))
+        if (Input.GetButtonDown("Fire2"))
         {
             
             RaycastHit hit;
@@ -96,7 +96,7 @@ public class PhotonGun : MonoBehaviour
             }
             
         }//clear colour
-        else if (Input.GetButtonDown("Fire2"))
+        else if (Input.GetKeyDown(KeyCode.Mouse2))
         {
             
             RaycastHit hit;
@@ -162,7 +162,7 @@ public class PhotonGun : MonoBehaviour
             Physics.Raycast(raycastStartPoint.position, raycastStartPoint.forward, out hit, photonDistance);
 
             //drag lasers
-            if (Input.GetKeyDown(KeyCode.LeftShift))
+            if (Input.GetButtonDown("Fire1"))
             {
                 if (isHoldingLaser && hit.collider == null)
                 {
@@ -181,6 +181,8 @@ public class PhotonGun : MonoBehaviour
                 if ((hit.collider.transform.name.Contains("LaserProjector") || hit.collider.transform.name.Contains("Mirror")  || hit.collider.transform.name.Contains("Filter")) 
                 && !isHoldingLaser && hit.transform.GetChild(1).GetChild(0).gameObject.GetComponent<ParticleSystem>().main.startColor.color != Color.clear)
                 {
+                    pickupSound.pitch = 1f;
+                    pickupSound.Play();
                     
                     if (hit.collider.transform.name.Contains("LaserProjector"))
                     currentLaser = Instantiate(hit.transform.GetChild(0).gameObject, hit.transform.GetChild(0).position, hit.transform.GetChild(0).rotation, hit.transform);
@@ -188,7 +190,7 @@ public class PhotonGun : MonoBehaviour
                     {
                         //prevents player from being able to create invisible lasers
                         if (hit.collider.GetComponent<Mirror>())
-                        if (hit.collider.GetComponent<Mirror>().isColliding && hit.collider.transform.name.Contains("Mirror"))
+                        if (hit.collider.transform.name.Contains("Mirror"))
                         currentLaser = Instantiate(hit.transform.GetChild(1).GetChild(0).gameObject, hit.transform.GetChild(1).GetChild(0).position, hit.transform.GetChild(1).GetChild(0).rotation, hit.transform.GetChild(1));
                         
                     }
@@ -217,6 +219,9 @@ public class PhotonGun : MonoBehaviour
                     //else if (hit.collider.tag == "Sensor")
                     //hit.collider.GetComponent<Sensor>().isCollidingWithLaser = true;
                     
+                    pickupSound.pitch = 0.75f;
+                    pickupSound.Play();
+
                     anim.SetBool("isPickingUpObject", false);
 
                     isHoldingLaser = false;
