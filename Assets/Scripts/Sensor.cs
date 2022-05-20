@@ -8,6 +8,7 @@ public class Sensor : MonoBehaviour
     bool isColliding, soundPlayed;
     Collider triggerCollider;
     public AudioSource sensorSound;
+    public GameObject[] wires;
     
     /*void OnTriggerStay(Collider other)
     {
@@ -57,5 +58,8 @@ public class Sensor : MonoBehaviour
         {
             soundPlayed = false;
         }
+        
+        foreach (GameObject g in wires)
+        g.GetComponent<MeshRenderer>().material.color = isOn? transform.GetChild(1).GetComponent<MeshRenderer>().material.color : Color.black;
     }
 }

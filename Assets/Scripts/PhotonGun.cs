@@ -101,7 +101,7 @@ public class PhotonGun : MonoBehaviour
             
             RaycastHit hit;
             if (Physics.Raycast(raycastStartPoint.position, raycastStartPoint.forward, out hit, photonDistance))
-            if (hit.collider.gameObject.layer == 8 || hit.collider.gameObject.layer == 9 || hit.collider.gameObject.layer == 10 || hit.collider.gameObject.layer == 13 || hit.collider.transform.tag == "Filter")
+            if (hit.collider.gameObject.layer == 8 || hit.collider.gameObject.layer == 9 || hit.collider.gameObject.layer == 10 || hit.collider.gameObject.layer == 13 || (hit.collider.transform.tag == "Filter" && hit.collider.gameObject.layer == 13))
             {
                 shootSound.time = 4.8f;
                 shootSound.Play();

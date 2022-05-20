@@ -1991,7 +1991,7 @@ MonoBehaviour:
   jumpHeight: 125
   bounceJumpHeight: 175
   groundDrag: 5
-  gravity: -15
+  gravity: -10
   groundDistance: 0.1
   objectDistance: 7.5
   walkSpeed: 3000

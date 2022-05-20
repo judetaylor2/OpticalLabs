@@ -34,6 +34,8 @@ public class LaserProjector : MonoBehaviour
     {
         foreach (ParticleSystem g in laserList)
         {
+            sensorCollider = null;
+            
             //cleanup laserList by removing null particle systems
             if (g == null)
             {
