@@ -418,6 +418,7 @@ MonoBehaviour:
   isMirror: 1
   sendOffSignal: 0
   isFilterLaser: 0
+  sensorCollider: {fileID: 0}
   laserList: []
 --- !u!33 &9220131538638398024
 MeshFilter:
@@ -613,7 +614,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: 332a0f6e22642f22082311644145d115, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: b8fbf8e7985bc3d04b6d48d94fd2da34, type: 2}
+      objectReference: {fileID: 2100000, guid: 6f5275bf7126acab78cf51e9c63da03b, type: 2}
     - target: {fileID: 919132149155446097, guid: 332a0f6e22642f22082311644145d115, type: 3}
       propertyPath: m_Name
       value: LaserProjector 2

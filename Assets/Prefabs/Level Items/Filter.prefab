@@ -45,6 +45,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e70724f4b96ca4d4e9c61bffd990dce2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  endColour:
+    serializedVersion: 2
+    rgba: 0
 --- !u!198 &92455048878346575
 ParticleSystem:
   m_ObjectHideFlags: 0
@@ -5042,7 +5045,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 838e564d54b8e74dbb70874c8e5b5f74, type: 2}
+  - {fileID: 2100000, guid: 6f5275bf7126acab78cf51e9c63da03b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -5265,6 +5268,7 @@ MonoBehaviour:
   isMirror: 0
   sendOffSignal: 0
   isFilterLaser: 0
+  sensorCollider: {fileID: 0}
   laserList: []
 --- !u!33 &92455050536178109
 MeshFilter:
