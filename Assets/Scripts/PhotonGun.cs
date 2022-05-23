@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class PhotonGun : MonoBehaviour
 {
@@ -35,126 +36,130 @@ public class PhotonGun : MonoBehaviour
         ParticleSystem.MainModule p1 = shootParticle.main;
         ParticleSystem.MainModule p2 = shootParticleFlash.main;
         
-        //shoot colour
-        if (Input.GetButtonDown("Fire2"))
+        if (SceneManager.GetActiveScene().name != "Level1")
         {
             
-            RaycastHit hit;
-            if (Physics.Raycast(raycastStartPoint.position, raycastStartPoint.forward, out hit, photonDistance))
+            //shoot colour
+            if (Input.GetButtonDown("Fire2"))
             {
-                //ground layers
-                if ((hit.collider.gameObject.layer == 8 || hit.collider.gameObject.layer == 9 || hit.collider.gameObject.layer == 10 || hit.collider.gameObject.layer == 13 || hit.collider.transform.tag == "Filter") && hit.collider.transform.name != "LaserProjector")
+                
+                RaycastHit hit;
+                if (Physics.Raycast(raycastStartPoint.position, raycastStartPoint.forward, out hit, photonDistance))
                 {
-                    shootSound.time = Random.Range(0, 2) == 1? 0 : 3;
-                    shootSound.Play();
+                    //ground layers
+                    if ((hit.collider.gameObject.layer == 8 || hit.collider.gameObject.layer == 9 || hit.collider.gameObject.layer == 10 || hit.collider.gameObject.layer == 13 || hit.collider.transform.tag == "Filter") && hit.collider.transform.name != "LaserProjector")
+                    {
+                        shootSound.time = Random.Range(0, 2) == 1? 0 : 3;
+                        shootSound.Play();
+                        
+                        anim.SetBool("isShooting", true);
+                        
+                        p1.startColor = p2.startColor = colours[currentColourIndex];
+                        shootParticle.Play();
+
+                        Material m;
+                        m = hit.collider.transform.GetChild(1).GetComponent<MeshRenderer>().material;
+
+                        m.color = colours[currentColourIndex];
+                        
+                        //change tag if the layer is conductiveEffectGround
+                        if (hit.collider.gameObject.layer == 10)
+                        if (currentColourIndex == 0)
+                        {
+                            //speedCollider.transform.localScale = hit.collider.transform.localScale;
+                            //Instantiate(speedCollider, hit.collider.transform.position, hit.collider.transform.rotation);
+
+                            hit.collider.transform.tag = "Speed";
+                        }
+                        else if (currentColourIndex == 1)
+                        {
+                            hit.collider.transform.tag = "Gravity";
+                        }
+                        else if (currentColourIndex == 2)
+                        {
+                            hit.collider.transform.tag = "Bounce";
+                        }                    
+                        
+                    }
+                    //change laser projectors colour
+                    else if (hit.collider.transform.name.Contains("LaserProjector"))
+                    {
+                        shootSound.time = Random.Range(0, 2) == 1? 0 : 3;
+                        shootSound.Play();
+                        
+                        anim.SetBool("isShooting", true);
+
+                        p1.startColor = p2.startColor = colours[currentColourIndex];
+                        shootParticle.Play();
+                        
+                        Material m = hit.collider.transform.GetChild(1).GetComponent<MeshRenderer>().material;
+                        m.color = colours[currentColourIndex];
+                        hit.collider.transform.GetChild(1).GetComponent<MeshRenderer>().material = m;
+                    }
                     
+                }
+                
+            }//clear colour
+            else if (Input.GetKeyDown(KeyCode.Mouse2))
+            {
+                
+                RaycastHit hit;
+                if (Physics.Raycast(raycastStartPoint.position, raycastStartPoint.forward, out hit, photonDistance))
+                if (hit.collider.gameObject.layer == 8 || hit.collider.gameObject.layer == 9 || hit.collider.gameObject.layer == 10 || hit.collider.gameObject.layer == 13 || (hit.collider.transform.tag == "Filter" && hit.collider.gameObject.layer == 13))
+                {
+                    shootSound.time = 4.8f;
+                    shootSound.Play();
+
                     anim.SetBool("isShooting", true);
                     
-                    p1.startColor = p2.startColor = colours[currentColourIndex];
-                    shootParticle.Play();
-
-                    Material m;
-                    m = hit.collider.transform.GetChild(1).GetComponent<MeshRenderer>().material;
-
-                    m.color = colours[currentColourIndex];
-                    
-                    //change tag if the layer is conductiveEffectGround
-                    if (hit.collider.gameObject.layer == 10)
-                    if (currentColourIndex == 0)
-                    {
-                        //speedCollider.transform.localScale = hit.collider.transform.localScale;
-                        //Instantiate(speedCollider, hit.collider.transform.position, hit.collider.transform.rotation);
-
-                        hit.collider.transform.tag = "Speed";
-                    }
-                    else if (currentColourIndex == 1)
-                    {
-                        hit.collider.transform.tag = "Gravity";
-                    }
-                    else if (currentColourIndex == 2)
-                    {
-                        hit.collider.transform.tag = "Bounce";
-                    }                    
-                    
-                }
-                //change laser projectors colour
-                else if (hit.collider.transform.name.Contains("LaserProjector"))
-                {
-                    shootSound.time = Random.Range(0, 2) == 1? 0 : 3;
-                    shootSound.Play();
-                    
-                    anim.SetBool("isShooting", true);
-
-                    p1.startColor = p2.startColor = colours[currentColourIndex];
+                    p1.startColor = p2.startColor = new Color(1, 1, 1, 0.25f);
                     shootParticle.Play();
                     
-                    Material m = hit.collider.transform.GetChild(1).GetComponent<MeshRenderer>().material;
-                    m.color = colours[currentColourIndex];
-                    hit.collider.transform.GetChild(1).GetComponent<MeshRenderer>().material = m;
-                }
-                
-            }
-            
-        }//clear colour
-        else if (Input.GetKeyDown(KeyCode.Mouse2))
-        {
-            
-            RaycastHit hit;
-            if (Physics.Raycast(raycastStartPoint.position, raycastStartPoint.forward, out hit, photonDistance))
-            if (hit.collider.gameObject.layer == 8 || hit.collider.gameObject.layer == 9 || hit.collider.gameObject.layer == 10 || hit.collider.gameObject.layer == 13 || (hit.collider.transform.tag == "Filter" && hit.collider.gameObject.layer == 13))
-            {
-                shootSound.time = 4.8f;
-                shootSound.Play();
+                    if (hit.collider.gameObject.layer != 10)
+                    {
+                        Material m = hit.collider.transform.GetChild(1).GetComponent<MeshRenderer>().material;
+                        m.color = new Color(1, 1, 1, 0.25f);
+                        hit.collider.transform.GetChild(1).GetComponent<MeshRenderer>().material = m;
 
-                anim.SetBool("isShooting", true);
-                
-                p1.startColor = p2.startColor = new Color(1, 1, 1, 0.25f);
-                shootParticle.Play();
-                
-                if (hit.collider.gameObject.layer != 10)
-                {
-                    Material m = hit.collider.transform.GetChild(1).GetComponent<MeshRenderer>().material;
-                    m.color = new Color(1, 1, 1, 0.25f);
-                    hit.collider.transform.GetChild(1).GetComponent<MeshRenderer>().material = m;
+                    }
+                    else if (hit.collider.gameObject.layer == 10)
+                    {
+                        hit.collider.transform.tag = "Untagged";
 
-                }
-                else if (hit.collider.gameObject.layer == 10)
-                {
+                        Material m = hit.collider.transform.GetChild(1).GetComponent<MeshRenderer>().material;
+                        m.color = new Color(1, 1, 1, 0.25f);
+                        hit.collider.transform.GetChild(1).GetComponent<MeshRenderer>().material = m;
+                    }
+
+                    if (hit.collider.transform.tag != "Filter")
                     hit.collider.transform.tag = "Untagged";
 
-                    Material m = hit.collider.transform.GetChild(1).GetComponent<MeshRenderer>().material;
-                    m.color = new Color(1, 1, 1, 0.25f);
-                    hit.collider.transform.GetChild(1).GetComponent<MeshRenderer>().material = m;
                 }
+            }//switch colour
+            else if (Input.GetAxis("Mouse ScrollWheel") > 0)
+            {
+                if (currentColourIndex == colours.Length - 1)
+                currentColourIndex = 0;
+                else 
+                currentColourIndex++;
 
-                if (hit.collider.transform.tag != "Filter")
-                hit.collider.transform.tag = "Untagged";
-
+                laserColourHolder.transform.Rotate(120, 0, 0);
             }
-        }//switch colour
-        else if (Input.GetAxis("Mouse ScrollWheel") > 0)
-        {
-            if (currentColourIndex == colours.Length - 1)
-            currentColourIndex = 0;
-            else 
-            currentColourIndex++;
+            else if (Input.GetAxis("Mouse ScrollWheel") < 0)
+            {
+                if (currentColourIndex == 0)
+                currentColourIndex = colours.Length - 1;
+                else 
+                currentColourIndex--;
 
-            laserColourHolder.transform.Rotate(120, 0, 0);
+                laserColourHolder.transform.Rotate(-120, 0, 0);
+                
+            }
+
+            Color c = colours[currentColourIndex];
+            c.a = 1;
+            colorImage.color = c;
         }
-        else if (Input.GetAxis("Mouse ScrollWheel") < 0)
-        {
-            if (currentColourIndex == 0)
-            currentColourIndex = colours.Length - 1;
-            else 
-            currentColourIndex--;
-
-            laserColourHolder.transform.Rotate(-120, 0, 0);
-            
-        }
-
-        Color c = colours[currentColourIndex];
-        c.a = 1;
-        colorImage.color = c;
 
 
         {
