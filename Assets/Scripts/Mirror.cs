@@ -5,8 +5,10 @@ using UnityEngine;
 public class Mirror : MonoBehaviour
 {
     [HideInInspector] public bool isColliding;
+    bool wasColliding;
     public GameObject laserObject;
     public ParticleSystem collidingParticle;
+    public AudioSource collidingSound;
     
     // Start is called before the first frame update
     void Start()
@@ -35,11 +37,18 @@ public class Mirror : MonoBehaviour
             }
             
             if (collidingParticle.isPlaying) collidingParticle.Stop();
+
         }
+        wasColliding = isColliding;
         
         isColliding = false;
 
         ParticleSystem.MainModule m = collidingParticle.main;
         m.startColor = transform.GetChild(0).GetComponent<MeshRenderer>().material.color;
+
+        if (wasColliding && !collidingSound.isPlaying)
+        collidingSound.Play();
+        else if (!wasColliding)
+        collidingSound.Stop();
     }
 }

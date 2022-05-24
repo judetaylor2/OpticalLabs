@@ -228,6 +228,7 @@ MonoBehaviour:
   isOn: 0
   isCollidingWithLaser: 0
   sensorSound: {fileID: 4298715809261048559}
+  wires: []
 --- !u!65 &3103809720324567522
 BoxCollider:
   m_ObjectHideFlags: 0

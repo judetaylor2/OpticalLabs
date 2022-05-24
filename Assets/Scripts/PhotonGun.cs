@@ -36,7 +36,7 @@ public class PhotonGun : MonoBehaviour
         ParticleSystem.MainModule p1 = shootParticle.main;
         ParticleSystem.MainModule p2 = shootParticleFlash.main;
         
-        if (SceneManager.GetActiveScene().name != "Level1")
+        if (SceneManager.GetActiveScene().name != "Level 1")
         {
             
             //shoot colour

@@ -60,7 +60,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 9bf2302ccd51dbadba8d461c8a63100b, type: 2}
+  - {fileID: 2100000, guid: ad525b8beda580e218b68e0c034ac3ed, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -156,7 +156,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 9bf2302ccd51dbadba8d461c8a63100b, type: 2}
+  - {fileID: 2100000, guid: ad525b8beda580e218b68e0c034ac3ed, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -259,7 +259,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 499d5231908c2087abb27bb758d9062c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sensor: {fileID: 0}
+  sensor:
+  - {fileID: 0}
   doorSound: {fileID: 8632180374470621166}
 --- !u!82 &8632180374470621166
 AudioSource:
@@ -273,7 +274,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 2cbd0cab6bf2ee14cb671b27d07a5c42, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.1
   m_Pitch: 1
   Loop: 0
   Mute: 0

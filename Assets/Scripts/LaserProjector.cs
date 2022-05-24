@@ -13,6 +13,7 @@ public class LaserProjector : MonoBehaviour
     Transform prevFilter;
     public List<ParticleSystem> laserList;
     List<Vector3> laserDirection;
+    public AudioSource laserSound;
     
     void Start()
     {
@@ -32,6 +33,20 @@ public class LaserProjector : MonoBehaviour
 
     void Update()
     {
+        if (laserSound != null)
+        {
+            if (laserList.Count > 0)
+            {
+                if (!laserSound.isPlaying)
+                laserSound.Play();
+            }
+            else
+            {
+                laserSound.Stop();    
+            }
+
+        }
+        
         foreach (ParticleSystem g in laserList)
         {
             sensorCollider = null;
