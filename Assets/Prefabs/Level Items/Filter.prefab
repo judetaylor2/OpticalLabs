@@ -5045,7 +5045,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 6f5275bf7126acab78cf51e9c63da03b, type: 2}
+  - {fileID: 2100000, guid: 29a5f210e244872c9af95cd99a9b2be7, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -5270,6 +5270,7 @@ MonoBehaviour:
   isFilterLaser: 0
   sensorCollider: {fileID: 0}
   laserList: []
+  laserSound: {fileID: 0}
 --- !u!33 &92455050536178109
 MeshFilter:
   m_ObjectHideFlags: 0

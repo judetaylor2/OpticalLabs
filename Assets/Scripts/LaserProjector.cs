@@ -13,6 +13,7 @@ public class LaserProjector : MonoBehaviour
     Transform prevFilter;
     public List<ParticleSystem> laserList = new List<ParticleSystem>();
     public List<(ParticleSystem, GameObject)> mirrorList = new List<(ParticleSystem, GameObject)>();
+    public List<(ParticleSystem, GameObject)> sensorList = new List<(ParticleSystem, GameObject)>();
     List<Vector3> laserDirection;
     public AudioSource laserSound;
     
@@ -109,29 +110,27 @@ public class LaserProjector : MonoBehaviour
                     ParticleSystem.MainModule p = colliderObject.transform.GetComponent<Mirror>().laserObject.transform.GetChild(0).GetComponent<ParticleSystem>().main;
                     p.startColor = m.material.color = g.GetComponent<Filter>().endColour;
                     
-                    bool sameMirror = false, sameParticle = false;
+                    bool sameObject = false, sameParticle = false;
                     foreach ((ParticleSystem, GameObject) r in mirrorList)
                     {
                         if (r.Item2 == colliderObject)
-                        sameMirror = true;
+                        sameObject = true;
 
                         if (r.Item1 == g)
                         sameParticle = true;
                         
                     }
                     
-                    if (sameMirror && sameParticle)
+                    if (sameObject && sameParticle)
                     //follow the mirror
                     g.transform.LookAt(hit.transform.GetChild(0).position);
                     
 
-                    if (!sameMirror && !sameParticle)
+                    if (!sameObject && !sameParticle)
                     {
                         mirrorList.Add((g, colliderObject));
-                        //   sameMirror = sameParticle = false;
+                        //   sameObject = sameParticle = false;
                     }
-                        
-                    Debug.Log("signal 1: " + sameMirror + " | signal 2:" + sameParticle);
                 }
                 
                 
@@ -144,17 +143,64 @@ public class LaserProjector : MonoBehaviour
                     sensorCollider.isOn = true;
                     else
                     sensorCollider.isOn = false;
+
+                    bool sameObject = false, sameParticle = false;
+                    foreach ((ParticleSystem, GameObject) r in mirrorList)
+                    {
+                        if (r.Item2 == colliderObject)
+                        sameObject = true;
+
+                        if (r.Item1 == g)
+                        sameParticle = true;
+                        
+                    }
                     
-                    //follow the sensor
+                    if (sameObject && sameParticle)
+                    //follow the mirror
                     g.transform.LookAt(hit.transform.position);
-                
+                    
+
+                    if (!sameObject && !sameParticle)
+                    {
+                        mirrorList.Add((g, colliderObject));
+                        //   sameObject = sameParticle = false;
+                    }
+
+                    
+                    sameObject = false;
+                    sameParticle = false;
+                    foreach ((ParticleSystem, GameObject) r in sensorList)
+                    {
+                        if (r.Item2 == colliderObject)
+                        sameObject = true;
+
+                        if (r.Item1 == g)
+                        sameParticle = true;
+                        
+                    }
+                    
+
+                    if ((!sameObject || !sameParticle) && !sensorList.Contains((g, colliderObject)))
+                    {
+                        sensorList.Add((g, colliderObject));
+                        Debug.Log("an object has been added to the list");
+                        //   sameObject = sameParticle = false;
+                    }
                 }
                 else
                 {
-                    if (sensorCollider != null)
+                    bool sameParticle = false;
+                    foreach ((ParticleSystem, GameObject) r in sensorList)
                     {
-                        sensorCollider.isOn = false;
+
+                        if (r.Item1 == g)
+                        sameParticle = true;
+                        
                     }
+                    
+                    if (sameParticle && sensorCollider != null)
+                    sensorCollider.isOn = false;
+
                 
                     sensorCollider = null;
                 }

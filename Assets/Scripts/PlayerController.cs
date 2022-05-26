@@ -336,14 +336,18 @@ public class PlayerController : MonoBehaviour
         }
         else if (healthRegenStopWatch >= 0.25f)
         {
-            currentHealth += 5;
+            currentHealth += 2.5f;
             healthRegenStopWatch = 0f;
         }
 
         currentHealth = Mathf.Clamp(currentHealth, 0, 100);
 
-        if (currentHealth == 0)
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        if (currentHealth <= 0)
+        {
+            transform.position = GameObject.Find("Level Transition Entrance").transform.GetChild(1).position;
+            currentHealth = 100;
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        }
     }
     
     //if health decreases, the screen will become more red and will gradualy turn back

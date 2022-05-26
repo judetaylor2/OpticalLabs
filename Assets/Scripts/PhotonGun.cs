@@ -36,7 +36,7 @@ public class PhotonGun : MonoBehaviour
         ParticleSystem.MainModule p1 = shootParticle.main;
         ParticleSystem.MainModule p2 = shootParticleFlash.main;
         
-        if (SceneManager.GetActiveScene().name != "Level 1")
+        if (SceneManager.GetActiveScene().name != "Level 1" && SceneManager.GetActiveScene().name != "Level 2")
         {
             
             //shoot colour
@@ -194,7 +194,7 @@ public class PhotonGun : MonoBehaviour
                         Mirror m;
                         //prevents player from being able to create invisible lasers
                         if (hit.collider.TryGetComponent<Mirror>(out m))
-                        if (hit.collider.transform.name.Contains("Mirror") && m.isColliding)
+                        if (hit.collider.transform.name.Contains("Mirror") && m.wasColliding)
                         currentLaser = Instantiate(hit.transform.GetChild(1).GetChild(0).gameObject, hit.transform.GetChild(1).GetChild(0).position, hit.transform.GetChild(1).GetChild(0).rotation, hit.transform.GetChild(1));
                         
                     }

@@ -69,7 +69,7 @@ public class Filter : MonoBehaviour
             
             Debug.Log(ps.main.startColor.color.r*255 + " "+ meshColour.r);
             //check if the laser can pass through the filter
-            if (ps.main.startColor.color == meshColour || ps.main.startColor.color == new Color(1, 1, 1, 0.25f))
+            if (ps.main.startColor.color == meshColour || (ps.main.startColor.color.r == 1 && ps.main.startColor.color.g == 1 && ps.main.startColor.color.b == 1))
             {
                 p.startColor = meshColour;
             }

@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class Mirror : MonoBehaviour
 {
-    [HideInInspector] public bool isColliding;
-    bool wasColliding;
+    [HideInInspector] public bool isColliding, wasColliding;
     public GameObject laserObject;
     public ParticleSystem collidingParticle;
     public AudioSource collidingSound;

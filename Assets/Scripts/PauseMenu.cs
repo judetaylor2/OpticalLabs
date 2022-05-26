@@ -7,6 +7,7 @@ public class PauseMenu : MonoBehaviour
 {
     bool isPaused;
     public GameObject PauseMenuCanvas;
+    public GameObject restartButton;
 
     void Update()
     {
@@ -14,6 +15,10 @@ public class PauseMenu : MonoBehaviour
         {
             PauseGame();
         }
+
+        if (restartButton != null)
+        if (SceneManager.GetActiveScene().name != "Level 1" && !restartButton.activeInHierarchy)
+        restartButton.SetActive(true);
     }
     
     public void PauseGame()
@@ -26,8 +31,25 @@ public class PauseMenu : MonoBehaviour
         Cursor.lockState = isPaused? CursorLockMode.None : CursorLockMode.Locked;
     }
 
+    public void RestartGame()
+    {
+        if (SceneManager.GetActiveScene().name != "Level 1")
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        
+        GameObject.FindWithTag("Player").transform.position = GameObject.Find("Level Transition Entrance").transform.GetChild(1).position;
+        
+        PauseGame();
+    }
+
     public void Exit()
     {
+        PauseGame();
+        Destroy(GameObject.Find("Don'tDestroyOnLoad"));
         SceneManager.LoadScene("MainMenu");
+    }
+
+    public void LoadGame()
+    {
+        SceneManager.LoadScene("Level 1");
     }
 }
