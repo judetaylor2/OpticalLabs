@@ -186,16 +186,15 @@ public class PhotonGun : MonoBehaviour
                 if ((hit.collider.transform.name.Contains("LaserProjector") || hit.collider.transform.name.Contains("Mirror")  || hit.collider.transform.name.Contains("Filter")) 
                 && !isHoldingLaser && hit.transform.GetChild(1).GetChild(0).gameObject.GetComponent<ParticleSystem>().main.startColor.color != Color.clear)
                 {
-                    pickupSound.pitch = 1f;
-                    pickupSound.Play();
                     
                     if (hit.collider.transform.name.Contains("LaserProjector"))
                     currentLaser = Instantiate(hit.transform.GetChild(0).gameObject, hit.transform.GetChild(0).position, hit.transform.GetChild(0).rotation, hit.transform);
                     else
                     {
+                        Mirror m;
                         //prevents player from being able to create invisible lasers
-                        if (hit.collider.GetComponent<Mirror>())
-                        if (hit.collider.transform.name.Contains("Mirror"))
+                        if (hit.collider.TryGetComponent<Mirror>(out m))
+                        if (hit.collider.transform.name.Contains("Mirror") && m.isColliding)
                         currentLaser = Instantiate(hit.transform.GetChild(1).GetChild(0).gameObject, hit.transform.GetChild(1).GetChild(0).position, hit.transform.GetChild(1).GetChild(0).rotation, hit.transform.GetChild(1));
                         
                     }
@@ -207,6 +206,8 @@ public class PhotonGun : MonoBehaviour
                         currentLaser.SetActive(true);
                         isHoldingLaser = true;
 
+                        pickupSound.pitch = 1f;
+                        pickupSound.Play();
                     }
                     
                 }
@@ -241,7 +242,7 @@ public class PhotonGun : MonoBehaviour
                 ParticleSystem ps1;
                 
                 if (hit.collider.tag == "LaserProjector")
-                for (int i = 0; i < hit.transform.childCount; i++)
+                for (int i = hit.transform.childCount - 1; i > 0; i--)
                 {
                     if (i != 0 && hit.transform.GetChild(i).TryGetComponent<ParticleSystem>(out ps1))
                     {
@@ -264,7 +265,7 @@ public class PhotonGun : MonoBehaviour
                 }
 
                 if (hit.collider.tag == "Mirror")
-                for (int i = 0; i < hit.transform.GetChild(1).childCount; i++)
+                for (int i = hit.transform.GetChild(1).childCount - 1; i > 0; i--)
                 {
                     if (i != 0 && hit.transform.GetChild(1).GetChild(i).TryGetComponent<ParticleSystem>(out ps1))
                     {

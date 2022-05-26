@@ -11,7 +11,8 @@ public class LaserProjector : MonoBehaviour
     public bool isMirror, sendOffSignal, isFilterLaser;
     [HideInInspector] public Sensor sensorCollider;
     Transform prevFilter;
-    public List<ParticleSystem> laserList;
+    public List<ParticleSystem> laserList = new List<ParticleSystem>();
+    public List<(ParticleSystem, GameObject)> mirrorList = new List<(ParticleSystem, GameObject)>();
     List<Vector3> laserDirection;
     public AudioSource laserSound;
     
@@ -49,7 +50,6 @@ public class LaserProjector : MonoBehaviour
         
         foreach (ParticleSystem g in laserList)
         {
-            sensorCollider = null;
             
             //cleanup laserList by removing null particle systems
             if (g == null)
@@ -108,9 +108,30 @@ public class LaserProjector : MonoBehaviour
                     MeshRenderer m = colliderObject.transform.GetChild(0).GetComponent<MeshRenderer>();
                     ParticleSystem.MainModule p = colliderObject.transform.GetComponent<Mirror>().laserObject.transform.GetChild(0).GetComponent<ParticleSystem>().main;
                     p.startColor = m.material.color = g.GetComponent<Filter>().endColour;
+                    
+                    bool sameMirror = false, sameParticle = false;
+                    foreach ((ParticleSystem, GameObject) r in mirrorList)
+                    {
+                        if (r.Item2 == colliderObject)
+                        sameMirror = true;
 
+                        if (r.Item1 == g)
+                        sameParticle = true;
+                        
+                    }
+                    
+                    if (sameMirror && sameParticle)
                     //follow the mirror
                     g.transform.LookAt(hit.transform.GetChild(0).position);
+                    
+
+                    if (!sameMirror && !sameParticle)
+                    {
+                        mirrorList.Add((g, colliderObject));
+                        //   sameMirror = sameParticle = false;
+                    }
+                        
+                    Debug.Log("signal 1: " + sameMirror + " | signal 2:" + sameParticle);
                 }
                 
                 
@@ -156,6 +177,7 @@ public class LaserProjector : MonoBehaviour
                 if (sensorCollider != null)
                 {
                     sensorCollider.isOn = false;
+                    sensorCollider = null;
                 }
 
             }
@@ -182,8 +204,10 @@ public class LaserProjector : MonoBehaviour
 
             }
             
-            Destroy(g.gameObject);
+            mirrorList.Clear();
             laserList.Remove(g);
+            
+            Destroy(g.gameObject);
         }
     }
 }

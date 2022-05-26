@@ -1993,7 +1993,7 @@ MonoBehaviour:
   groundDrag: 5
   gravity: -10
   groundDistance: 0.1
-  objectDistance: 7.5
+  objectDistance: 5
   walkSpeed: 3000
   sprintSpeed: 7000
   groundCheck: {fileID: 1913796346744520173}
