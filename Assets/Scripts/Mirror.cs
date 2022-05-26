@@ -31,8 +31,8 @@ public class Mirror : MonoBehaviour
             if (laserObject.GetComponent<LaserProjector>().laserList.Count > 0)
             {
                 
-                foreach (ParticleSystem p in laserObject.GetComponent<LaserProjector>().laserList)
-                laserObject.GetComponent<LaserProjector>().DeleteLaser(p);
+                for (int i = 0; i < laserObject.GetComponent<LaserProjector>().laserList.Count; i++)
+                laserObject.GetComponent<LaserProjector>().DeleteLaser(laserObject.GetComponent<LaserProjector>().laserList[i]);
             }
             
             if (collidingParticle.isPlaying) collidingParticle.Stop();

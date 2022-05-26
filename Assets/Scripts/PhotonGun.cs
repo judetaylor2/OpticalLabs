@@ -18,12 +18,6 @@ public class PhotonGun : MonoBehaviour
     public AudioSource shootSound, pickupSound;
     public bool isHoldingLaser;
     GameObject currentLaser;
-    
-    // Start is called before the first frame update
-    void Start()
-    {
-        Object.DontDestroyOnLoad(colorImage.canvas.gameObject);
-    }
 
     // Update is called once per frame
     void Update()

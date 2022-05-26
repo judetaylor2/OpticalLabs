@@ -28,8 +28,6 @@ public class PlayerController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         moveSpeed = walkSpeed;
-        
-        DontDestroyOnLoad(gameObject);
     }
 
     void OnDrawGizmos()
